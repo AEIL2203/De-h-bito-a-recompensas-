@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">De Hábitos a Recompensas</string>
+    <string name="accessibility_service_description">Detecta apps abiertas para mantener seguro el modo niño.</string>
+</resources>

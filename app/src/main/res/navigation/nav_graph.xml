@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_seleccionRolFragment"
+            app:destination="@id/seleccionRolFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginTutorFragment"
+            app:destination="@id/loginTutorFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginNinoFragment"
+            app:destination="@id/loginNinoFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/seleccionRolFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.SeleccionRolFragment"
+        android:label="Selección de Modo"
+        tools:layout="@layout/fragment_seleccion_rol">
+        <action
+            android:id="@+id/action_seleccionRolFragment_to_loginTutorFragment"
+            app:destination="@id/loginTutorFragment" />
+        <action
+            android:id="@+id/action_seleccionRolFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment"
+            app:popUpTo="@id/seleccionRolFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_seleccionRolFragment_to_seleccionarNinoFragment"
+            app:destination="@id/seleccionarNinoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registroTutorFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.RegistroTutorFragment"
+        android:label="Registro Tutor"
+        tools:layout="@layout/fragment_registro_tutor">
+        <action
+            android:id="@+id/action_registroTutorFragment_to_loginTutorFragment"
+            app:destination="@id/loginTutorFragment"
+            app:popUpTo="@id/registroTutorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginTutorFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.LoginTutorFragment"
+        android:label="Login Tutor"
+        tools:layout="@layout/fragment_login_tutor">
+        <action
+            android:id="@+id/action_loginTutorFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment"
+            app:popUpTo="@id/seleccionRolFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginTutorFragment_to_registroTutorFragment"
+            app:destination="@id/registroTutorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardTutorFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.DashboardTutorFragment"
+        android:label="Dashboard Tutor"
+        tools:layout="@layout/fragment_dashboard_tutor">
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_agregarNinoFragment"
+            app:destination="@id/agregarNinoFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_seleccionRolFragment"
+            app:destination="@id/seleccionRolFragment"
+            app:popUpTo="@id/seleccionRolFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_dispositivosFragment"
+            app:destination="@id/dispositivosFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_loginNinoFragment"
+            app:destination="@id/loginNinoFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_asignarTareaFragment"
+            app:destination="@id/asignarTareaFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_validarTareasFragment"
+            app:destination="@id/validarTareasFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_configurarAppsFragment"
+            app:destination="@id/configurarAppsFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_estadisticasNinoFragment"
+            app:destination="@id/estadisticasNinoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/estadisticasNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.EstadisticasNinoFragment"
+        android:label="Estadísticas"
+        tools:layout="@layout/fragment_estadisticas_nino">
+        <argument android:name="ninoId" app:argType="string" android:defaultValue="" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/asignarTareaFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.AsignarTareaFragment"
+        android:label="Asignar Misión"
+        tools:layout="@layout/fragment_asignar_tarea" />
+
+    <fragment
+        android:id="@+id/validarTareasFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.ValidarTareasFragment"
+        android:label="Validar Misiones"
+        tools:layout="@layout/fragment_validar_tareas" />
+
+    <fragment
+        android:id="@+id/agregarNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.AgregarNinoFragment"
+        android:label="Agregar Niño"
+        tools:layout="@layout/fragment_agregar_nino">
+        <action
+            android:id="@+id/action_agregarNinoFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment"
+            app:popUpTo="@id/dashboardTutorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/seleccionarNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.SeleccionarNinoFragment"
+        android:label="Seleccionar Niño"
+        tools:layout="@layout/fragment_seleccionar_nino">
+        <action
+            android:id="@+id/action_seleccionarNinoFragment_to_loginNinoFragment"
+            app:destination="@id/loginNinoFragment"
+            app:popUpTo="@id/seleccionarNinoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dispositivosFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.DispositivosFragment"
+        android:label="Dispositivos"
+        tools:layout="@layout/fragment_dispositivos" />
+
+    <fragment
+        android:id="@+id/configurarAppsFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.ConfigurarAppsFragment"
+        android:label="Apps permitidas"
+        tools:layout="@layout/fragment_configurar_apps" />
+
+    <fragment
+        android:id="@+id/loginNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.LoginNinoFragment"
+        android:label="Login Niño"
+        tools:layout="@layout/fragment_login_nino">
+        <argument
+            android:name="ninoId"
+            android:defaultValue=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_loginNinoFragment_to_contenedorNinoFragment"
+            app:destination="@id/contenedorNinoFragment"
+            app:popUpTo="@id/seleccionRolFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/contenedorNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.ContenedorNinoFragment"
+        android:label="Modo Niño"
+        tools:layout="@layout/fragment_contenedor_nino">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_contenedorNinoFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapaProgresoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.MapaProgresoFragment"
+        android:label="Mi Camino"
+        tools:layout="@layout/fragment_mapa_progreso">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/Widget.Habitos.Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Configuración parental"
+            android:textColor="?attr/colorSecondary" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Habitos.Card.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Permisos del dispositivo"
+                    android:textColor="?attr/colorOnSecondaryContainer" />
+
+                <TextView
+                    android:id="@+id/tvEstadoUso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Acceso de uso: pendiente" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUso"
+                    style="@style/Widget.Habitos.Button.Tonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Habilitar acceso de uso" />
+
+                <TextView
+                    android:id="@+id/tvEstadoAccesibilidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Accesibilidad: pendiente" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAccesibilidad"
+                    style="@style/Widget.Habitos.Button.Tonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Habilitar servicio de accesibilidad" />
+
+                <TextView
+                    android:id="@+id/tvEstadoNotificaciones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Notificaciones: desactivadas" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNotificaciones"
+                    style="@style/Widget.Habitos.Button.Tonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Habilitar notificaciones" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnActualizarApps"
+                    style="@style/Widget.Habitos.Button.Tonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Actualizar lista de apps" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnModoPadre"
+                    style="@style/Widget.Habitos.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Desbloquear y entrar a modo padre"
+                    app:icon="@android:drawable/ic_lock_lock" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

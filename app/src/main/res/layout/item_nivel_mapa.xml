@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- Custom Wavy Path View -->
+    <com.angel.ibanez.dehabitos.utils.WavyPathView
+        android:id="@+id/wavyPath"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Level node -->
+    <FrameLayout
+        android:id="@+id/nodoNivel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <!-- Circle background -->
+        <View
+            android:id="@+id/circuloNivel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/node_locked" />
+
+        <!-- State icon -->
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/ivEstado"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            app:iiv_color="@color/white"
+            app:iiv_icon="gmr-lock"
+            app:iiv_size="40dp" />
+
+        <!-- Level number -->
+        <TextView
+            android:id="@+id/tvNumeroNivel"
+            style="@style/Widget.Habitos.Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Level label badge -->
+    <TextView
+        android:id="@+id/tvEtiquetaNivel"
+        style="@style/Widget.Habitos.Text.Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/chip_amber"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        app:layout_constraintEnd_toEndOf="@id/nodoNivel"
+        app:layout_constraintStart_toStartOf="@id/nodoNivel"
+        app:layout_constraintTop_toBottomOf="@id/nodoNivel" />
+
+    <!-- Achievement star -->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/ivLogro"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:visibility="gone"
+        app:iiv_color="@color/game_yellow"
+        app:iiv_icon="gmr-grade"
+        app:iiv_size="38dp"
+        app:layout_constraintEnd_toEndOf="@id/nodoNivel"
+        app:layout_constraintTop_toTopOf="@id/nodoNivel"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="-6dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

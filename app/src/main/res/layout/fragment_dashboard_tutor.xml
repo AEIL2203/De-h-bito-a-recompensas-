@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Cabecera de Perfil -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCabecera"
+                style="@style/Widget.Habitos.Card.Primary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/circle_turquoise"
+                        android:backgroundTint="?attr/colorSurface"
+                        app:iiv_color="?attr/colorPrimary"
+                        app:iiv_icon="gmr-account-circle"
+                        app:iiv_size="32dp" />
+
+                    <TextView
+                        android:id="@+id/tvBienvenida"
+                        style="@style/Widget.Habitos.Text.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Hola, Tutor"
+                        android:textColor="?attr/colorOnPrimaryContainer" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCerrarSesion"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:icon="?attr/homeAsUpIndicator"
+                        app:iconTint="?attr/colorOnPrimaryContainer" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Acciones Rápidas -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAgregarNino"
+                style="@style/Widget.Habitos.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Agregar Niño"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardCabecera" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGestionarDispositivos"
+                style="@style/Widget.Habitos.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Gestionar dispositivos"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAgregarNino" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfigurarApps"
+                style="@style/Widget.Habitos.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Apps y precios"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnGestionarDispositivos" />
+
+            <!-- Gestión de Misiones -->
+            <LinearLayout
+                android:id="@+id/filaTareas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnConfigurarApps">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAsignarTarea"
+                    style="@style/Widget.Habitos.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="?attr/colorTertiary"
+                    android:text="Asignar" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnValidarTareas"
+                    style="@style/Widget.Habitos.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/md_theme_secondary"
+                    android:text="Validar" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMisNinos"
+                style="@style/Widget.Habitos.Text.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Mis Niños"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filaTareas" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNinos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMisNinos" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="?attr/colorPrimary"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

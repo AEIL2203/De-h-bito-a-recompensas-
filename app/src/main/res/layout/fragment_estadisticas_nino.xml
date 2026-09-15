@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+        <TextView style="@style/Widget.Habitos.Text.Title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Estadísticas" />
+        <Spinner android:id="@+id/spNino" android:layout_width="match_parent" android:layout_height="48dp" />
+        <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/grupoPeriodo" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:singleSelection="true" xmlns:app="http://schemas.android.com/apk/res-auto">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnSieteDias" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="7 días" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnTodo" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Todo" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+        <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" />
+        <TextView android:id="@+id/tvResumen" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textSize="17sp" android:lineSpacingExtra="6dp" />
+        <TextView android:id="@+id/tvCanjes" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" />
+        <TextView android:id="@+id/tvSesiones" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

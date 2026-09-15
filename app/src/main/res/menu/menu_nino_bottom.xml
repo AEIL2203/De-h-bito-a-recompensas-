@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/dashboardNinoFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Inicio" />
+    <item
+        android:id="@+id/mapaProgresoFragment"
+        android:icon="@drawable/ic_map"
+        android:title="Camino" />
+    <item
+        android:id="@+id/misionesNinoFragment"
+        android:icon="@drawable/ic_assignment"
+        android:title="Misiones" />
+    <item
+        android:id="@+id/premiosNinoFragment"
+        android:icon="@drawable/ic_reward"
+        android:title="Premios" />
+    <item
+        android:id="@+id/perfilNinoFragment"
+        android:icon="@drawable/ic_person"
+        android:title="Perfil" />
+</menu>

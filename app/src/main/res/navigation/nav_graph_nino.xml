@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_nino"
+    app:startDestination="@id/dashboardNinoFragment">
+
+    <fragment
+        android:id="@+id/dashboardNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.DashboardNinoFragment"
+        android:label="Inicio"
+        tools:layout="@layout/fragment_dashboard_nino">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapaProgresoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.MapaProgresoFragment"
+        android:label="Mi Camino"
+        tools:layout="@layout/fragment_mapa_progreso">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/misionesNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.MisionesNinoFragment"
+        android:label="Misiones"
+        tools:layout="@layout/fragment_misiones_nino">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/premiosNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.PremiosNinoFragment"
+        android:label="Premios"
+        tools:layout="@layout/fragment_premios_nino">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/perfilNinoFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.PerfilNinoFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil_nino">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/configuracionParentalFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.ConfiguracionParentalFragment"
+        android:label="Configuración parental"
+        tools:layout="@layout/fragment_configuracion_parental">
+        <argument
+            android:name="ninoId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

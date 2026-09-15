@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_splash_game"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="32dp">
+
+    <!-- Decorative top circle -->
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:alpha="0.12"
+        android:background="@drawable/node_completed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-60dp"/>
+
+    <!-- Trophy icon in bright yellow bubble -->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/tvEmoji"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/circle_game_yellow"
+        android:elevation="12dp"
+        app:iiv_color="@color/game_purple_dark"
+        app:iiv_icon="gmr-star"
+        app:iiv_size="80dp"
+        app:layout_constraintBottom_toTopOf="@id/tvTitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-rounded"
+        android:text="De Hábitos a\nRecompensas"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadlineLarge"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tvSubtitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
+
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-rounded"
+        android:text="¡Preparando tu aventura!"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textColor="@color/game_yellow"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <!-- Game-style loading bar -->
+    <FrameLayout
+        android:id="@+id/progressBar"
+        android:layout_width="220dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/node_locked"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/game_yellow"
+            android:progressDrawable="@drawable/progress_bar_game" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

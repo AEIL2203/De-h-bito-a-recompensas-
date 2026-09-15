@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/game_coral">
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/ivIcono"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:iiv_color="@color/white"
+        app:iiv_icon="gmr-lock"
+        app:iiv_size="80dp"
+        app:layout_constraintBottom_toTopOf="@id/tvTitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        style="@style/Widget.Habitos.Text.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="¡Pausa!"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/tvMensaje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivIcono" />
+
+    <TextView
+        android:id="@+id/tvMensaje"
+        style="@style/Widget.Habitos.Text.Body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Esta app está bloqueada. Sigue completando misiones para ganar estrellas."
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnVolver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVolver"
+        style="@style/Widget.Habitos.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/white"
+        android:text="Volver a De Hábitos"
+        android:textColor="@color/game_coral"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMensaje" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

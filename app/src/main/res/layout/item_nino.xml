@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Game.Card.Flat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/tvAvatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/avatar_ring_purple"
+            android:elevation="4dp"
+            app:iiv_color="@color/game_purple_dark"
+            app:iiv_icon="gmr-person-pin"
+            app:iiv_size="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="@color/game_text_dark"
+            android:fontFamily="sans-serif-rounded"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAvatar"
+            app:layout_constraintTop_toTopOf="@id/tvAvatar" />
+
+        <TextView
+            android:id="@+id/tvEdad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="@color/game_text_medium"
+            android:fontFamily="sans-serif-rounded"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/badge_xp"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp"
+            android:fontFamily="sans-serif-rounded"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:textColor="@color/game_yellow_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/tvAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tvEdad" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

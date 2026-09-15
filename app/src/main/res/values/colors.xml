@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Color Mappings for existing Drawables -->
+    <color name="game_purple_bg">@color/md_theme_primaryContainer</color>
+    <color name="game_purple_dark">#7B2FBE</color>
+    <color name="game_purple">#9B5DE5</color>
+
+    <color name="game_blue_bg">@color/md_theme_tertiaryContainer</color>
+    <color name="game_blue_dark">#0A8DD0</color>
+    <color name="game_blue">#1CB0F6</color>
+
+    <color name="game_green_bg">@color/md_theme_secondaryContainer</color>
+    <color name="game_green_dark">#46A302</color>
+    <color name="game_green">#58CC02</color>
+
+    <color name="game_orange_dark">#CC7700</color>
+    <color name="game_pink_dark">#D94A80</color>
+
+    <color name="soft_peach">#FFFFF3E0</color>
+    <color name="soft_lavender">#FFF6F3FB</color>
+    <color name="soft_cream">#FFFDFBF7</color>
+
+    <color name="game_sky_bottom">#E8F6FD</color>
+    <color name="game_sky_top">#87CEFA</color>
+
+    <color name="yellow_500">@color/game_yellow</color>
+    <color name="purple_400">#FF9C72E8</color>
+    <color name="purple_500">#FF7E57C2</color>
+    <color name="game_purple_btn">#CE82FF</color>
+    <color name="game_coral">#FF4B4B</color>
+    <color name="game_coral_dark">#CC0000</color>
+    <color name="yellow_100">#FFFFF9C4</color>
+    <color name="amber_100">#FFFFF0C2</color>
+    <color name="coral_100">#FFFFDACC</color>
+    <color name="mint_500">#FF4DB6AC</color>
+    <color name="mint_100">#FFE0F2F1</color>
+    <color name="purple_100">#FFF3E5F5</color>
+    <color name="rose_100">#FFFCE4EC</color>
+    <color name="turquoise_100">#FFA7F8F7</color>
+    <color name="game_card_border">#E5E5EA</color>
+    <color name="game_locked">#AFAFAF</color>
+    <color name="game_sand">#D4A76A</color>
+
+    <color name="purple_700">#FF512DA8</color>
+
+    <!-- === MATERIAL YOU PALETTE (PLAYFUL) === -->
+
+    <!-- Primary: Purple (Tutor Mode focus) -->
+    <color name="md_theme_primary">#9B5DE5</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#F0D9FF</color>
+    <color name="md_theme_onPrimaryContainer">#2B0053</color>
+
+    <!-- Secondary: Green (Child Mode focus / Success) -->
+    <color name="md_theme_secondary">#58CC02</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#D7F5B1</color>
+    <color name="md_theme_onSecondaryContainer">#143800</color>
+
+    <!-- Tertiary: Blue (Exploration / Info) -->
+    <color name="md_theme_tertiary">#1CB0F6</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#DDF4FF</color>
+    <color name="md_theme_onTertiaryContainer">#001F2A</color>
+
+    <!-- Error: Coral/Red -->
+    <color name="md_theme_error">#FF4B4B</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_errorContainer">#FFDAD6</color>
+    <color name="md_theme_onErrorContainer">#410002</color>
+
+    <!-- Background & Surfaces -->
+    <color name="md_theme_background">#FFFDFBF7</color>
+    <color name="md_theme_onBackground">#1C1B1F</color>
+    <color name="md_theme_surface">#FFFFFF</color>
+    <color name="md_theme_onSurface">#1C1B1F</color>
+    <color name="md_theme_surfaceVariant">#E7E0EC</color>
+    <color name="md_theme_onSurfaceVariant">#49454F</color>
+    <color name="md_theme_outline">#79747E</color>
+
+    <!-- Game specific accents -->
+    <color name="game_yellow">#FFD900</color>
+    <color name="game_yellow_dark">#D4AA00</color>
+    <color name="game_yellow_bg">#FFF6C0</color>
+    <color name="game_orange">#FF9600</color>
+    <color name="game_pink">#FF70A6</color>
+
+    <!-- Legacy/Direct colors (to avoid breaking things immediately) -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="game_text_dark">#3C3C3C</color>
+    <color name="game_text_medium">#757575</color>
+</resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:id="@+id/ivIcono"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_game_yellow"
+        android:elevation="6dp"
+        app:iiv_color="@color/game_yellow_dark"
+        app:iiv_icon="gmr-thumb-up"
+        app:iiv_size="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Validar misiones"
+        android:textAppearance="?attr/textAppearanceHeadlineLarge"
+        android:textColor="@color/game_text_dark"
+        android:fontFamily="sans-serif-rounded"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivIcono" />
+
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Aprueba las misiones completadas"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="@color/game_text_medium"
+        android:fontFamily="sans-serif-rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTareas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo" />
+
+    <TextView
+        android:id="@+id/tvVacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No hay misiones por validar\n¡Los niños aún no han completado misiones!"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textAlignment="center"
+        android:textColor="@color/game_text_medium"
+        android:fontFamily="sans-serif-rounded"
+        android:background="@drawable/empty_state_bg"
+        android:padding="28dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/game_yellow"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

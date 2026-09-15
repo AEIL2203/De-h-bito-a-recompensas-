@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function esTutorDelNino(ninoId) {
+      return request.auth != null
+        && get(/databases/$(database)/documents/ninos/$(ninoId)).data.tutorId == request.auth.uid;
+    }
+
+    match /tutores/{tutorId} {
+      allow read, write: if request.auth != null && request.auth.uid == tutorId;
+    }
+    match /ninos/{ninoId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+    match /tareas/{tareaId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
+      allow update, delete: if request.auth != null;
+    }
+    match /dispositivos/{dispositivoId} {
+      allow get: if request.auth != null && resource.data.tutorId == request.auth.uid;
+      allow list: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.tutorId == request.auth.uid;
+    }
+    match /catalogo_apps/{appId} {
+      allow read: if esTutorDelNino(resource.data.ninoId);
+      allow create: if esTutorDelNino(request.resource.data.ninoId);
+      allow update, delete: if esTutorDelNino(resource.data.ninoId);
+    }
+    match /apps_permitidas/{appId} {
+      allow read: if esTutorDelNino(resource.data.ninoId);
+      allow create: if esTutorDelNino(request.resource.data.ninoId);
+      allow update, delete: if esTutorDelNino(resource.data.ninoId);
+    }
+    match /recompensas/{recompensaId} {
+      allow read: if esTutorDelNino(resource.data.ninoId);
+      allow create: if esTutorDelNino(request.resource.data.ninoId);
+      allow update: if esTutorDelNino(resource.data.ninoId);
+    }
+    match /sesiones_apps/{sesionId} {
+      allow read: if esTutorDelNino(resource.data.ninoId);
+      allow create: if esTutorDelNino(request.resource.data.ninoId)
+        && request.resource.data.tutorId == request.auth.uid
+        && request.resource.data.estado == 'iniciada';
+      allow update: if esTutorDelNino(resource.data.ninoId)
+        && request.resource.data.ninoId == resource.data.ninoId
+        && request.resource.data.tutorId == resource.data.tutorId
+        && request.resource.data.packageName == resource.data.packageName;
+    }
+    match /tokens_fcm/{tokenId} {
+      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
+      allow read, delete: if request.auth != null && resource.data.tutorId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.tutorId == request.auth.uid
+        && request.resource.data.tutorId == request.auth.uid;
+    }
+  }
+}

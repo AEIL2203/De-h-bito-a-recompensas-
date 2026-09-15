@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ======== ESTILOS MATERIAL DESIGN 3 (MATERIAL YOU) ======== -->
+
+    <!-- Botón Principal (Filled) -->
+    <style name="Widget.Habitos.Button" parent="Widget.Material3.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+    </style>
+
+    <!-- Botón Secundario (Tonal) -->
+    <style name="Widget.Habitos.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+    </style>
+
+    <!-- Botón Outlined -->
+    <style name="Widget.Habitos.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Tarjeta Material 3 (Elevada) -->
+    <style name="Widget.Habitos.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">28dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPadding">16dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+    </style>
+
+    <!-- Tarjeta Material 3 (Contenedor Primario) -->
+    <style name="Widget.Habitos.Card.Primary" parent="Widget.Habitos.Card">
+        <item name="cardBackgroundColor">?attr/colorPrimaryContainer</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <!-- Tarjeta Material 3 (Contenedor Secundario - Modo Niño) -->
+    <style name="Widget.Habitos.Card.Secondary" parent="Widget.Habitos.Card">
+        <item name="cardBackgroundColor">?attr/colorSecondaryContainer</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <!-- Input Outlined Material 3 -->
+    <style name="Widget.Habitos.Input" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Tipografía -->
+    <style name="Widget.Habitos.Text.Headline" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="Widget.Habitos.Text.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.Habitos.Text.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Compatibilidad con estilos antiguos para no romper layouts inmediatamente -->
+    <style name="Widget.Game.Card" parent="Widget.Habitos.Card" />
+    <style name="Widget.Game.Card.Flat" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardCornerRadius">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Habitos.HeaderPill" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">32dp</item>
+        <item name="cornerSizeBottomRight">32dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+    </style>
+
+    <style name="Widget.Game.Button.Primary" parent="Widget.Habitos.Button" />
+    <style name="Widget.Game.Button.Purple" parent="Widget.Habitos.Button" />
+    <style name="Widget.Game.Button.Blue" parent="Widget.Habitos.Button">
+        <item name="backgroundTint">?attr/colorTertiary</item>
+    </style>
+    <style name="Widget.Game.Button.Coral" parent="Widget.Habitos.Button">
+        <item name="backgroundTint">?attr/colorError</item>
+    </style>
+    <style name="Widget.Game.Button.Yellow" parent="Widget.Habitos.Button.Tonal">
+        <item name="backgroundTint">@color/game_yellow</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Widget.Game.Input" parent="Widget.Habitos.Input" />
+    <style name="Widget.Game.Input.Dropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+    </style>
+
+</resources>

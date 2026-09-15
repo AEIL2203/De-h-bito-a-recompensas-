@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Game.Card.Flat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/ivCategoria"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_game_blue"
+            android:elevation="4dp"
+            app:iiv_color="@color/game_blue_dark"
+            app:iiv_icon="gmr-menu-book"
+            app:iiv_size="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNombreTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="@color/game_text_dark"
+            android:fontFamily="sans-serif-rounded"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivCategoria"
+            app:layout_constraintTop_toTopOf="@id/ivCategoria" />
+
+        <TextView
+            android:id="@+id/tvDetalle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="@color/game_text_medium"
+            android:fontFamily="sans-serif-rounded"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivCategoria"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreTarea" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRechazar"
+            style="@style/Widget.Game.Button.Coral"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:text="Rechazar"
+            app:layout_constraintEnd_toStartOf="@id/btnValidar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDetalle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnValidar"
+            style="@style/Widget.Game.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="6dp"
+            android:text="Validar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnRechazar"
+            app:layout_constraintTop_toBottomOf="@id/tvDetalle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
