@@ -19,15 +19,15 @@
             android:text="Mi Perfil"
             android:textColor="?attr/colorSecondary" />
 
-        <com.mikepenz.iconics.view.IconicsImageView
+        <ImageView
             android:id="@+id/ivAvatar"
-            android:layout_width="104dp"
-            android:layout_height="104dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/circle_turquoise"
-            app:iiv_color="@color/white"
-            app:iiv_icon="gmr-account-circle"
-            app:iiv_size="70dp" />
+            android:contentDescription="Avatar"
+            android:padding="14dp"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/tvNombre"
@@ -53,54 +53,13 @@
             android:text="Elige tu avatar"
             android:textColor="?attr/colorSecondary" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/grupoAvatares"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAvatares"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAvatarAventurero"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Aventurero" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAvatarGamer"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Gamer" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/grupoAvataresSecundario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAvatarEspacial"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Espacial" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAvatarAnimal"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Animal" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Habitos.Card.Secondary"

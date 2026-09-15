@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.angel.ibanez.dehabitos.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.angel.ibanez.dehabitos.adapters.AvataresAdapter
 import com.angel.ibanez.dehabitos.databinding.FragmentPerfilNinoBinding
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
+import com.angel.ibanez.dehabitos.utils.AvataresUtils
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
-import com.angel.ibanez.dehabitos.utils.IconosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 
@@ -21,6 +22,7 @@ class PerfilNinoFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: NinoViewModel by viewModels()
     private var ninoId = ""
+    private lateinit var avataresAdapter: AvataresAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPerfilNinoBinding.inflate(inflater, container, false)
@@ -44,20 +46,19 @@ class PerfilNinoFragment : Fragment() {
     }
 
     private fun configurarAvatares() {
-        binding.btnAvatarAventurero.setOnClickListener { guardarAvatar(AVATAR_AVENTURERO) }
-        binding.btnAvatarGamer.setOnClickListener { guardarAvatar(AVATAR_GAMER) }
-        binding.btnAvatarEspacial.setOnClickListener { guardarAvatar(AVATAR_ESPACIAL) }
-        binding.btnAvatarAnimal.setOnClickListener { guardarAvatar(AVATAR_ANIMAL) }
-    }
-
-    private fun guardarAvatar(avatar: String) {
-        binding.ivAvatar.icon = IconosUtils.crearIcono(requireContext(), avatar, R.color.white, 70)
-        viewModel.actualizarAvatar(ninoId, avatar)
+        avataresAdapter = AvataresAdapter { avatar ->
+            AvataresUtils.cargar(binding.ivAvatar, avatar.id)
+            AnimacionesUtils.pulso(binding.ivAvatar)
+            viewModel.actualizarAvatar(ninoId, avatar.id)
+        }
+        binding.rvAvatares.layoutManager = GridLayoutManager(requireContext(), 4)
+        binding.rvAvatares.adapter = avataresAdapter
     }
 
     private fun pintarPerfil(nino: Nino) {
-        val avatar = nino.avatar.ifBlank { AVATAR_AVENTURERO }
-        binding.ivAvatar.icon = IconosUtils.crearIcono(requireContext(), avatar, R.color.white, 70)
+        val avatar = AvataresUtils.obtener(nino.avatar)
+        AvataresUtils.cargar(binding.ivAvatar, avatar.id)
+        avataresAdapter.seleccionadoId = avatar.id
         binding.tvNombre.text = nino.nombre
         binding.tvProgreso.text = "Nivel ${nino.nivel} · ${nino.experiencia} XP"
         binding.tvEstrellas.text = "Estrellas: ${nino.estrellas}"
@@ -68,12 +69,5 @@ class PerfilNinoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val AVATAR_AVENTURERO = "gmr-face"
-        private const val AVATAR_GAMER = "gmr-sports-esports"
-        private const val AVATAR_ESPACIAL = "gmr-rocket-launch"
-        private const val AVATAR_ANIMAL = "gmr-pets"
     }
 }

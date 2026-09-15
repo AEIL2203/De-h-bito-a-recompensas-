@@ -22,8 +22,8 @@ import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentContenedorNinoBinding
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.AppsUtils
+import com.angel.ibanez.dehabitos.utils.AvataresUtils
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
-import com.angel.ibanez.dehabitos.utils.IconosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.AuthTutorViewModel
 import com.angel.ibanez.dehabitos.viewmodels.DispositivoViewModel
@@ -45,6 +45,8 @@ class ContenedorNinoFragment : Fragment() {
     private var esperandoValidacionParental = false
     private var ultimoNivel: Int? = null
     private var ultimaCantidadInsignias: Int? = null
+    private var ultimasEstrellas: Int? = null
+    private var pestanaActual: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +77,10 @@ class ContenedorNinoFragment : Fragment() {
         navController.setGraph(navGraph, args)
 
         configurarNavegacionAnimada(navController, args)
-        AnimacionesUtils.cargarGif(binding.btnConfig, "icons8-settings-100.gif")
+        AnimacionesUtils.cargarGifPausado(binding.btnConfig, "icons8-settings-100.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivMonedasHeader, AnimacionesUtils.GIF_MONEDAS)
+        AnimacionesUtils.animarPeriodicamente(binding.btnConfig, INTERVALO_ANIMACION_MS)
+        AnimacionesUtils.animarPeriodicamente(binding.ivMonedasHeader, INTERVALO_ANIMACION_MS, INTERVALO_ANIMACION_MS / 2)
         binding.btnConfig.setOnClickListener { solicitarPasswordTutor() }
         authTutorViewModel.validarPasswordResultado.observe(viewLifecycleOwner) { resultado ->
             if (!esperandoValidacionParental) return@observe
@@ -97,15 +102,15 @@ class ContenedorNinoFragment : Fragment() {
         observarVinculacionDispositivo()
         sincronizarCatalogoSiCorresponde()
         dispositivoViewModel.iniciarEscuchaDispositivo(DispositivoConfig.obtenerDeviceId())
-        ninoViewModel.cargarNinoPorId(ninoId)
+        ninoViewModel.escucharNino(ninoId)
     }
 
     private fun configurarNavegacionAnimada(navController: NavController, args: Bundle) {
-        AnimacionesUtils.cargarGif(binding.ivNavInicio, "icons8-goal-100.gif")
-        AnimacionesUtils.cargarGif(binding.ivNavCamino, "icons8-map100.gif")
-        AnimacionesUtils.cargarGif(binding.ivNavMisiones, "icons8-notepad-100.gif")
-        AnimacionesUtils.cargarGif(binding.ivNavPremios, "icons8-shopping-100.gif")
-        AnimacionesUtils.cargarGif(binding.ivNavPerfil, "icons8-user-96.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivNavInicio, "icons8-home-48.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivNavCamino, "icons8-map100.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivNavMisiones, "icons8-test-passed-100.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivNavPremios, "icons8-shopping-100.gif")
+        AnimacionesUtils.cargarGifPausado(binding.ivNavPerfil, "icons8-perfil.gif")
 
         binding.navInicio.setOnClickListener { navegarPestana(navController, R.id.dashboardNinoFragment, args) }
         binding.navCamino.setOnClickListener { navegarPestana(navController, R.id.mapaProgresoFragment, args) }
@@ -132,17 +137,20 @@ class ContenedorNinoFragment : Fragment() {
 
     private fun actualizarPestanaSeleccionada(destino: Int) {
         val elementos = listOf(
-            Triple(binding.navInicio, binding.tvNavInicio, R.id.dashboardNinoFragment),
-            Triple(binding.navCamino, binding.tvNavCamino, R.id.mapaProgresoFragment),
-            Triple(binding.navMisiones, binding.tvNavMisiones, R.id.misionesNinoFragment),
-            Triple(binding.navPremios, binding.tvNavPremios, R.id.premiosNinoFragment),
-            Triple(binding.navPerfil, binding.tvNavPerfil, R.id.perfilNinoFragment)
+            Triple(binding.navInicio, binding.tvNavInicio, R.id.dashboardNinoFragment) to binding.ivNavInicio,
+            Triple(binding.navCamino, binding.tvNavCamino, R.id.mapaProgresoFragment) to binding.ivNavCamino,
+            Triple(binding.navMisiones, binding.tvNavMisiones, R.id.misionesNinoFragment) to binding.ivNavMisiones,
+            Triple(binding.navPremios, binding.tvNavPremios, R.id.premiosNinoFragment) to binding.ivNavPremios,
+            Triple(binding.navPerfil, binding.tvNavPerfil, R.id.perfilNinoFragment) to binding.ivNavPerfil
         )
-        elementos.forEach { (contenedor, texto, id) ->
+        elementos.forEach { (datos, icono) ->
+            val (contenedor, texto, id) = datos
             val seleccionado = id == destino
             contenedor.animate().scaleX(if (seleccionado) 1.12f else 1f).scaleY(if (seleccionado) 1.12f else 1f).alpha(if (seleccionado) 1f else 0.58f).setDuration(180).start()
             texto.setTextColor(requireContext().getColor(if (seleccionado) R.color.md_theme_primary else R.color.md_theme_onSurfaceVariant))
+            if (seleccionado && destino != pestanaActual) AnimacionesUtils.reproducirGifUnaVez(icono)
         }
+        pestanaActual = destino
     }
 
     private fun solicitarPasswordTutor() {
@@ -238,9 +246,11 @@ class ContenedorNinoFragment : Fragment() {
                     ultimoNivel = nino.nivel
                     ultimaCantidadInsignias = nino.insignias.size
                     binding.tvNombreNino.text = nino.nombre
-                    binding.ivAvatarHeader.icon = IconosUtils.crearIcono(requireContext(), nino.avatar.ifBlank { "gmr-face" }, R.color.white, 32)
+                    AvataresUtils.cargar(binding.ivAvatarHeader, nino.avatar)
                     binding.tvNivelHeader.text = "Lvl. ${nino.nivel}"
                     binding.pbXpHeader.progress = nino.experiencia % 100
+                    if (ultimasEstrellas != null && ultimasEstrellas != nino.estrellas) AnimacionesUtils.reproducirGifUnaVez(binding.ivMonedasHeader)
+                    ultimasEstrellas = nino.estrellas
                     binding.tvEstrellas.text = nino.estrellas.toString()
                     binding.tvGemas.text = nino.gemas.toString()
                 }
@@ -252,5 +262,9 @@ class ContenedorNinoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val INTERVALO_ANIMACION_MS = 8000L
     }
 }

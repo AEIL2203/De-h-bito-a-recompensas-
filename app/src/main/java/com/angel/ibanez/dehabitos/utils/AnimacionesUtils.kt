@@ -13,6 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.angel.ibanez.dehabitos.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.target.ImageViewTarget
+import com.bumptech.glide.request.transition.Transition
 
 object AnimacionesUtils {
     const val GIF_TAREA_COMPLETADA = "icons8-check-mark-100.gif"
@@ -28,6 +31,50 @@ object AnimacionesUtils {
             .load("file:///android_asset/$gif")
             .transform(FondoBlancoTransparenteTransformation())
             .into(imageView)
+    }
+
+    fun cargarGifPausado(imageView: ImageView, gif: String) {
+        Glide.with(imageView)
+            .asGif()
+            .load("file:///android_asset/$gif")
+            .transform(FondoBlancoTransparenteTransformation())
+            .into(object : ImageViewTarget<GifDrawable>(imageView) {
+                override fun setResource(resource: GifDrawable?) {
+                    view.setImageDrawable(resource)
+                }
+
+                override fun onResourceReady(resource: GifDrawable, transition: Transition<in GifDrawable>?) {
+                    resource.setLoopCount(1)
+                    resource.stop()
+                    setResource(resource)
+                }
+
+                override fun onStart() = Unit
+                override fun onStop() = Unit
+            })
+    }
+
+    fun reproducirGifUnaVez(imageView: ImageView) {
+        val gif = imageView.drawable as? GifDrawable ?: return
+        gif.setLoopCount(1)
+        if (gif.isRunning) gif.stop()
+        gif.startFromFirstFrame()
+    }
+
+    fun animarPeriodicamente(imageView: ImageView, intervaloMs: Long, retrasoInicialMs: Long = intervaloMs) {
+        val handler = Handler(Looper.getMainLooper())
+        val tarea = object : Runnable {
+            override fun run() {
+                if (!imageView.isAttachedToWindow) return
+                reproducirGifUnaVez(imageView)
+                handler.postDelayed(this, intervaloMs)
+            }
+        }
+        imageView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) = Unit
+            override fun onViewDetachedFromWindow(v: View) = handler.removeCallbacks(tarea)
+        })
+        handler.postDelayed(tarea, retrasoInicialMs)
     }
 
     fun mostrarCelebracion(view: View, gif: String, titulo: String, mensaje: String, duracion: Long = 2200L) {

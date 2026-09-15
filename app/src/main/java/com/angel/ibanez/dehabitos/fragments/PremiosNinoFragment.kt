@@ -42,6 +42,8 @@ class PremiosNinoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ninoId = arguments?.getString("ninoId").orEmpty().ifBlank { DispositivoConfig.obtenerNinoId() }
+        AnimacionesUtils.cargarGifPausado(binding.ivMonedas, AnimacionesUtils.GIF_MONEDAS)
+        AnimacionesUtils.animarPeriodicamente(binding.ivMonedas, 8000L)
 
         adapter = AppRecompensaAdapter(estrellas = 0) { app, minutos, precio ->
             confirmarCanje(app, minutos, precio)
@@ -98,6 +100,7 @@ class PremiosNinoFragment : Fragment() {
                         "Tienes $duracion para disfrutar."
                     )
                     AnimacionesUtils.pulso(binding.tvEstrellas)
+                    AnimacionesUtils.reproducirGifUnaVez(binding.ivMonedas)
                     ninoViewModel.cargarNinoPorId(ninoId)
                 }
                 is Resultado.Error -> {
@@ -112,7 +115,7 @@ class PremiosNinoFragment : Fragment() {
     }
 
     private fun mostrarEstrellas(estrellas: Int) {
-        binding.tvEstrellas.text = "⭐ ${estrellas}"
+        binding.tvEstrellas.text = estrellas.toString()
     }
 
     private fun confirmarCanje(app: AplicacionPermitida, minutos: Int, precio: Int) {
