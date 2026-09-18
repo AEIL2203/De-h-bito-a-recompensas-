@@ -18,6 +18,11 @@ import com.angel.ibanez.dehabitos.utils.IconosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 import com.angel.ibanez.dehabitos.viewmodels.TareaViewModel
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AsignarTareaFragment : Fragment() {
 
@@ -35,6 +40,9 @@ class AsignarTareaFragment : Fragment() {
         Tarea.CATEGORIA_PERSONAL to "Personal"
     )
     private var categoriaSeleccionada = Tarea.CATEGORIA_ACADEMICA
+    private var fechaLimite = ""
+    private val formatoDia = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    private val formatoVisible = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +59,7 @@ class AsignarTareaFragment : Fragment() {
         binding.btnAsignar.icon = IconosUtils.crearIcono(requireContext(), "gmr-bolt", R.color.white)
 
         configurarCategorias()
+        configurarFechaLimite()
         observarNinos()
         observarCreacion()
 
@@ -65,6 +74,28 @@ class AsignarTareaFragment : Fragment() {
         binding.actvCategoria.setText(categorias[0].second, false)
         binding.actvCategoria.setOnItemClickListener { _, _, position, _ ->
             categoriaSeleccionada = categorias[position].first
+        }
+    }
+
+    private fun configurarFechaLimite() {
+        binding.etFechaLimite.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Fecha límite")
+                .setCalendarConstraints(
+                    com.google.android.material.datepicker.CalendarConstraints.Builder()
+                        .setValidator(DateValidatorPointForward.now())
+                        .build()
+                )
+                .build()
+            picker.addOnPositiveButtonClickListener { seleccion ->
+                fechaLimite = formatoDia.format(Date(seleccion))
+                binding.etFechaLimite.setText(formatoVisible.format(Date(seleccion)))
+            }
+            picker.show(childFragmentManager, "fecha_limite")
+        }
+        binding.tilFechaLimite.setEndIconOnClickListener {
+            fechaLimite = ""
+            binding.etFechaLimite.setText("")
         }
     }
 
@@ -122,7 +153,8 @@ class AsignarTareaFragment : Fragment() {
                     nombre = nombre,
                     categoria = categoriaSeleccionada,
                     puntos = puntos,
-                    estado = Tarea.ESTADO_PENDIENTE
+                    estado = Tarea.ESTADO_PENDIENTE,
+                    fechaLimite = fechaLimite
                 )
                 tareaViewModel.crearTarea(tarea)
             }

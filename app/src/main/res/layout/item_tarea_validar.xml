@@ -51,6 +51,18 @@
             app:layout_constraintStart_toEndOf="@id/ivCategoria"
             app:layout_constraintTop_toBottomOf="@id/tvNombreTarea" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivEvidencia"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDetalle"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Game.Rounded12" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRechazar"
             style="@style/Widget.Game.Button.Coral"
@@ -61,7 +73,7 @@
             android:text="Rechazar"
             app:layout_constraintEnd_toStartOf="@id/btnValidar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDetalle" />
+            app:layout_constraintTop_toBottomOf="@id/ivEvidencia" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnValidar"
@@ -73,7 +85,7 @@
             android:text="Validar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnRechazar"
-            app:layout_constraintTop_toBottomOf="@id/tvDetalle" />
+            app:layout_constraintTop_toBottomOf="@id/ivEvidencia" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

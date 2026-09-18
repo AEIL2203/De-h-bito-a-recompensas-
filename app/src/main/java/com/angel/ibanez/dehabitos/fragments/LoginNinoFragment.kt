@@ -43,7 +43,7 @@ class LoginNinoFragment : Fragment() {
         binding.btnIngresar.setOnClickListener {
             val pin = binding.etPin.text.toString().trim()
             if (pin.length == 4) {
-                ninoViewModel.iniciarSesionNino(pin)
+                ninoViewModel.iniciarSesionNino(pin, DispositivoConfig.obtenerTutorId())
             } else {
                 Toast.makeText(requireContext(), "El PIN debe tener 4 dígitos", Toast.LENGTH_SHORT).show()
             }

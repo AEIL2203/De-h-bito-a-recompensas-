@@ -32,8 +32,8 @@ class RecompensaViewModel(
     private val _eliminarResultado = MutableLiveData<Resultado<Unit>>()
     val eliminarResultado: LiveData<Resultado<Unit>> = _eliminarResultado
 
-    private val _canjeResultado = MutableLiveData<Resultado<Recompensa>>()
-    val canjeResultado: LiveData<Resultado<Recompensa>> = _canjeResultado
+    private val _canjeResultado = MutableLiveData<Resultado<Recompensa>?>()
+    val canjeResultado: LiveData<Resultado<Recompensa>?> = _canjeResultado
 
     private var listener: ListenerRegistration? = null
 
@@ -79,6 +79,8 @@ class RecompensaViewModel(
             repository.canjearRecompensa(nino, app, minutos, estrellasCosto, fechaCanje).collect { _canjeResultado.value = it }
         }
     }
+
+    fun consumirCanje() { _canjeResultado.value = null }
 
     fun escucharAppsPermitidas(ninoId: String) {
         listener?.remove()

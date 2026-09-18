@@ -77,7 +77,40 @@ object AnimacionesUtils {
         handler.postDelayed(tarea, retrasoInicialMs)
     }
 
+    private data class Celebracion(val view: View, val gif: String, val titulo: String, val mensaje: String, val duracion: Long)
+    private val colaCelebraciones = ArrayDeque<Celebracion>()
+    private var mostrandoCelebracion = false
+
     fun mostrarCelebracion(view: View, gif: String, titulo: String, mensaje: String, duracion: Long = 2200L) {
+        if (mostrandoCelebracion) {
+            colaCelebraciones.addLast(Celebracion(view, gif, titulo, mensaje, duracion))
+            return
+        }
+        mostrarCelebracionAhora(Celebracion(view, gif, titulo, mensaje, duracion))
+    }
+
+    private fun mostrarCelebracionAhora(celebracion: Celebracion) {
+        val view = celebracion.view
+        if (!view.isAttachedToWindow) {
+            mostrandoCelebracion = false
+            mostrarSiguienteCelebracion()
+            return
+        }
+        mostrandoCelebracion = true
+        mostrarDialogoCelebracion(view, celebracion)
+    }
+
+    private fun mostrarSiguienteCelebracion() {
+        while (colaCelebraciones.isNotEmpty()) {
+            val siguiente = colaCelebraciones.removeFirst()
+            if (siguiente.view.isAttachedToWindow) {
+                mostrarCelebracionAhora(siguiente)
+                return
+            }
+        }
+    }
+
+    private fun mostrarDialogoCelebracion(view: View, celebracion: Celebracion) {
         val context = view.context
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -97,14 +130,14 @@ object AnimacionesUtils {
             scaleType = ImageView.ScaleType.FIT_CENTER
         }
         val textoTitulo = TextView(context).apply {
-            text = titulo
+            text = celebracion.titulo
             gravity = Gravity.CENTER
             textSize = 22f
             setTextColor(context.getColor(R.color.md_theme_primary))
             setTypeface(typeface, android.graphics.Typeface.BOLD)
         }
         val textoMensaje = TextView(context).apply {
-            text = mensaje
+            text = celebracion.mensaje
             gravity = Gravity.CENTER
             textSize = 15f
             setTextColor(context.getColor(R.color.md_theme_onSurface))
@@ -127,10 +160,14 @@ object AnimacionesUtils {
             contenido.scaleY = 0.7f
             contenido.alpha = 0f
             contenido.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(320).start()
-            cargarGif(imagen, gif)
+            cargarGif(imagen, celebracion.gif)
+        }
+        dialog.setOnDismissListener {
+            mostrandoCelebracion = false
+            mostrarSiguienteCelebracion()
         }
         dialog.show()
-        Handler(Looper.getMainLooper()).postDelayed({ if (dialog.isShowing) dialog.dismiss() }, duracion)
+        Handler(Looper.getMainLooper()).postDelayed({ if (dialog.isShowing) dialog.dismiss() }, celebracion.duracion)
     }
 
     fun entradaSuave(view: View, desplazamientoDp: Int = 28) {

@@ -9,7 +9,10 @@ data class Tarea(
     var puntos: Int = 10,
     var estado: String = ESTADO_PENDIENTE,
     var fechaAsignacion: String = "",
-    var fechaCompletada: String = ""
+    var fechaCompletada: String = "",
+    var fechaLimite: String = "",
+    var esDiaria: Boolean = false,
+    var evidencia: String = ""
 ) {
     companion object {
         const val ESTADO_PENDIENTE = "pendiente"

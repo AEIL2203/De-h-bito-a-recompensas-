@@ -3,6 +3,7 @@ package com.angel.ibanez.dehabitos.firebase
 import com.angel.ibanez.dehabitos.models.AplicacionCatalogo
 import com.angel.ibanez.dehabitos.models.AplicacionPermitida
 import com.angel.ibanez.dehabitos.models.Dispositivo
+import com.angel.ibanez.dehabitos.models.EncuestaSatisfaccion
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.models.Recompensa
 import com.angel.ibanez.dehabitos.models.Tarea
@@ -10,9 +11,16 @@ import com.angel.ibanez.dehabitos.models.Tutor
 import com.angel.ibanez.dehabitos.models.SesionApp
 import com.angel.ibanez.dehabitos.models.TokenFcm
 import com.angel.ibanez.dehabitos.utils.ProgresionUtils
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 
 class FirebaseFirestoreService {
 
@@ -28,6 +36,40 @@ class FirebaseFirestoreService {
         const val COLECCION_RECOMPENSAS = "recompensas"
         const val COLECCION_SESIONES = "sesiones_apps"
         const val COLECCION_TOKENS = "tokens_fcm"
+        const val COLECCION_ENCUESTAS = "encuestas_satisfaccion"
+        private const val TIEMPO_ESPERA_MS = 3000L
+    }
+
+    private suspend fun <T> Task<T>.esperarOEncolar(): T? = withTimeoutOrNull(TIEMPO_ESPERA_MS) { await() }
+
+    private suspend fun DocumentReference.obtenerConRespaldo(): DocumentSnapshot {
+        val errorServidor = runCatching {
+            return withTimeoutOrNull(TIEMPO_ESPERA_MS) { get(Source.SERVER).await() }
+                ?: throw com.google.firebase.firestore.FirebaseFirestoreException(
+                    "Tiempo de espera agotado",
+                    com.google.firebase.firestore.FirebaseFirestoreException.Code.UNAVAILABLE
+                )
+        }.exceptionOrNull()
+        return try {
+            get(Source.CACHE).await()
+        } catch (e: Exception) {
+            throw errorServidor ?: e
+        }
+    }
+
+    private suspend fun Query.obtenerConRespaldo(): QuerySnapshot {
+        val errorServidor = runCatching {
+            return withTimeoutOrNull(TIEMPO_ESPERA_MS) { get(Source.SERVER).await() }
+                ?: throw com.google.firebase.firestore.FirebaseFirestoreException(
+                    "Tiempo de espera agotado",
+                    com.google.firebase.firestore.FirebaseFirestoreException.Code.UNAVAILABLE
+                )
+        }.exceptionOrNull()
+        return try {
+            get(Source.CACHE).await()
+        } catch (e: Exception) {
+            throw errorServidor ?: e
+        }
     }
 
     suspend fun guardarTutor(tutor: Tutor) {
@@ -44,32 +86,31 @@ class FirebaseFirestoreService {
     suspend fun guardarNino(nino: Nino) {
         val id = nino.id.ifBlank { db.collection(COLECCION_NINOS).document().id }
         val ninoConId = nino.copy(id = id)
-        db.collection(COLECCION_NINOS).document(id).set(ninoConId).await()
+        db.collection(COLECCION_NINOS).document(id).set(ninoConId).esperarOEncolar()
     }
 
     suspend fun actualizarAvatarNino(ninoId: String, avatar: String) {
-        db.collection(COLECCION_NINOS).document(ninoId).update("avatar", avatar).await()
+        db.collection(COLECCION_NINOS).document(ninoId).update("avatar", avatar).esperarOEncolar()
     }
 
     suspend fun obtenerNinoPorId(ninoId: String): Nino? {
-        val documento = db.collection(COLECCION_NINOS).document(ninoId).get().await()
+        val documento = db.collection(COLECCION_NINOS).document(ninoId).obtenerConRespaldo()
         return documento.toObject(Nino::class.java)?.let { compensarEstrellasAnteriores(it) }
     }
 
-    suspend fun obtenerNinoPorPin(pin: String): Nino? {
+    suspend fun obtenerNinoPorPin(pin: String, tutorId: String): Nino? {
         val consulta = db.collection(COLECCION_NINOS)
+            .whereEqualTo("tutorId", tutorId)
             .whereEqualTo("pin", pin)
             .limit(1)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return if (consulta.isEmpty) null else consulta.documents[0].toObject(Nino::class.java)?.let { compensarEstrellasAnteriores(it) }
     }
 
     suspend fun obtenerNinosPorTutor(tutorId: String): List<Nino> {
         val consulta = db.collection(COLECCION_NINOS)
             .whereEqualTo("tutorId", tutorId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(Nino::class.java).map { compensarEstrellasAnteriores(it) }
     }
 
@@ -100,26 +141,25 @@ class FirebaseFirestoreService {
     suspend fun guardarDispositivo(dispositivo: Dispositivo) {
         val id = dispositivo.id.ifBlank { db.collection(COLECCION_DISPOSITIVOS).document().id }
         val conId = dispositivo.copy(id = id)
-        db.collection(COLECCION_DISPOSITIVOS).document(id).set(conId).await()
+        db.collection(COLECCION_DISPOSITIVOS).document(id).set(conId).esperarOEncolar()
     }
 
     suspend fun obtenerDispositivo(dispositivoId: String): Dispositivo? {
-        val doc = db.collection(COLECCION_DISPOSITIVOS).document(dispositivoId).get().await()
+        val doc = db.collection(COLECCION_DISPOSITIVOS).document(dispositivoId).obtenerConRespaldo()
         return doc.toObject(Dispositivo::class.java)
     }
 
     suspend fun obtenerDispositivosPorTutor(tutorId: String): List<Dispositivo> {
         val consulta = db.collection(COLECCION_DISPOSITIVOS)
             .whereEqualTo("tutorId", tutorId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(Dispositivo::class.java)
     }
 
     suspend fun actualizarDesbloqueo(dispositivoId: String, desbloqueado: Boolean) {
         db.collection(COLECCION_DISPOSITIVOS).document(dispositivoId)
             .update("desbloqueado", desbloqueado)
-            .await()
+            .esperarOEncolar()
     }
 
     suspend fun desvincularDispositivo(dispositivoId: String) {
@@ -136,22 +176,20 @@ class FirebaseFirestoreService {
     suspend fun guardarTarea(tarea: Tarea) {
         val id = tarea.id.ifBlank { db.collection(COLECCION_TAREAS).document().id }
         val conId = tarea.copy(id = id)
-        db.collection(COLECCION_TAREAS).document(id).set(conId).await()
+        db.collection(COLECCION_TAREAS).document(id).set(conId).esperarOEncolar()
     }
 
     suspend fun obtenerTareasPorNino(ninoId: String): List<Tarea> {
         val consulta = db.collection(COLECCION_TAREAS)
             .whereEqualTo("ninoId", ninoId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(Tarea::class.java)
     }
 
     suspend fun obtenerTareasPorTutor(tutorId: String): List<Tarea> {
         val consulta = db.collection(COLECCION_TAREAS)
             .whereEqualTo("tutorId", tutorId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(Tarea::class.java)
     }
 
@@ -169,6 +207,28 @@ class FirebaseFirestoreService {
             onUpdate(snapshot?.toObjects(Tarea::class.java) ?: emptyList())
         }
 
+    fun escucharTareasPorTutor(
+        tutorId: String,
+        onUpdate: (List<Tarea>) -> Unit,
+        onError: (String) -> Unit
+    ): ListenerRegistration = db.collection(COLECCION_TAREAS)
+        .whereEqualTo("tutorId", tutorId)
+        .addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                onError(error.message ?: "Error al actualizar las tareas")
+                return@addSnapshotListener
+            }
+            onUpdate(snapshot?.toObjects(Tarea::class.java) ?: emptyList())
+        }
+
+    suspend fun obtenerTareasPorNinoDesdeServidor(ninoId: String): List<Tarea> {
+        val consulta = db.collection(COLECCION_TAREAS)
+            .whereEqualTo("ninoId", ninoId)
+            .get(Source.SERVER)
+            .await()
+        return consulta.toObjects(Tarea::class.java)
+    }
+
     fun escucharNino(
         ninoId: String,
         onUpdate: (Nino) -> Unit,
@@ -182,10 +242,47 @@ class FirebaseFirestoreService {
             snapshot?.toObject(Nino::class.java)?.let(onUpdate)
         }
 
-    suspend fun actualizarEstadoTarea(tareaId: String, estado: String, fechaCompletada: String) {
+    suspend fun actualizarEstadoTarea(tareaId: String, estado: String, fechaCompletada: String, evidencia: String? = null) {
+        val cambios = mutableMapOf<String, Any>("estado" to estado, "fechaCompletada" to fechaCompletada)
+        if (evidencia != null) cambios["evidencia"] = evidencia
         db.collection(COLECCION_TAREAS).document(tareaId)
-            .update(mapOf("estado" to estado, "fechaCompletada" to fechaCompletada))
-            .await()
+            .update(cambios)
+            .esperarOEncolar()
+    }
+
+    suspend fun crearTareaSiNoExiste(tarea: Tarea): Boolean {
+        val ref = db.collection(COLECCION_TAREAS).document(tarea.id)
+        return db.runTransaction { transaction ->
+            if (transaction.get(ref).exists()) {
+                false
+            } else {
+                transaction.set(ref, tarea)
+                true
+            }
+        }.await()
+    }
+
+    suspend fun eliminarDatosNino(ninoId: String) {
+        val referencias = mutableListOf<com.google.firebase.firestore.DocumentReference>()
+        listOf(
+            COLECCION_TAREAS,
+            COLECCION_RECOMPENSAS,
+            COLECCION_SESIONES,
+            COLECCION_APPS_PERMITIDAS,
+            COLECCION_CATALOGO_APPS,
+            COLECCION_ENCUESTAS,
+            COLECCION_DISPOSITIVOS,
+            COLECCION_TOKENS
+        ).forEach { coleccion ->
+            val consulta = db.collection(coleccion).whereEqualTo("ninoId", ninoId).get().await()
+            consulta.documents.forEach { referencias.add(it.reference) }
+        }
+        referencias.chunked(450).forEach { grupo ->
+            val batch = db.batch()
+            grupo.forEach { batch.delete(it) }
+            batch.commit().await()
+        }
+        db.collection(COLECCION_NINOS).document(ninoId).delete().await()
     }
 
     suspend fun actualizarProgresoNino(nino: Nino) {
@@ -203,7 +300,7 @@ class FirebaseFirestoreService {
                     "tareasPersonales" to nino.tareasPersonales
                 )
             )
-            .await()
+            .esperarOEncolar()
     }
 
     fun escucharDispositivo(dispositivoId: String, onUpdate: (Dispositivo?) -> Unit): ListenerRegistration {
@@ -244,8 +341,7 @@ class FirebaseFirestoreService {
     suspend fun obtenerCatalogoAppsPorNino(ninoId: String): List<AplicacionCatalogo> {
         val consulta = db.collection(COLECCION_CATALOGO_APPS)
             .whereEqualTo("ninoId", ninoId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(AplicacionCatalogo::class.java)
             .groupBy { it.packageName }
             .mapNotNull { (_, versiones) -> versiones.maxByOrNull { it.actualizadoEn } }
@@ -255,18 +351,17 @@ class FirebaseFirestoreService {
     suspend fun guardarAplicacionPermitida(app: AplicacionPermitida) {
         val id = app.id.ifBlank { db.collection(COLECCION_APPS_PERMITIDAS).document().id }
         val conId = app.copy(id = id)
-        db.collection(COLECCION_APPS_PERMITIDAS).document(id).set(conId).await()
+        db.collection(COLECCION_APPS_PERMITIDAS).document(id).set(conId).esperarOEncolar()
     }
 
     suspend fun eliminarAplicacionPermitida(appId: String) {
-        db.collection(COLECCION_APPS_PERMITIDAS).document(appId).delete().await()
+        db.collection(COLECCION_APPS_PERMITIDAS).document(appId).delete().esperarOEncolar()
     }
 
     suspend fun obtenerAppsPermitidasPorNino(ninoId: String): List<AplicacionPermitida> {
         val consulta = db.collection(COLECCION_APPS_PERMITIDAS)
             .whereEqualTo("ninoId", ninoId)
-            .get()
-            .await()
+            .obtenerConRespaldo()
         return consulta.toObjects(AplicacionPermitida::class.java)
     }
 
@@ -364,8 +459,18 @@ class FirebaseFirestoreService {
         .whereEqualTo("ninoId", ninoId).get().await().toObjects(Recompensa::class.java)
 
     suspend fun guardarTokenTutor(token: TokenFcm) {
-        db.collection(COLECCION_TOKENS).document(token.token).set(token).await()
+        db.collection(COLECCION_TOKENS).document(token.token).set(token).esperarOEncolar()
     }
+
+    suspend fun guardarEncuesta(encuesta: EncuestaSatisfaccion) {
+        val id = encuesta.id.ifBlank { db.collection(COLECCION_ENCUESTAS).document().id }
+        db.collection(COLECCION_ENCUESTAS).document(id).set(encuesta.copy(id = id)).await()
+    }
+
+    suspend fun obtenerEncuestasPorNino(ninoId: String, tutorId: String): List<EncuestaSatisfaccion> = db.collection(COLECCION_ENCUESTAS)
+        .whereEqualTo("tutorId", tutorId)
+        .whereEqualTo("ninoId", ninoId)
+        .get().await().toObjects(EncuestaSatisfaccion::class.java)
 
     fun escucharRecompensasPorNino(
         ninoId: String,

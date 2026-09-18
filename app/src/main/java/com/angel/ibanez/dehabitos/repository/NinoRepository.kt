@@ -61,10 +61,20 @@ class NinoRepository(
         { onResultado(Resultado.Error(it)) }
     )
 
-    fun iniciarSesionNino(pin: String): Flow<Resultado<Nino>> = flow {
+    fun eliminarNino(ninoId: String): Flow<Resultado<Unit>> = flow {
         emit(Resultado.Cargando)
         try {
-            val nino = firestoreService.obtenerNinoPorPin(pin)
+            firestoreService.eliminarDatosNino(ninoId)
+            emit(Resultado.Exito(Unit))
+        } catch (e: Exception) {
+            emit(Resultado.Error(e.message ?: "No se pudo eliminar el perfil"))
+        }
+    }
+
+    fun iniciarSesionNino(pin: String, tutorId: String): Flow<Resultado<Nino>> = flow {
+        emit(Resultado.Cargando)
+        try {
+            val nino = firestoreService.obtenerNinoPorPin(pin, tutorId)
                 ?: throw Exception("PIN no encontrado")
             emit(Resultado.Exito(nino))
         } catch (e: Exception) {

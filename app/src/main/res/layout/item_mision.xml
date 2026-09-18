@@ -78,6 +78,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Due date label -->
+        <TextView
+            android:id="@+id/tvFechaLimite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-rounded"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:textColor="@color/game_text_medium"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/tvXp"
+            app:layout_constraintStart_toEndOf="@id/ivCategoria"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoria" />
+
         <!-- Status chip -->
         <TextView
             android:id="@+id/tvEstado"
@@ -89,7 +105,20 @@
             android:textAppearance="?attr/textAppearanceLabelMedium"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/ivCategoria"
-            app:layout_constraintTop_toBottomOf="@id/tvCategoria" />
+            app:layout_constraintTop_toBottomOf="@id/tvFechaLimite" />
+
+        <!-- Evidence thumbnail -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivEvidencia"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tvEstado"
+            app:layout_constraintStart_toEndOf="@id/tvEstado"
+            app:layout_constraintTop_toTopOf="@id/tvEstado"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Game.Rounded12" />
 
         <!-- Complete button - 3D green -->
         <com.google.android.material.button.MaterialButton

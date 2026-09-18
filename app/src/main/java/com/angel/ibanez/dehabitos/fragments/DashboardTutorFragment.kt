@@ -90,6 +90,12 @@ class DashboardTutorFragment : Fragment() {
             }
         }
 
+        binding.btnEncuesta.setOnClickListener {
+            if (findNavController().currentDestination?.id == R.id.dashboardTutorFragment) {
+                findNavController().navigate(R.id.action_dashboardTutorFragment_to_encuestaSatisfaccionFragment)
+            }
+        }
+
         configurarCerrarSesion()
 
         ninoViewModel.listaNinosResultado.observe(viewLifecycleOwner) { resultado ->

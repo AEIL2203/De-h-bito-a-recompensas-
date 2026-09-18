@@ -1,26 +1,38 @@
 package com.angel.ibanez.dehabitos.services
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Intent
-import androidx.core.app.NotificationCompat
-import com.angel.ibanez.dehabitos.MainActivity
-import com.angel.ibanez.dehabitos.R
+import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
+import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.NotificacionesUtils
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class HabitosMessagingService : FirebaseMessagingService() {
-    override fun onMessageReceived(message: RemoteMessage) {
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(NotificationChannel(CANAL, "Uso de aplicaciones", NotificationManager.IMPORTANCE_DEFAULT))
-        val intent = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        val titulo = message.notification?.title ?: message.data["titulo"] ?: "Actividad de aplicaciones"
-        val cuerpo = message.notification?.body ?: message.data["cuerpo"] ?: "Hay nueva actividad"
-        manager.notify((message.messageId ?: System.currentTimeMillis().toString()).hashCode(), NotificationCompat.Builder(this, CANAL)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(titulo).setContentText(cuerpo).setAutoCancel(true).setContentIntent(intent).build())
+
+    private val alcance = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        val tutorId = DispositivoConfig.obtenerTutorId()
+        if (tutorId.isBlank()) return
+        val modo = if (DispositivoConfig.obtenerModo() == DispositivoConfig.ModoDispositivo.HIJO) "hijo" else "tutor"
+        val ninoId = if (modo == "hijo") DispositivoConfig.obtenerNinoId() else ""
+        alcance.launch {
+            runCatching { EstadisticasRepository().guardarToken(tutorId, token, ninoId, modo) }
+        }
     }
 
-    companion object { const val CANAL = "uso_apps" }
+    override fun onMessageReceived(message: RemoteMessage) {
+        NotificacionesUtils.crearCanales(this)
+        val canal = message.data["canal"] ?: NotificacionesUtils.CANAL_USO_APPS
+        val titulo = message.notification?.title ?: message.data["titulo"] ?: "Actividad de aplicaciones"
+        val cuerpo = message.notification?.body ?: message.data["cuerpo"] ?: "Hay nueva actividad"
+        NotificacionesUtils.notificar(
+            this, canal, titulo, cuerpo,
+            (message.messageId ?: System.currentTimeMillis().toString()).hashCode()
+        )
+    }
 }

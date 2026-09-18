@@ -1,6 +1,7 @@
 package com.angel.ibanez.dehabitos.repository
 
 import com.angel.ibanez.dehabitos.firebase.FirebaseFirestoreService
+import com.angel.ibanez.dehabitos.models.EncuestaSatisfaccion
 import com.angel.ibanez.dehabitos.models.EstadisticasNino
 import com.angel.ibanez.dehabitos.models.SesionApp
 import com.angel.ibanez.dehabitos.models.TokenFcm
@@ -12,15 +13,22 @@ class EstadisticasRepository(private val service: FirebaseFirestoreService = Fir
 
     suspend fun obtener(ninoId: String, desde: Long?): EstadisticasNino {
         val nino = service.obtenerNinoPorId(ninoId) ?: error("Niño no encontrado")
-        val tareas = service.obtenerTareasPorNino(ninoId).filter { desde == null || fechaMillis(it.fechaCompletada) >= desde }
-        val canjes = service.obtenerRecompensasPorNino(ninoId).filter { desde == null || it.fechaCanje >= desde }
-        val sesiones = service.obtenerSesionesPorNino(ninoId).filter { desde == null || it.inicio >= desde }
-        return EstadisticasUtils.agregar(nino, tareas, canjes, sesiones)
+        val tareas = service.obtenerTareasPorNino(ninoId)
+        val canjes = service.obtenerRecompensasPorNino(ninoId)
+        val sesiones = service.obtenerSesionesPorNino(ninoId)
+        val encuestas = runCatching { service.obtenerEncuestasPorNino(ninoId, nino.tutorId) }.getOrDefault(emptyList())
+        return EstadisticasUtils.agregar(
+            nino = nino,
+            tareas = tareas.filter { desde == null || EstadisticasUtils.fechaMillis(it.fechaCompletada) >= desde },
+            canjes = canjes.filter { desde == null || it.fechaCanje >= desde },
+            sesiones = sesiones.filter { desde == null || it.inicio >= desde },
+            semanas = EstadisticasUtils.resumenSemanal(tareas, canjes, sesiones),
+            encuestas = encuestas
+        )
     }
 
-    suspend fun guardarToken(tutorId: String, token: String) = service.guardarTokenTutor(TokenFcm(token, tutorId, System.currentTimeMillis()))
+    suspend fun guardarEncuesta(encuesta: EncuestaSatisfaccion) = service.guardarEncuesta(encuesta)
 
-    private fun fechaMillis(valor: String): Long = runCatching {
-        java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).parse(valor)?.time ?: 0
-    }.getOrDefault(0)
+    suspend fun guardarToken(tutorId: String, token: String, ninoId: String = "", modo: String = "tutor") =
+        service.guardarTokenTutor(TokenFcm(token, tutorId, System.currentTimeMillis(), ninoId = ninoId, modo = modo))
 }

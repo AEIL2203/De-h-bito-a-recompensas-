@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_dashboardTutorFragment_to_estadisticasNinoFragment"
             app:destination="@id/estadisticasNinoFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_encuestaSatisfaccionFragment"
+            app:destination="@id/encuestaSatisfaccionFragment" />
     </fragment>
 
     <fragment
@@ -115,6 +118,14 @@
         android:name="com.angel.ibanez.dehabitos.fragments.EstadisticasNinoFragment"
         android:label="Estadísticas"
         tools:layout="@layout/fragment_estadisticas_nino">
+        <argument android:name="ninoId" app:argType="string" android:defaultValue="" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/encuestaSatisfaccionFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.EncuestaSatisfaccionFragment"
+        android:label="Encuesta de satisfacción"
+        tools:layout="@layout/fragment_encuesta_satisfaccion">
         <argument android:name="ninoId" app:argType="string" android:defaultValue="" />
     </fragment>
 

@@ -1,5 +1,8 @@
 package com.angel.ibanez.dehabitos.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -11,8 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -23,12 +29,19 @@ import com.angel.ibanez.dehabitos.databinding.FragmentContenedorNinoBinding
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.AppsUtils
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
+import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
+import com.angel.ibanez.dehabitos.repository.TareaRepository
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.AuthTutorViewModel
 import com.angel.ibanez.dehabitos.viewmodels.DispositivoViewModel
+import com.angel.ibanez.dehabitos.models.Tarea
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 import com.angel.ibanez.dehabitos.viewmodels.RecompensaViewModel
+import com.angel.ibanez.dehabitos.viewmodels.TareaViewModel
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ContenedorNinoFragment : Fragment() {
 
@@ -39,6 +52,7 @@ class ContenedorNinoFragment : Fragment() {
     private val recompensaViewModel: RecompensaViewModel by viewModels()
     private val dispositivoViewModel: DispositivoViewModel by viewModels()
     private val authTutorViewModel: AuthTutorViewModel by viewModels()
+    private val tareaViewModel: TareaViewModel by viewModels()
     private lateinit var ninoId: String
     private var procesandoDesvinculacion = false
     private var catalogoHashPendiente: String? = null
@@ -47,6 +61,10 @@ class ContenedorNinoFragment : Fragment() {
     private var ultimaCantidadInsignias: Int? = null
     private var ultimasEstrellas: Int? = null
     private var pestanaActual: Int? = null
+    private var estadosAnteriores: Map<String, String>? = null
+    private val estadisticasRepository = EstadisticasRepository()
+    private val tareaRepository = TareaRepository()
+    private val permisoNotificaciones = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,6 +121,34 @@ class ContenedorNinoFragment : Fragment() {
         sincronizarCatalogoSiCorresponde()
         dispositivoViewModel.iniciarEscuchaDispositivo(DispositivoConfig.obtenerDeviceId())
         ninoViewModel.escucharNino(ninoId)
+        observarValidaciones()
+        tareaViewModel.escucharTareasPorNino(ninoId)
+        registrarTokenYPermisos()
+        asegurarMisionDiaria()
+    }
+
+    private fun registrarTokenYPermisos() {
+        if (ninoId.isBlank()) return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permisoNotificaciones.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        val tutorId = DispositivoConfig.obtenerTutorId()
+        if (tutorId.isBlank()) return
+        viewLifecycleOwner.lifecycleScope.launch {
+            runCatching {
+                estadisticasRepository.guardarToken(tutorId, FirebaseMessaging.getInstance().token.await(), ninoId, "hijo")
+            }
+        }
+    }
+
+    private fun asegurarMisionDiaria() {
+        val tutorId = DispositivoConfig.obtenerTutorId()
+        if (ninoId.isBlank() || tutorId.isBlank()) return
+        viewLifecycleOwner.lifecycleScope.launch {
+            runCatching { tareaRepository.asegurarMisionDiaria(ninoId, tutorId) }
+        }
     }
 
     private fun configurarNavegacionAnimada(navController: NavController, args: Bundle) {
@@ -219,6 +265,40 @@ class ContenedorNinoFragment : Fragment() {
                 findNavController().navigate(R.id.seleccionRolFragment, null, navOptions {
                     popUpTo(R.id.contenedorNinoFragment) { inclusive = true }
                 })
+            }
+        }
+    }
+
+    private fun observarValidaciones() {
+        tareaViewModel.listaTareasResultado.observe(viewLifecycleOwner) { resultado ->
+            if (resultado !is Resultado.Exito) return@observe
+            val tareas = resultado.data
+            val anteriores = estadosAnteriores
+            if (anteriores == null) {
+                estadosAnteriores = tareas.associate { it.id to it.estado }
+                return@observe
+            }
+            val recienValidadas = tareas.filter {
+                it.estado == Tarea.ESTADO_VALIDADA && anteriores[it.id] != null && anteriores[it.id] != Tarea.ESTADO_VALIDADA
+            }
+            estadosAnteriores = tareas.associate { it.id to it.estado }
+            when (recienValidadas.size) {
+                0 -> Unit
+                1 -> {
+                    val tarea = recienValidadas.first()
+                    AnimacionesUtils.mostrarCelebracion(
+                        binding.root,
+                        AnimacionesUtils.GIF_VALIDACION,
+                        "¡Misión validada!",
+                        "Tu tutor aprobó «${tarea.nombre}». +${tarea.puntos} XP"
+                    )
+                }
+                else -> AnimacionesUtils.mostrarCelebracion(
+                    binding.root,
+                    AnimacionesUtils.GIF_VALIDACION,
+                    "¡Misiones validadas!",
+                    "Se validaron todas tus misiones (+${recienValidadas.sumOf { it.puntos }} XP)"
+                )
             }
         }
     }

@@ -12,8 +12,8 @@ android {
         applicationId = "com.angel.ibanez.dehabitos"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.google.android.material)
     implementation(libs.glide)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(platform(libs.google.firebase.bom))

@@ -28,6 +28,9 @@ class NinoViewModel(
 
     private val _avatarResultado = MutableLiveData<Resultado<String>>()
     val avatarResultado: LiveData<Resultado<String>> = _avatarResultado
+    private val _eliminarResultado = MutableLiveData<Resultado<Unit>>()
+    val eliminarResultado: LiveData<Resultado<Unit>> = _eliminarResultado
+
     private var escuchaNino: ListenerRegistration? = null
 
     fun crearNino(nino: Nino) {
@@ -56,10 +59,10 @@ class NinoViewModel(
         }
     }
 
-    fun iniciarSesionNino(pin: String) {
+    fun iniciarSesionNino(pin: String, tutorId: String) {
         _loginNinoResultado.value = Resultado.Cargando
         viewModelScope.launch {
-            ninoRepository.iniciarSesionNino(pin).collect {
+            ninoRepository.iniciarSesionNino(pin, tutorId).collect {
                 _loginNinoResultado.value = it
             }
         }
@@ -70,6 +73,15 @@ class NinoViewModel(
         viewModelScope.launch {
             ninoRepository.obtenerNinoPorId(ninoId).collect {
                 _ninoResultado.value = it
+            }
+        }
+    }
+
+    fun eliminarNino(ninoId: String) {
+        _eliminarResultado.value = Resultado.Cargando
+        viewModelScope.launch {
+            ninoRepository.eliminarNino(ninoId).collect {
+                _eliminarResultado.value = it
             }
         }
     }

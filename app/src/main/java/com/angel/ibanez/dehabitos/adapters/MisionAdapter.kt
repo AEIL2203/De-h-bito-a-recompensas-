@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.ItemMisionBinding
 import com.angel.ibanez.dehabitos.models.Tarea
+import com.angel.ibanez.dehabitos.utils.FechasUtils
 import com.angel.ibanez.dehabitos.utils.IconosUtils
+import com.angel.ibanez.dehabitos.utils.ImagenesUtils
 import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 
 class MisionAdapter(
@@ -31,7 +33,7 @@ class MisionAdapter(
             val context = binding.root.context
 
             binding.tvNombreMision.text = tarea.nombre
-            binding.tvCategoria.text = ProgresionUtils.nombreCategoria(tarea.categoria)
+            binding.tvCategoria.text = (if (tarea.esDiaria) "☀️ Misión diaria · " else "") + ProgresionUtils.nombreCategoria(tarea.categoria)
             binding.tvXp.text = "+${tarea.puntos} XP"
             val colorIcono = when (tarea.categoria) {
                 "academica" -> R.color.game_blue_dark
@@ -49,6 +51,39 @@ class MisionAdapter(
                 else -> R.drawable.circle_game_green
             }
             binding.ivCategoria.setBackgroundResource(bgIcono)
+
+            if (tarea.estado == Tarea.ESTADO_PENDIENTE && tarea.fechaLimite.isNotBlank()) {
+                val corta = FechasUtils.formatearFechaCorta(tarea.fechaLimite)
+                when (FechasUtils.estadoVencimiento(tarea.fechaLimite)) {
+                    FechasUtils.EstadoVencimiento.VENCIDA -> {
+                        binding.tvFechaLimite.text = "⚠️ Atrasada ($corta)"
+                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_coral))
+                    }
+                    FechasUtils.EstadoVencimiento.VENCE_HOY -> {
+                        binding.tvFechaLimite.text = "⏰ ¡Vence hoy!"
+                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_yellow_dark))
+                    }
+                    else -> {
+                        binding.tvFechaLimite.text = "📅 Vence $corta"
+                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_text_medium))
+                    }
+                }
+                binding.tvFechaLimite.visibility = View.VISIBLE
+            } else {
+                binding.tvFechaLimite.visibility = View.GONE
+            }
+
+            if (tarea.evidencia.isNotBlank() && tarea.estado != Tarea.ESTADO_PENDIENTE) {
+                val bitmap = ImagenesUtils.decodificar(tarea.evidencia)
+                if (bitmap != null) {
+                    binding.ivEvidencia.setImageBitmap(bitmap)
+                    binding.ivEvidencia.visibility = View.VISIBLE
+                } else {
+                    binding.ivEvidencia.visibility = View.GONE
+                }
+            } else {
+                binding.ivEvidencia.visibility = View.GONE
+            }
 
             when (tarea.estado) {
                 Tarea.ESTADO_PENDIENTE -> {

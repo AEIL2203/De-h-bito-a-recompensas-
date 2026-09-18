@@ -7,15 +7,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.angel.ibanez.dehabitos.adapters.TareaValidarAdapter
 import com.angel.ibanez.dehabitos.databinding.FragmentValidarTareasBinding
 import com.angel.ibanez.dehabitos.models.Tarea
+import com.angel.ibanez.dehabitos.models.Validacion
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 import com.angel.ibanez.dehabitos.viewmodels.TareaViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ValidarTareasFragment : Fragment() {
 
@@ -25,6 +30,8 @@ class ValidarTareasFragment : Fragment() {
     private val ninoViewModel: NinoViewModel by viewModels()
 
     private var nombresNinos: Map<String, String> = emptyMap()
+    private val validacionesPendientes = mutableListOf<Validacion>()
+    private var jobCelebracion: Job? = null
     private val adapter = TareaValidarAdapter(
         nombresNinos = { nombresNinos },
         onValidar = { tarea -> tareaViewModel.validarTarea(tarea) },
@@ -73,49 +80,71 @@ class ValidarTareasFragment : Fragment() {
 
         tareaViewModel.validarResultado.observe(viewLifecycleOwner) { resultado ->
             when (resultado) {
-                is Resultado.Cargando -> binding.progressBar.visibility = View.VISIBLE
                 is Resultado.Exito -> {
                     binding.progressBar.visibility = View.GONE
-                    val nino = resultado.data
-                    AnimacionesUtils.mostrarCelebracion(
-                        binding.root,
-                        AnimacionesUtils.GIF_VALIDACION,
-                        "Misión validada",
-                        "${nino.nombre} tiene ${nino.experiencia} XP y alcanzó el nivel ${nino.nivel}."
-                    )
-                    recargar()
+                    validacionesPendientes.add(resultado.data)
+                    tareaViewModel.consumirValidar()
+                    jobCelebracion?.cancel()
+                    jobCelebracion = viewLifecycleOwner.lifecycleScope.launch {
+                        delay(1200)
+                        mostrarCelebracionValidaciones()
+                    }
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
+                    tareaViewModel.consumirValidar()
                 }
+                else -> {}
             }
         }
 
         tareaViewModel.rechazarResultado.observe(viewLifecycleOwner) { resultado ->
             when (resultado) {
-                is Resultado.Cargando -> binding.progressBar.visibility = View.VISIBLE
                 is Resultado.Exito -> {
-                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), "Misión devuelta a pendiente", Toast.LENGTH_SHORT).show()
-                    recargar()
+                    tareaViewModel.consumirRechazar()
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
+                    tareaViewModel.consumirRechazar()
                 }
+                else -> {}
             }
         }
 
-        recargar()
+        tareaViewModel.escucharTareasPorTutor(DispositivoConfig.obtenerTutorId())
         ninoViewModel.cargarNinosPorTutor(DispositivoConfig.obtenerTutorId())
     }
 
-    private fun recargar() {
-        tareaViewModel.cargarTareasPorTutor(DispositivoConfig.obtenerTutorId())
+    /** Muestra una única celebración para todas las validaciones acumuladas en el lote. */
+    private fun mostrarCelebracionValidaciones() {
+        val vista = _binding?.root ?: return
+        if (validacionesPendientes.isEmpty()) return
+        val ultima = validacionesPendientes.last()
+        if (validacionesPendientes.size == 1) {
+            AnimacionesUtils.mostrarCelebracion(
+                vista,
+                AnimacionesUtils.GIF_VALIDACION,
+                "Misión validada",
+                "\"${ultima.nombreTarea}\" fue aprobada: ${ultima.nino.nombre} ahora tiene ${ultima.nino.experiencia} XP y está en el nivel ${ultima.nino.nivel}."
+            )
+        } else {
+            AnimacionesUtils.mostrarCelebracion(
+                vista,
+                AnimacionesUtils.GIF_VALIDACION,
+                "Se validaron todas tus misiones",
+                "${validacionesPendientes.size} misiones aprobadas para ${ultima.nino.nombre}."
+            )
+        }
+        validacionesPendientes.clear()
     }
 
     override fun onDestroyView() {
+        jobCelebracion?.cancel()
+        jobCelebracion = null
+        validacionesPendientes.clear()
         super.onDestroyView()
         _binding = null
     }

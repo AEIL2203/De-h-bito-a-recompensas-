@@ -124,6 +124,26 @@
                         android:maxLength="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFechaLimite"
+                    style="@style/Widget.Game.Input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Fecha límite (opcional)"
+                    app:endIconMode="clear_text"
+                    app:boxStrokeColor="@color/game_green"
+                    app:hintTextColor="@color/game_text_medium">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaLimite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAsignar"
                     style="@style/Widget.Game.Button.Primary"

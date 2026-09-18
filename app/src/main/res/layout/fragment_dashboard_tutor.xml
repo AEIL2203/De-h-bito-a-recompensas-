@@ -129,6 +129,17 @@
                     android:text="Validar" />
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEncuesta"
+                style="@style/Widget.Habitos.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Encuesta de satisfacción"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filaTareas" />
+
             <TextView
                 android:id="@+id/tvMisNinos"
                 style="@style/Widget.Habitos.Text.Title"
@@ -138,7 +149,7 @@
                 android:text="Mis Niños"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/filaTareas" />
+                app:layout_constraintTop_toBottomOf="@id/btnEncuesta" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvNinos"

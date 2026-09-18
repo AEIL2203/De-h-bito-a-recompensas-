@@ -1,28 +1,44 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function autenticado() {
+      return request.auth != null;
+    }
+    function esTutor(data) {
+      return autenticado() && data.tutorId == request.auth.uid;
+    }
     function esTutorDelNino(ninoId) {
-      return request.auth != null
+      return autenticado()
         && get(/databases/$(database)/documents/ninos/$(ninoId)).data.tutorId == request.auth.uid;
     }
 
     match /tutores/{tutorId} {
-      allow read, write: if request.auth != null && request.auth.uid == tutorId;
+      allow read, write: if autenticado() && request.auth.uid == tutorId;
     }
+    // La lectura de ninos y tareas es solo para usuarios autenticados porque el
+    // dispositivo del hijo consulta por ninoId (sin tutorId) y las reglas de
+    // consulta no pueden verificar la propiedad en ese caso. La escritura sí
+    // queda restringida al tutor dueño.
     match /ninos/{ninoId} {
-      allow read: if true;
-      allow create, update, delete: if request.auth != null;
+      allow read: if autenticado();
+      allow create: if esTutor(request.resource.data);
+      allow update: if esTutor(resource.data) && request.resource.data.tutorId == resource.data.tutorId;
+      allow delete: if esTutor(resource.data);
     }
     match /tareas/{tareaId} {
-      allow read: if true;
-      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
-      allow update, delete: if request.auth != null;
+      allow read: if autenticado();
+      allow create: if esTutor(request.resource.data);
+      allow update: if esTutor(resource.data)
+        && request.resource.data.tutorId == resource.data.tutorId
+        && request.resource.data.ninoId == resource.data.ninoId;
+      allow delete: if esTutor(resource.data);
     }
     match /dispositivos/{dispositivoId} {
-      allow get: if request.auth != null && resource.data.tutorId == request.auth.uid;
-      allow list: if request.auth != null;
-      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
-      allow update: if request.auth != null && resource.data.tutorId == request.auth.uid;
+      allow get: if esTutor(resource.data);
+      allow list: if esTutor(resource.data);
+      allow create: if esTutor(request.resource.data);
+      allow update: if esTutor(resource.data);
+      allow delete: if esTutor(resource.data);
     }
     match /catalogo_apps/{appId} {
       allow read: if esTutorDelNino(resource.data.ninoId);
@@ -38,6 +54,7 @@ service cloud.firestore {
       allow read: if esTutorDelNino(resource.data.ninoId);
       allow create: if esTutorDelNino(request.resource.data.ninoId);
       allow update: if esTutorDelNino(resource.data.ninoId);
+      allow delete: if esTutorDelNino(resource.data.ninoId);
     }
     match /sesiones_apps/{sesionId} {
       allow read: if esTutorDelNino(resource.data.ninoId);
@@ -48,12 +65,18 @@ service cloud.firestore {
         && request.resource.data.ninoId == resource.data.ninoId
         && request.resource.data.tutorId == resource.data.tutorId
         && request.resource.data.packageName == resource.data.packageName;
+      allow delete: if esTutorDelNino(resource.data.ninoId);
+    }
+    match /encuestas_satisfaccion/{encuestaId} {
+      allow read: if esTutor(resource.data);
+      allow create: if esTutor(request.resource.data);
+      allow update: if false;
+      allow delete: if esTutor(resource.data);
     }
     match /tokens_fcm/{tokenId} {
-      allow create: if request.auth != null && request.resource.data.tutorId == request.auth.uid;
-      allow read, delete: if request.auth != null && resource.data.tutorId == request.auth.uid;
-      allow update: if request.auth != null && resource.data.tutorId == request.auth.uid
-        && request.resource.data.tutorId == request.auth.uid;
+      allow create: if esTutor(request.resource.data);
+      allow read, delete: if esTutor(resource.data);
+      allow update: if esTutor(resource.data) && request.resource.data.tutorId == request.auth.uid;
     }
   }
 }

@@ -4,5 +4,7 @@ data class TokenFcm(
     var token: String = "",
     var tutorId: String = "",
     var actualizadoEn: Long = 0,
-    var plataforma: String = "android"
+    var plataforma: String = "android",
+    var ninoId: String = "",
+    var modo: String = "tutor"
 )

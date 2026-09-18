@@ -102,11 +102,14 @@ class PremiosNinoFragment : Fragment() {
                     AnimacionesUtils.pulso(binding.tvEstrellas)
                     AnimacionesUtils.reproducirGifUnaVez(binding.ivMonedas)
                     ninoViewModel.cargarNinoPorId(ninoId)
+                    recompensaViewModel.consumirCanje()
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
+                    recompensaViewModel.consumirCanje()
                 }
+                else -> {}
             }
         }
 
