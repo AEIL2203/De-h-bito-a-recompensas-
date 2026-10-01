@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- === VARIANTES OSCURAS (MODO NOCHE) === -->
+
+    <!-- Primario: púrpura más claro para contraste sobre fondo oscuro -->
+    <color name="md_theme_primary">#C89BFF</color>
+    <color name="md_theme_onPrimary">#3D0066</color>
+    <color name="md_theme_primaryContainer">#5A2D8C</color>
+    <color name="md_theme_onPrimaryContainer">#F0D9FF</color>
+
+    <!-- Secundario: verde más claro -->
+    <color name="md_theme_secondary">#8FE15B</color>
+    <color name="md_theme_onSecondary">#1E4D00</color>
+    <color name="md_theme_secondaryContainer">#2E5B00</color>
+    <color name="md_theme_onSecondaryContainer">#D7F5B1</color>
+
+    <!-- Terciario: azul más claro -->
+    <color name="md_theme_tertiary">#7AD0FF</color>
+    <color name="md_theme_onTertiary">#003548</color>
+    <color name="md_theme_tertiaryContainer">#004D66</color>
+    <color name="md_theme_onTertiaryContainer">#DDF4FF</color>
+
+    <!-- Error -->
+    <color name="md_theme_error">#FF8A8A</color>
+    <color name="md_theme_onError">#690005</color>
+    <color name="md_theme_errorContainer">#93000A</color>
+    <color name="md_theme_onErrorContainer">#FFDAD6</color>
+
+    <!-- Fondos y superficies oscuras -->
+    <color name="md_theme_background">#141218</color>
+    <color name="md_theme_onBackground">#E6E0E9</color>
+    <color name="md_theme_surface">#1D1B22</color>
+    <color name="md_theme_onSurface">#E6E0E9</color>
+    <color name="md_theme_surfaceVariant">#36303F</color>
+    <color name="md_theme_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_outline">#938F99</color>
+    <color name="md_theme_outline_10">#1ACAC4D0</color>
+
+    <!-- Fondos suaves / gradientes en oscuro -->
+    <color name="soft_peach">#FF2A2118</color>
+    <color name="soft_lavender">#FF231B2E</color>
+    <color name="soft_cream">#FF16151A</color>
+
+    <color name="game_sky_bottom">#10161D</color>
+    <color name="game_sky_top">#1B3A52</color>
+    <color name="game_map_center">#16211A</color>
+
+    <color name="game_yellow_bg">#3D3400</color>
+    <color name="yellow_100">#FF3D3400</color>
+    <color name="amber_100">#FF3B2F00</color>
+    <color name="coral_100">#FF3B1410</color>
+    <color name="mint_100">#FF0E2A27</color>
+    <color name="purple_100">#FF241433</color>
+    <color name="rose_100">#FF311722</color>
+    <color name="turquoise_100">#FF0E3332</color>
+
+    <color name="game_card_border">#3A3A42</color>
+    <color name="game_locked">#5A5A5A</color>
+
+    <!-- Colores de acento para texto e iconos sobre fondos oscuros -->
+    <color name="game_purple_dark">#D8B4FE</color>
+    <color name="game_yellow_dark">#FFE44D</color>
+    <color name="game_blue_dark">#4FC3F7</color>
+    <color name="game_green_dark">#7FFF33</color>
+    <color name="game_pink_dark">#FF85A1</color>
+    <color name="game_orange_dark">#FFB74D</color>
+    <color name="purple_700">#C89BFF</color>
+
+    <!-- Texto juego en oscuro -->
+    <color name="game_text_dark">#E6E0E9</color>
+    <color name="game_text_medium">#A8A8B0</color>
+    <color name="child_nav_background">#24202A</color>
+    <color name="child_nav_selected">#4B3561</color>
+    <color name="child_nav_icon">#D8CCE2</color>
+    <color name="child_nav_selected_text">#E0B8FF</color>
+</resources>

@@ -281,28 +281,10 @@ class GameMapView @JvmOverloads constructor(
         paint.textSize = 18f * scale
         paint.color = Color.WHITE
         canvas.drawText(level.toString(), x, y + 6f * scale, paint)
-        repeat(3) { star ->
-            val active = level <= currentLevel
-            drawStar(canvas, x + (star - 1) * 12f * scale, y + 23f * scale, 5.5f * scale, active)
-        }
         if (level > currentLevel + 3) {
             paint.color = Color.argb(120, 60, 48, 69)
             canvas.drawCircle(x, y, radius, paint)
         }
-    }
-
-    private fun drawStar(canvas: Canvas, cx: Float, cy: Float, radius: Float, active: Boolean) {
-        val star = Path()
-        repeat(10) { index ->
-            val angle = Math.toRadians(-90.0 + index * 36.0)
-            val r = if (index % 2 == 0) radius else radius * .45f
-            val x = cx + cos(angle).toFloat() * r
-            val y = cy + sin(angle).toFloat() * r
-            if (index == 0) star.moveTo(x, y) else star.lineTo(x, y)
-        }
-        star.close()
-        paint.color = if (active) Color.rgb(255, 195, 45) else Color.rgb(207, 190, 199)
-        canvas.drawPath(star, paint)
     }
 
     private fun drawWorlds(canvas: Canvas, h: Float, scale: Float) {

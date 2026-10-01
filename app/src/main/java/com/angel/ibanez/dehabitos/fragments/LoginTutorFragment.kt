@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentLoginTutorBinding
+import com.angel.ibanez.dehabitos.firebase.GoogleAuthClient
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.AuthTutorViewModel
+import kotlinx.coroutines.launch
 
 class LoginTutorFragment : Fragment() {
 
@@ -32,6 +36,9 @@ class LoginTutorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnMostrarLoginManual.setOnClickListener { mostrarFormularioManual(true) }
+        binding.btnVolverOpciones.setOnClickListener { mostrarFormularioManual(false) }
+
         binding.btnIniciarSesion.setOnClickListener {
             val correo = binding.etCorreo.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -40,6 +47,21 @@ class LoginTutorFragment : Fragment() {
                 viewModel.iniciarSesionTutor(correo, password)
             } else {
                 Toast.makeText(requireContext(), "Ingresa correo y contraseña", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.btnGoogle.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    mostrarCarga(true)
+                    val idToken = GoogleAuthClient(requireActivity()).obtenerIdToken()
+                    viewModel.iniciarSesionGoogle(idToken)
+                } catch (_: GetCredentialCancellationException) {
+                    mostrarCarga(false)
+                } catch (e: Exception) {
+                    mostrarCarga(false)
+                    Toast.makeText(requireContext(), e.message ?: "No se pudo abrir Google", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
@@ -78,7 +100,7 @@ class LoginTutorFragment : Fragment() {
                 val ninoId = DispositivoConfig.obtenerNinoId()
                 if (ninoId.isNotBlank()) {
                     val bundle = Bundle().apply { putString("ninoId", ninoId) }
-                    findNavController().navigate(R.id.loginNinoFragment, bundle)
+                    findNavController().navigate(R.id.contenedorNinoFragment, bundle)
                 } else {
                     findNavController().navigate(R.id.seleccionRolFragment)
                 }
@@ -89,9 +111,22 @@ class LoginTutorFragment : Fragment() {
         }
     }
 
+    private fun mostrarFormularioManual(mostrar: Boolean) {
+        binding.containerOpcionesLogin.visibility = if (mostrar) View.GONE else View.VISIBLE
+        binding.containerLoginManual.visibility = if (mostrar) View.VISIBLE else View.GONE
+        binding.tvSubtitulo.text = if (mostrar) "Acceso manual" else "Elige cómo quieres iniciar sesión"
+        val contenido = if (mostrar) binding.containerLoginManual else binding.containerOpcionesLogin
+        contenido.alpha = 0f
+        contenido.translationY = 16f
+        contenido.animate().alpha(1f).translationY(0f).setDuration(220).start()
+    }
+
     private fun mostrarCarga(mostrar: Boolean) {
         binding.progressBar.visibility = if (mostrar) View.VISIBLE else View.GONE
         binding.btnIniciarSesion.isEnabled = !mostrar
+        binding.btnMostrarLoginManual.isEnabled = !mostrar
+        binding.btnVolverOpciones.isEnabled = !mostrar
+        binding.btnGoogle.isEnabled = !mostrar
     }
 
     override fun onDestroyView() {

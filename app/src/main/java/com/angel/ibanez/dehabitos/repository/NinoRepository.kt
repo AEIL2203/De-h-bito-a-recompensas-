@@ -1,6 +1,8 @@
 package com.angel.ibanez.dehabitos.repository
 
+import com.angel.ibanez.dehabitos.data.local.LocalCacheManager
 import com.angel.ibanez.dehabitos.firebase.FirebaseFirestoreService
+import com.angel.ibanez.dehabitos.models.HorarioSueno
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.google.firebase.firestore.ListenerRegistration
@@ -18,6 +20,16 @@ class NinoRepository(
             emit(Resultado.Exito(nino))
         } catch (e: Exception) {
             emit(Resultado.Error(e.message ?: "Error desconocido"))
+        }
+    }
+
+    fun actualizarHorarioSueno(ninoId: String, horario: HorarioSueno): Flow<Resultado<Unit>> = flow {
+        emit(Resultado.Cargando)
+        try {
+            firestoreService.actualizarHorarioSueno(ninoId, horario)
+            emit(Resultado.Exito(Unit))
+        } catch (e: Exception) {
+            emit(Resultado.Error(e.message ?: "No se pudo guardar el horario"))
         }
     }
 
@@ -46,9 +58,12 @@ class NinoRepository(
         try {
             val nino = firestoreService.obtenerNinoPorId(ninoId)
                 ?: throw Exception("Niño no encontrado")
+            LocalCacheManager.guardarNino(nino)
             emit(Resultado.Exito(nino))
         } catch (e: Exception) {
-            emit(Resultado.Error(e.message ?: "Error desconocido"))
+            LocalCacheManager.obtenerNino(ninoId)?.let {
+                emit(Resultado.Exito(it))
+            } ?: emit(Resultado.Error(e.message ?: "Error desconocido"))
         }
     }
 
@@ -57,7 +72,10 @@ class NinoRepository(
         onResultado: (Resultado<Nino>) -> Unit
     ): ListenerRegistration = firestoreService.escucharNino(
         ninoId,
-        { onResultado(Resultado.Exito(it)) },
+        {
+            LocalCacheManager.guardarNino(it)
+            onResultado(Resultado.Exito(it))
+        },
         { onResultado(Resultado.Error(it)) }
     )
 

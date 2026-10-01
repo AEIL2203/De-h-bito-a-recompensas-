@@ -11,8 +11,7 @@ import com.angel.ibanez.dehabitos.utils.IconosUtils
 
 class NivelMapaAdapter(
     private val nivelActual: Int,
-    private val nivelMaximo: Int,
-    private val nivelesConLogro: Set<Int> = setOf(5, 10, 15, 20)
+    private val nivelMaximo: Int
 ) : RecyclerView.Adapter<NivelMapaAdapter.NivelViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NivelViewHolder {
@@ -73,12 +72,6 @@ class NivelMapaAdapter(
                 }
             }
 
-            val tieneLogro = nivel in nivelesConLogro
-            binding.ivLogro.visibility = if (tieneLogro) View.VISIBLE else View.GONE
-            if (tieneLogro) {
-                val icono = if (nivel <= nivelActual) "gmr-grade" else "gmr-star-border"
-                binding.ivLogro.icon = IconosUtils.crearIcono(context, icono, R.color.game_yellow, 32)
-            }
         }
 
         private fun getBiasForPosition(pos: Int): Float {

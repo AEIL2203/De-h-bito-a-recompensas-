@@ -40,6 +40,26 @@ class AuthTutorViewModel(
         }
     }
 
+    fun iniciarSesionGoogle(idToken: String) {
+        _loginResultado.value = Resultado.Cargando
+        viewModelScope.launch {
+            tutorRepository.iniciarSesionGoogle(idToken).collect {
+                _loginResultado.value = it
+            }
+        }
+    }
+
+    fun usaCuentaGoogle(): Boolean = tutorRepository.usaCuentaGoogle()
+
+    fun validarCuentaGoogle(idToken: String, tutorId: String) {
+        _validarPasswordResultado.value = Resultado.Cargando
+        viewModelScope.launch {
+            tutorRepository.validarCuentaGoogle(idToken, tutorId).collect {
+                _validarPasswordResultado.value = it
+            }
+        }
+    }
+
     fun validarPasswordTutor(password: String) {
         _validarPasswordResultado.value = Resultado.Cargando
         viewModelScope.launch {

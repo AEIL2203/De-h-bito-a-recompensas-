@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -11,23 +12,28 @@ object ProgramadorTrabajos {
 
     private const val TRABAJO_RECORDATORIO = "recordatorio_diario"
     private const val TRABAJO_MISION = "mision_diaria"
-    private const val HORA_RECORDATORIO = 17
-    private const val HORA_MISION = 7
 
     fun programar(context: Context) {
         val workManager = WorkManager.getInstance(context)
+        if (!DispositivoConfig.notificacionesHabilitadas()) {
+            workManager.cancelUniqueWork(TRABAJO_RECORDATORIO)
+            workManager.cancelUniqueWork(TRABAJO_MISION)
+            return
+        }
+        val horaRecordatorio = DispositivoConfig.obtenerHoraNotificacionTutor()
+        val horaMision = DispositivoConfig.obtenerHoraNotificacionHijo()
         workManager.enqueueUniquePeriodicWork(
             TRABAJO_RECORDATORIO,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             PeriodicWorkRequestBuilder<RecordatorioWorker>(24, TimeUnit.HOURS)
-                .setInitialDelay(retrasoHasta(HORA_RECORDATORIO), TimeUnit.MILLISECONDS)
+                .setInitialDelay(retrasoHasta(horaRecordatorio), TimeUnit.MILLISECONDS)
                 .build()
         )
         workManager.enqueueUniquePeriodicWork(
             TRABAJO_MISION,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             PeriodicWorkRequestBuilder<MisionDiariaWorker>(24, TimeUnit.HOURS)
-                .setInitialDelay(retrasoHasta(HORA_MISION), TimeUnit.MILLISECONDS)
+                .setInitialDelay(retrasoHasta(horaMision), TimeUnit.MILLISECONDS)
                 .build()
         )
     }

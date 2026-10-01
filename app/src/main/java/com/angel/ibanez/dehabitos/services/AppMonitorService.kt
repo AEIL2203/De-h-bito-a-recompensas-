@@ -3,6 +3,7 @@ package com.angel.ibanez.dehabitos.services
 import android.accessibilityservice.AccessibilityService
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
+import android.os.Build
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,13 +11,18 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
+import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.models.Recompensa
 import com.angel.ibanez.dehabitos.models.SesionApp
 import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
 import java.util.UUID
 import com.angel.ibanez.dehabitos.repository.RecompensaRepository
+import com.angel.ibanez.dehabitos.utils.AppsUtils
 import com.angel.ibanez.dehabitos.utils.ConsumoRecompensas
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.HorarioSuenoUtils
+import com.angel.ibanez.dehabitos.utils.NotificacionesUtils
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +41,7 @@ class AppMonitorService : AccessibilityService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var listenerApps: ListenerRegistration? = null
     private var listenerRecompensas: ListenerRegistration? = null
+    private var listenerNino: ListenerRegistration? = null
     private val appsPermitidas = mutableSetOf<String>()
     private val datosApps = mutableMapOf<String, Pair<String, String>>()
     private var sesionActiva: SesionApp? = null
@@ -43,9 +50,14 @@ class AppMonitorService : AccessibilityService() {
     private val consumosConfirmados = mutableMapOf<String, Long>()
     private var ninoIdEscuchando = ""
     private var paqueteEnPrimerPlano: String? = null
+    private var horarioSueno: com.angel.ibanez.dehabitos.models.HorarioSueno? = null
     private var ultimoTick = 0L
     private var monitorJob: Job? = null
     private var sincronizando = false
+    private var paqueteNotificado5Min: String? = null
+
+    private val umbral5Min = 5 * 60 * 1000L
+    private val idNotificacion5Min = 1001
 
     private var launcherPackageName: String? = null
     private val essentialPackages = setOf(
@@ -111,6 +123,11 @@ class AppMonitorService : AccessibilityService() {
             },
             onError = { Log.e("AppMonitor", "No se pudieron cargar las recompensas", it) }
         )
+        listenerNino = FirebaseFirestore.getInstance().collection("ninos").document(ninoId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null || snapshot == null || !snapshot.exists()) return@addSnapshotListener
+                horarioSueno = snapshot.toObject(Nino::class.java)?.horarioSueno
+            }
     }
 
     private fun iniciarMonitor() {
@@ -128,14 +145,28 @@ class AppMonitorService : AccessibilityService() {
                 val paquete = paqueteEnPrimerPlano
                 if (paquete != null && appsPermitidas.contains(paquete)) {
                     desdeSincronizacion += transcurrido
-                    if (!tieneTiempo(paquete)) {
+                    val esHorarioSueno = HorarioSuenoUtils.estaEnHorarioSueno(horarioSueno)
+                    val msDisponibles = tiempoDisponible(paquete)
+                    if (esHorarioSueno) {
                         finalizarSesionActiva()
                         paqueteEnPrimerPlano = null
-                        mostrarBloqueo(paquete)
+                        mostrarMensajeHorarioSueno(paquete)
                         sincronizarConsumoSeguro()
-                    } else if (desdeSincronizacion >= INTERVALO_SINCRONIZACION_MS) {
-                        sincronizarConsumoSeguro()
-                        desdeSincronizacion = 0
+                    } else {
+                        if (msDisponibles > umbral5Min) paqueteNotificado5Min = null
+                        if (msDisponibles in 1..umbral5Min && paquete != paqueteNotificado5Min) {
+                            notificarPocoTiempo(paquete, msDisponibles)
+                            paqueteNotificado5Min = paquete
+                        }
+                        if (!tieneTiempo(paquete)) {
+                            finalizarSesionActiva()
+                            paqueteEnPrimerPlano = null
+                            mostrarBloqueo(paquete)
+                            sincronizarConsumoSeguro()
+                        } else if (desdeSincronizacion >= INTERVALO_SINCRONIZACION_MS) {
+                            sincronizarConsumoSeguro()
+                            desdeSincronizacion = 0
+                        }
                     }
                 }
             }
@@ -212,8 +243,9 @@ class AppMonitorService : AccessibilityService() {
             paqueteEnPrimerPlano = nuevoPaquete
             ultimoTick = SystemClock.elapsedRealtime()
 
-            // Iniciar sesión si está permitida y tiene tiempo
-            if (appsPermitidas.contains(nuevoPaquete) && tieneTiempo(nuevoPaquete)) {
+            val esHorarioSueno = HorarioSuenoUtils.estaEnHorarioSueno(horarioSueno)
+            // Iniciar sesión si está permitida, tiene tiempo y no es horario de sueño
+            if (appsPermitidas.contains(nuevoPaquete) && tieneTiempo(nuevoPaquete) && !esHorarioSueno) {
                 iniciarSesion(ninoId, nuevoPaquete)
             }
         }
@@ -221,17 +253,19 @@ class AppMonitorService : AccessibilityService() {
         // Evaluación de bloqueo
         val esAppPermitida = appsPermitidas.contains(nuevoPaquete)
         val msDisponibles = tiempoDisponible(nuevoPaquete)
+        val esHorarioSueno = HorarioSuenoUtils.estaEnHorarioSueno(horarioSueno)
 
-        Log.d("AppMonitor", "Evaluando $nuevoPaquete: Permitida=$esAppPermitida, TiempoRestante=$msDisponibles")
+        Log.d("AppMonitor", "Evaluando $nuevoPaquete: Permitida=$esAppPermitida, TiempoRestante=$msDisponibles, Sueno=$esHorarioSueno")
 
-        if (!esAppPermitida || msDisponibles <= 0) {
+        if (!esAppPermitida || msDisponibles <= 0 || esHorarioSueno) {
             Log.w("AppMonitor", "BLOQUEO ACTIVADO para $nuevoPaquete")
             finalizarSesionActiva()
             paqueteEnPrimerPlano = null
-            mostrarBloqueo(nuevoPaquete)
+            if (esHorarioSueno && esAppPermitida) mostrarMensajeHorarioSueno(nuevoPaquete) else mostrarBloqueo(nuevoPaquete)
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun obtenerPaqueteEnPrimerPlano(): String? {
         rootInActiveWindow?.packageName?.toString()?.let { return it }
         val fin = System.currentTimeMillis()
@@ -240,7 +274,7 @@ class AppMonitorService : AccessibilityService() {
         var paquete: String? = null
         while (eventos.hasNextEvent()) {
             eventos.getNextEvent(evento)
-            if (evento.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) paquete = evento.packageName
+            if (evento.eventType == if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) UsageEvents.Event.ACTIVITY_RESUMED else UsageEvents.Event.MOVE_TO_FOREGROUND) paquete = evento.packageName
         }
         return paquete
     }
@@ -304,7 +338,8 @@ class AppMonitorService : AccessibilityService() {
     private fun iniciarSesion(ninoId: String, packageName: String) {
         if (sesionActiva?.packageName == packageName) return
         val datos = datosApps[packageName] ?: return
-        val sesion = SesionApp(UUID.randomUUID().toString(), ninoId, datos.second, packageName, datos.first, System.currentTimeMillis())
+        val nombre = AppsUtils.obtenerNombreApp(this, packageName, datos.first)
+        val sesion = SesionApp(UUID.randomUUID().toString(), ninoId, datos.second, packageName, nombre, System.currentTimeMillis())
         sesionActiva = sesion
         scope.launch { runCatching { estadisticasRepository.iniciarSesion(sesion) }.onFailure { Log.e("AppMonitor", "No se pudo iniciar sesión", it) } }
     }
@@ -317,9 +352,31 @@ class AppMonitorService : AccessibilityService() {
     }
 
     private fun mostrarBloqueo(packageName: String) {
-        val nombreApp = datosApps[packageName]?.first ?: packageName
+        val nombreGuardado = datosApps[packageName]?.first
+        val nombreApp = AppsUtils.obtenerNombreApp(this, packageName, nombreGuardado)
         performGlobalAction(GLOBAL_ACTION_HOME)
         Toast.makeText(this, "Canjea tiempo para usar $nombreApp", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarMensajeHorarioSueno(packageName: String) {
+        val nombreGuardado = datosApps[packageName]?.first
+        val nombreApp = AppsUtils.obtenerNombreApp(this, packageName, nombreGuardado)
+        performGlobalAction(GLOBAL_ACTION_HOME)
+        Toast.makeText(this, "$nombreApp no está disponible: es horario de sueño", Toast.LENGTH_LONG).show()
+    }
+
+    private fun notificarPocoTiempo(packageName: String, msDisponibles: Long) {
+        NotificacionesUtils.crearCanales(this)
+        val nombreGuardado = datosApps[packageName]?.first
+        val nombreApp = AppsUtils.obtenerNombreApp(this, packageName, nombreGuardado)
+        val minutos = (msDisponibles / 60000).toInt()
+        NotificacionesUtils.notificar(
+            this,
+            NotificacionesUtils.CANAL_USO_APPS,
+            "Te quedan $minutos minutos",
+            "Tu tiempo para usar $nombreApp está por acabarse. Canjea más minutos si lo necesitas.",
+            idNotificacion5Min
+        )
     }
 
     override fun onInterrupt() {}
@@ -329,6 +386,7 @@ class AppMonitorService : AccessibilityService() {
         finalizarSesionActiva()
         listenerApps?.remove()
         listenerRecompensas?.remove()
+        listenerNino?.remove()
         val pendientes = consumosPendientes.toMap()
         if (pendientes.isNotEmpty()) CoroutineScope(Dispatchers.IO).launch {
             repository.consumirRecompensas(pendientes)

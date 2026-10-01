@@ -93,6 +93,10 @@ class FirebaseFirestoreService {
         db.collection(COLECCION_NINOS).document(ninoId).update("avatar", avatar).esperarOEncolar()
     }
 
+    suspend fun actualizarHorarioSueno(ninoId: String, horario: com.angel.ibanez.dehabitos.models.HorarioSueno) {
+        db.collection(COLECCION_NINOS).document(ninoId).update("horarioSueno", horario).esperarOEncolar()
+    }
+
     suspend fun obtenerNinoPorId(ninoId: String): Nino? {
         val documento = db.collection(COLECCION_NINOS).document(ninoId).obtenerConRespaldo()
         return documento.toObject(Nino::class.java)?.let { compensarEstrellasAnteriores(it) }
@@ -153,7 +157,9 @@ class FirebaseFirestoreService {
         val consulta = db.collection(COLECCION_DISPOSITIVOS)
             .whereEqualTo("tutorId", tutorId)
             .obtenerConRespaldo()
-        return consulta.toObjects(Dispositivo::class.java)
+        return consulta.documents.mapNotNull { documento ->
+            documento.toObject(Dispositivo::class.java)?.copy(id = documento.id)
+        }
     }
 
     suspend fun actualizarDesbloqueo(dispositivoId: String, desbloqueado: Boolean) {

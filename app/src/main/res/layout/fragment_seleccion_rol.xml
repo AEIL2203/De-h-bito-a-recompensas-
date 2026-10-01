@@ -1,157 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/tvEmoji"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/circle_turquoise"
-        android:backgroundTint="?attr/colorPrimaryContainer"
-        app:iiv_color="?attr/colorPrimary"
-        app:iiv_icon="gmr-auto-awesome"
-        app:iiv_size="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTitulo"
-        style="@style/Widget.Habitos.Text.Headline"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="¿Quién eres?"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
+        android:padding="24dp">
 
-    <TextView
-        style="@style/Widget.Habitos.Text.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Elige tu modo para comenzar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardTutor"
-        style="@style/Widget.Habitos.Card.Primary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp">
+        <FrameLayout
+            android:id="@+id/tvEmoji"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/circle_turquoise"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/circle_turquoise"
-                android:backgroundTint="?attr/colorSurface"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 app:iiv_color="?attr/colorPrimary"
-                app:iiv_icon="gmr-supervisor-account"
-                app:iiv_size="44dp" />
+                app:iiv_icon="gmr-family-restroom"
+                app:iiv_size="40dp" />
+        </FrameLayout>
 
-            <TextView
-                style="@style/Widget.Habitos.Text.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Soy Tutor"
-                android:textColor="?attr/colorOnPrimaryContainer" />
-
-            <TextView
-                style="@style/Widget.Habitos.Text.Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Gestiona y acompaña"
-                android:textColor="?attr/colorOnPrimaryContainer"
-                android:alpha="0.8" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSoyTutor"
-                style="@style/Widget.Habitos.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Entrar como Tutor" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardNino"
-        style="@style/Widget.Habitos.Card.Secondary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardTutor">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvTitulo"
+            style="@style/Widget.Habitos.Text.Headline"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:layout_marginTop="20dp"
+            android:text="¿Quién eres?"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
 
-            <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/circle_turquoise"
-                android:backgroundTint="?attr/colorSurface"
-                app:iiv_color="?attr/colorSecondary"
-                app:iiv_icon="gmr-toys"
-                app:iiv_size="44dp" />
+        <TextView
+            android:id="@+id/tvSubtitulo"
+            style="@style/Widget.Habitos.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Elige tu modo para comenzar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
 
-            <TextView
-                style="@style/Widget.Habitos.Text.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Soy Niño"
-                android:textColor="?attr/colorOnSecondaryContainer" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTutor"
+            style="@style/Widget.Habitos.Card.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitulo">
 
-            <TextView
-                style="@style/Widget.Habitos.Text.Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Entra con tu PIN y juega"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                android:alpha="0.8" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSoyNino"
-                style="@style/Widget.Habitos.Button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="?attr/colorSecondary"
-                android:text="¡A jugar!" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/circle_turquoise"
+                    android:backgroundTint="?attr/colorSurface"
+                    app:iiv_color="?attr/colorPrimary"
+                    app:iiv_icon="gmr-supervisor-account"
+                    app:iiv_size="36dp" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Soy Tutor"
+                    android:textColor="?attr/colorOnPrimaryContainer" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.8"
+                    android:text="Gestiona y acompaña"
+                    android:textColor="?attr/colorOnPrimaryContainer" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSoyTutor"
+                    style="@style/Widget.Habitos.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Entrar como Tutor" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNino"
+            style="@style/Widget.Habitos.Card.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardTutor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/circle_turquoise"
+                    android:backgroundTint="?attr/colorSurface"
+                    app:iiv_color="?attr/colorSecondary"
+                    app:iiv_icon="gmr-toys"
+                    app:iiv_size="36dp" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Soy Niño"
+                    android:textColor="?attr/colorOnSecondaryContainer" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.8"
+                    android:text="Entra con tu PIN y juega"
+                    android:textColor="?attr/colorOnSecondaryContainer" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSoyNino"
+                    style="@style/Widget.Habitos.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:text="¡A jugar!" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardNino" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

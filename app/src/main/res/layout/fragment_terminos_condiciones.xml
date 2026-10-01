@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#269B5DE5"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="18dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/circle_soft"
+                    android:backgroundTint="#269B5DE5"
+                    app:iiv_color="?attr/colorOnPrimaryContainer"
+                    app:iiv_icon="gmr-handshake"
+                    app:iiv_size="28dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Términos y condiciones"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Transparencia y seguridad"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnPrimaryContainer" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCondiciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#339B5DE5"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/headerCondiciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_soft"
+                        android:backgroundTint="#269B5DE5"
+                        app:iiv_color="?attr/colorPrimary"
+                        app:iiv_icon="gmr-rule"
+                        app:iiv_size="23dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="Condiciones de uso"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/arrowCondiciones"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:iiv_color="?attr/colorOnSurfaceVariant"
+                        app:iiv_icon="gmr-expand-more"
+                        app:iiv_size="22dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contentCondiciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="22dp"
+                    android:text="Esta aplicación ayuda a tutores y niños a organizar hábitos, misiones y recompensas. El tutor es responsable de crear perfiles, asignar actividades, validar evidencias y configurar el uso permitido de aplicaciones.\n\nEl servicio debe utilizarse con supervisión adulta, respeto y objetivos adecuados para la edad. No se permite utilizarlo para castigar, intimidar, vigilar de forma abusiva ni solicitar información innecesaria al menor.\n\nAl utilizar la aplicación, el tutor acepta estas condiciones y se responsabiliza de informar al niño de manera comprensible sobre el funcionamiento del sistema."
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPrivacidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#2658CC02"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/headerPrivacidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_soft"
+                        android:backgroundTint="#2658CC02"
+                        app:iiv_color="?attr/colorSecondary"
+                        app:iiv_icon="gmr-lock"
+                        app:iiv_size="23dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="Privacidad y tus datos"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/arrowPrivacidad"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:iiv_color="?attr/colorOnSurfaceVariant"
+                        app:iiv_icon="gmr-expand-more"
+                        app:iiv_size="22dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contentPrivacidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="22dp"
+                    android:text="La aplicación utiliza únicamente los datos necesarios para funcionar: cuenta del tutor, perfiles infantiles, misiones, puntos, recompensas, dispositivos vinculados, estadísticas de uso y evidencias opcionales.\n\nEl tutor puede consultar y eliminar los datos asociados a un niño. Las fotografías de evidencia deben evitar información sensible, documentos, ubicaciones, rostros de terceros o contenido privado innecesario.\n\nLas credenciales no deben compartirse. El tutor debe revisar qué dispositivos permanecen vinculados y desvincular aquellos que ya no utilice."
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSeguridad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#261CB0F6"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/headerSeguridad"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_soft"
+                        android:backgroundTint="#261CB0F6"
+                        app:iiv_color="?attr/colorTertiary"
+                        app:iiv_icon="gmr-verified-user"
+                        app:iiv_size="23dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="Seguridad del sistema"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/arrowSeguridad"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:iiv_color="?attr/colorOnSurfaceVariant"
+                        app:iiv_icon="gmr-expand-more"
+                        app:iiv_size="22dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contentSeguridad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="22dp"
+                    android:text="El acceso del tutor está protegido mediante autenticación. Los permisos de uso, accesibilidad y notificaciones se solicitan exclusivamente para las funciones de control parental y avisos.\n\nProtege tu contraseña, mantén la aplicación actualizada y revisa regularmente los dispositivos vinculados. Si detectas actividad inesperada, cambia tus credenciales, cierra la sesión y revisa la configuración.\n\nNingún sistema ofrece seguridad absoluta. La supervisión activa del tutor sigue siendo necesaria."
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardProyecto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#26FF8A65"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/headerProyecto"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_soft"
+                        android:backgroundTint="#26FF8A65"
+                        app:iiv_color="@color/game_coral"
+                        app:iiv_icon="gmr-lightbulb"
+                        app:iiv_size="23dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="Proyecto estudiantil"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/arrowProyecto"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:iiv_color="?attr/colorOnSurfaceVariant"
+                        app:iiv_icon="gmr-expand-more"
+                        app:iiv_size="22dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contentProyecto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="22dp"
+                    android:text="“De Hábitos a Recompensas” es un proyecto académico desarrollado con fines educativos. Su objetivo es demostrar una solución tecnológica de apoyo familiar mediante hábitos, gamificación y control parental responsable.\n\nLa aplicación no reemplaza asesoría médica, psicológica, pedagógica o legal y no garantiza por sí sola cambios de conducta. Las decisiones sobre límites, recompensas y uso del dispositivo corresponden al tutor.\n\nLas funciones pueden evolucionar como parte del proceso académico y técnico del proyecto."
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

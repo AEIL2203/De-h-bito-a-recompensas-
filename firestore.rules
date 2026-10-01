@@ -11,6 +11,20 @@ service cloud.firestore {
       return autenticado()
         && get(/databases/$(database)/documents/ninos/$(ninoId)).data.tutorId == request.auth.uid;
     }
+    function esTutorDelDispositivo(deviceId) {
+      return autenticado()
+        && get(/databases/$(database)/documents/dispositivos/$(deviceId)).data.tutorId == request.auth.uid;
+    }
+    // Documentos del hijo que pueden identificarse por ninoId, deviceId o
+    // tutorId segun la version de la app que los creo. Cada campo se valida
+    // solo si existe para no rechazar documentos antiguos.
+    function esTutorDeDatoNino(data) {
+      return autenticado() && (
+        (data.keys().hasAll(['ninoId']) && esTutorDelNino(data.ninoId))
+        || (data.keys().hasAll(['deviceId']) && esTutorDelDispositivo(data.deviceId))
+        || (data.keys().hasAll(['tutorId']) && data.tutorId == request.auth.uid)
+      );
+    }
 
     match /tutores/{tutorId} {
       allow read, write: if autenticado() && request.auth.uid == tutorId;
@@ -34,21 +48,17 @@ service cloud.firestore {
       allow delete: if esTutor(resource.data);
     }
     match /dispositivos/{dispositivoId} {
-      allow get: if esTutor(resource.data);
-      allow list: if esTutor(resource.data);
-      allow create: if esTutor(request.resource.data);
-      allow update: if esTutor(resource.data);
-      allow delete: if esTutor(resource.data);
+      allow get, list: if esTutorDeDatoNino(resource.data);
+      allow create: if esTutorDeDatoNino(request.resource.data);
+      allow update, delete: if esTutorDeDatoNino(resource.data);
     }
     match /catalogo_apps/{appId} {
-      allow read: if esTutorDelNino(resource.data.ninoId);
-      allow create: if esTutorDelNino(request.resource.data.ninoId);
-      allow update, delete: if esTutorDelNino(resource.data.ninoId);
+      allow read, update, delete: if esTutorDeDatoNino(resource.data);
+      allow create: if esTutorDeDatoNino(request.resource.data);
     }
     match /apps_permitidas/{appId} {
-      allow read: if esTutorDelNino(resource.data.ninoId);
-      allow create: if esTutorDelNino(request.resource.data.ninoId);
-      allow update, delete: if esTutorDelNino(resource.data.ninoId);
+      allow read, update, delete: if esTutorDeDatoNino(resource.data);
+      allow create: if esTutorDeDatoNino(request.resource.data);
     }
     match /recompensas/{recompensaId} {
       allow read: if esTutorDelNino(resource.data.ninoId);

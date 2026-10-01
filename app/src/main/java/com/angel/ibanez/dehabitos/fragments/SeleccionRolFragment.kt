@@ -29,8 +29,8 @@ class SeleccionRolFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSoyTutor.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.white)
-        binding.btnSoyNino.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.white)
+        binding.btnSoyTutor.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.md_theme_onPrimary)
+        binding.btnSoyNino.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.md_theme_onPrimary)
 
         binding.btnSoyTutor.setOnClickListener { usarModoPadre() }
         binding.cardTutor.setOnClickListener { usarModoPadre() }

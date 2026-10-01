@@ -12,7 +12,10 @@ async function enviarATokens(query, titulo, cuerpo, data, filtro = () => true, t
   const resultado = await getMessaging().sendEachForMulticast({
     tokens: docs.map(doc => doc.data().token),
     notification: { title: titulo, body: cuerpo },
-    android: { notification: { channelId: data.canal || "uso_apps", ...(tag ? { tag } : {}) } },
+    android: {
+      priority: "high",
+      notification: { channelId: data.canal || "uso_apps", ...(tag ? { tag } : {}) }
+    },
     data
   });
   const invalidos = [];
@@ -76,4 +79,19 @@ exports.tareaActualizada = onDocumentUpdated("tareas/{tareaId}", async event => 
   } else if (antes.estado === "completada" && despues.estado === "pendiente") {
     await enviarANino(despues.ninoId, "Misión devuelta", `"${despues.nombre}" necesita otro intento`, { ...data, tipo: "devuelta" });
   }
+});
+
+exports.recompensaCanjeada = onDocumentCreated("recompensas/{recompensaId}", async event => {
+  const recompensa = event.data?.data();
+  if (!recompensa || recompensa.minutosOtorgados == null) return;
+  const ninoDoc = await getFirestore().collection("ninos").doc(recompensa.ninoId).get();
+  const nombreNino = ninoDoc.data()?.nombre || "Tu hijo";
+  const appName = ninoDoc.data()?.apps?.[recompensa.packageName] || recompensa.packageName;
+  await enviarATutor(
+    recompensa.tutorId,
+    "Tiempo canjeado",
+    `${nombreNino} canjeó ${recompensa.minutosOtorgados} minutos para ${appName}`,
+    { recompensaId: event.params.recompensaId, ninoId: recompensa.ninoId, tipo: "canje", canal: "recompensas" },
+    "canje_" + recompensa.tutorId
+  );
 });

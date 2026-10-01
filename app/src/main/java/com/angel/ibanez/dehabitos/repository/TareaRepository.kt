@@ -1,5 +1,6 @@
 package com.angel.ibanez.dehabitos.repository
 
+import com.angel.ibanez.dehabitos.data.local.LocalCacheManager
 import com.angel.ibanez.dehabitos.firebase.FirebaseFirestoreService
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.models.Tarea
@@ -37,9 +38,12 @@ class TareaRepository(
         emit(Resultado.Cargando)
         try {
             val tareas = firestoreService.obtenerTareasPorNino(ninoId)
+            LocalCacheManager.guardarTareas(ninoId, tareas)
             emit(Resultado.Exito(tareas))
         } catch (e: Exception) {
-            emit(Resultado.Error(e.message ?: "Error al cargar las misiones"))
+            val locales = LocalCacheManager.obtenerTareas(ninoId)
+            if (locales.isNotEmpty()) emit(Resultado.Exito(locales))
+            else emit(Resultado.Error(e.message ?: "Error al cargar las misiones"))
         }
     }
 
@@ -58,7 +62,10 @@ class TareaRepository(
         onResultado: (Resultado<List<Tarea>>) -> Unit
     ): ListenerRegistration = firestoreService.escucharTareasPorNino(
         ninoId,
-        { onResultado(Resultado.Exito(it)) },
+        {
+            LocalCacheManager.guardarTareas(ninoId, it)
+            onResultado(Resultado.Exito(it))
+        },
         { onResultado(Resultado.Error(it)) }
     )
 

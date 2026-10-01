@@ -27,7 +27,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_loginNinoFragment"
-            app:destination="@id/loginNinoFragment"
+            app:destination="@id/contenedorNinoFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -58,6 +58,11 @@
         <action
             android:id="@+id/action_registroTutorFragment_to_loginTutorFragment"
             app:destination="@id/loginTutorFragment"
+            app:popUpTo="@id/registroTutorFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_registroTutorFragment_to_dashboardTutorFragment"
+            app:destination="@id/dashboardTutorFragment"
             app:popUpTo="@id/registroTutorFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -95,7 +100,7 @@
             app:destination="@id/dispositivosFragment" />
         <action
             android:id="@+id/action_dashboardTutorFragment_to_loginNinoFragment"
-            app:destination="@id/loginNinoFragment" />
+            app:destination="@id/contenedorNinoFragment" />
         <action
             android:id="@+id/action_dashboardTutorFragment_to_asignarTareaFragment"
             app:destination="@id/asignarTareaFragment" />
@@ -111,7 +116,16 @@
         <action
             android:id="@+id/action_dashboardTutorFragment_to_encuestaSatisfaccionFragment"
             app:destination="@id/encuestaSatisfaccionFragment" />
+        <action
+            android:id="@+id/action_dashboardTutorFragment_to_terminosCondicionesFragment"
+            app:destination="@id/terminosCondicionesFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/terminosCondicionesFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.TerminosCondicionesFragment"
+        android:label="Términos y condiciones"
+        tools:layout="@layout/fragment_terminos_condiciones" />
 
     <fragment
         android:id="@+id/estadisticasNinoFragment"
@@ -160,7 +174,7 @@
         tools:layout="@layout/fragment_seleccionar_nino">
         <action
             android:id="@+id/action_seleccionarNinoFragment_to_loginNinoFragment"
-            app:destination="@id/loginNinoFragment"
+            app:destination="@id/contenedorNinoFragment"
             app:popUpTo="@id/seleccionarNinoFragment"
             app:popUpToInclusive="true" />
     </fragment>

@@ -18,10 +18,16 @@ import com.angel.ibanez.dehabitos.utils.ImagenesUtils
 import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 
 class TareaValidarAdapter(
-    private val nombresNinos: () -> Map<String, String>,
     private val onValidar: (Tarea) -> Unit,
     private val onRechazar: (Tarea) -> Unit
 ) : ListAdapter<Tarea, TareaValidarAdapter.TareaViewHolder>(DiffCallback()) {
+
+    private var nombresNinos: Map<String, String> = emptyMap()
+
+    fun actualizarNombresNinos(nuevos: Map<String, String>) {
+        nombresNinos = nuevos
+        notifyItemRangeChanged(0, currentList.size, PAYLOAD_NOMBRE)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareaViewHolder {
         val binding = ItemTareaValidarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,13 +38,24 @@ class TareaValidarAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun onBindViewHolder(holder: TareaViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.contains(PAYLOAD_NOMBRE)) {
+            holder.actualizarNombre(getItem(position))
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
+    companion object {
+        private const val PAYLOAD_NOMBRE = "nombre_nino"
+    }
+
     inner class TareaViewHolder(private val binding: ItemTareaValidarBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tarea: Tarea) {
-            val nombreNino = nombresNinos()[tarea.ninoId] ?: "Niño"
             binding.tvNombreTarea.text = tarea.nombre
             val limite = if (tarea.fechaLimite.isNotBlank()) " · Límite ${FechasUtils.formatearFechaCorta(tarea.fechaLimite)}" else ""
             binding.tvDetalle.text =
-                "$nombreNino · ${ProgresionUtils.nombreCategoria(tarea.categoria)} · +${tarea.puntos} XP$limite"
+                "${nombreNino(tarea)} · ${ProgresionUtils.nombreCategoria(tarea.categoria)} · +${tarea.puntos} XP$limite"
             val ctx = binding.root.context
             val colorIcono = when (tarea.categoria) {
                 "academica" -> R.color.game_blue_dark
@@ -69,6 +86,14 @@ class TareaValidarAdapter(
 
             binding.btnValidar.setOnClickListener { onValidar(tarea) }
             binding.btnRechazar.setOnClickListener { onRechazar(tarea) }
+        }
+
+        private fun nombreNino(tarea: Tarea): String = nombresNinos[tarea.ninoId] ?: "Niño"
+
+        fun actualizarNombre(tarea: Tarea) {
+            val limite = if (tarea.fechaLimite.isNotBlank()) " · Límite ${FechasUtils.formatearFechaCorta(tarea.fechaLimite)}" else ""
+            binding.tvDetalle.text =
+                "${nombreNino(tarea)} · ${ProgresionUtils.nombreCategoria(tarea.categoria)} · +${tarea.puntos} XP$limite"
         }
 
         private fun mostrarEvidenciaCompleta(bitmap: android.graphics.Bitmap) {

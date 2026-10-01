@@ -2,89 +2,84 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_splash_game"
+    android:background="@drawable/bg_splash_linkedin"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:padding="32dp">
+    tools:context=".fragments.SplashFragment">
 
-    <!-- Decorative top circle -->
+    <!-- Expanding ring 1 -->
     <View
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:alpha="0.12"
-        android:background="@drawable/node_completed"
+        android:id="@+id/ring1"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="@drawable/splash_ring"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="-60dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Trophy icon in bright yellow bubble -->
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/tvEmoji"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/circle_game_yellow"
-        android:elevation="12dp"
-        app:iiv_color="@color/game_purple_dark"
-        app:iiv_icon="gmr-star"
-        app:iiv_size="80dp"
-        app:layout_constraintBottom_toTopOf="@id/tvTitulo"
+    <!-- Expanding ring 2 -->
+    <View
+        android:id="@+id/ring2"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="@drawable/splash_ring"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Expanding ring 3 -->
+    <View
+        android:id="@+id/ring3"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="@drawable/splash_ring"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Solid circle behind logo -->
+    <View
+        android:id="@+id/logoCircle"
+        android:layout_width="132dp"
+        android:layout_height="132dp"
+        android:background="@drawable/splash_logo_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- App logo -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_logo"
+        app:layout_constraintBottom_toBottomOf="@id/logoCircle"
+        app:layout_constraintEnd_toEndOf="@id/logoCircle"
+        app:layout_constraintStart_toStartOf="@id/logoCircle"
+        app:layout_constraintTop_toTopOf="@id/logoCircle" />
 
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-rounded"
-        android:text="De Hábitos a\nRecompensas"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/app_name"
         android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadlineLarge"
         android:textColor="@color/white"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tvSubtitulo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
-
-    <TextView
-        android:id="@+id/tvSubtitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-rounded"
-        android:text="¡Preparando tu aventura!"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
-        android:textColor="@color/game_yellow"
-        app:layout_constraintBottom_toTopOf="@id/progressBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
-
-    <!-- Game-style loading bar -->
-    <FrameLayout
-        android:id="@+id/progressBar"
-        android:layout_width="220dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/node_locked"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/game_yellow"
-            android:progressDrawable="@drawable/progress_bar_game" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/logoCircle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

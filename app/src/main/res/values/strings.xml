@@ -1,4 +1,95 @@
 <resources>
     <string name="app_name">De Hábitos a Recompensas</string>
     <string name="accessibility_service_description">Detecta apps abiertas para mantener seguro el modo niño.</string>
+
+    <!-- Auth -->
+    <string name="login_tutor_hello">¡Hola, Tutor!</string>
+    <string name="login_tutor_choose_method">Elige cómo quieres iniciar sesión</string>
+    <string name="login_tutor_email_password">Iniciar con correo y contraseña</string>
+    <string name="login_tutor_google">Continuar con Google</string>
+    <string name="login_tutor_enter_data">Ingresa tus datos</string>
+    <string name="login_tutor_email_hint">Correo electrónico</string>
+    <string name="login_tutor_password_hint">Contraseña</string>
+    <string name="login_tutor_sign_in">Iniciar sesión</string>
+    <string name="login_tutor_other_method">Elegir otro método</string>
+    <string name="login_tutor_no_account">¿No tienes cuenta? Regístrate</string>
+
+    <string name="register_tutor_title">Crea tu cuenta</string>
+    <string name="register_tutor_name_hint">Nombre</string>
+    <string name="register_tutor_email_hint">Correo electrónico</string>
+    <string name="register_tutor_phone_hint">Teléfono</string>
+    <string name="register_tutor_password_hint">Contraseña</string>
+    <string name="register_tutor_register">Registrarme</string>
+    <string name="register_tutor_or_with">o regístrate con</string>
+    <string name="register_tutor_google">Continuar con Google</string>
+    <string name="register_tutor_has_account">¿Ya tienes cuenta? Inicia sesión</string>
+
+    <!-- Parental access -->
+    <string name="parental_access_title">Acceso parental</string>
+    <string name="parental_access_message">Ingresa el PIN parental de 6 dígitos para salir del modo niño.</string>
+    <string name="parental_access_pin_hint">PIN parental</string>
+    <string name="parental_pin_create_title">Crea tu PIN parental</string>
+    <string name="parental_pin_create_message">Este PIN de 6 dígitos será necesario para salir del modo niño en este dispositivo.</string>
+    <string name="parental_pin_hint">PIN de 6 dígitos</string>
+    <string name="parental_pin_confirm_hint">Confirma el PIN</string>
+
+    <!-- Child profile -->
+    <string name="child_profile_title">Mi Perfil</string>
+    <string name="child_profile_default_name">Niño</string>
+    <string name="child_profile_level_xp">Nivel %1$d · %2$d XP</string>
+    <string name="child_profile_dark_mode">Modo oscuro</string>
+    <string name="child_profile_music">Música de fondo</string>
+    <string name="child_profile_choose_avatar">Elige tu avatar</string>
+
+    <!-- Child bottom navigation -->
+    <string name="nav_child_home">Inicio</string>
+    <string name="nav_child_path">Camino</string>
+    <string name="nav_child_missions">Misiones</string>
+    <string name="nav_child_rewards">Premios</string>
+    <string name="nav_child_profile">Perfil</string>
+
+    <!-- Tutor dashboard -->
+    <string name="tutor_dashboard_hello">Hola, Tutor</string>
+    <string name="tutor_dashboard_welcome_name">Hola, %1$s</string>
+    <string name="tutor_section_home_subtitle">Inicio · Mis niños</string>
+    <string name="tutor_section_home_title">Mis niños</string>
+    <string name="tutor_section_home_description">Consulta el progreso y las estadísticas de cada perfil.</string>
+    <string name="tutor_section_management_subtitle">Gestión familiar</string>
+    <string name="tutor_option_add_child">Agregar niño</string>
+    <string name="tutor_option_manage_devices">Gestionar dispositivos</string>
+    <string name="tutor_section_control_subtitle">Control y recompensas</string>
+    <string name="tutor_option_apps_points">Apps y puntos</string>
+    <string name="tutor_option_assign_mission">Asignar misión</string>
+    <string name="tutor_option_validate_missions">Validar misiones</string>
+    <string name="tutor_section_settings_subtitle">Configuración</string>
+    <string name="tutor_option_survey">Encuesta de satisfacción</string>
+    <string name="tutor_option_terms">Términos y condiciones</string>
+    <string name="tutor_option_change_pin">Cambiar PIN parental</string>
+    <string name="tutor_option_dark_mode">Modo oscuro</string>
+
+    <!-- Tutor bottom navigation -->
+    <string name="nav_tutor_home">Inicio</string>
+    <string name="nav_tutor_management">Gestión</string>
+    <string name="nav_tutor_control">Control</string>
+    <string name="nav_tutor_settings">Config.</string>
+
+    <!-- Configure apps -->
+    <string name="configure_apps_title">Apps permitidas</string>
+    <string name="configure_apps_child_hint">Niño</string>
+    <string name="configure_apps_update_catalog">Actualizar catálogo</string>
+    <string name="configure_apps_catalog_help">Las apps que ves son las instaladas en el dispositivo del niño. Si está vacío, abre la app en el dispositivo del niño y pulsa Actualizar catálogo.</string>
+    <string name="configure_apps_installed_hint">App instalada</string>
+    <string name="configure_apps_price_15_hint">15 min (estrellas)</string>
+    <string name="configure_apps_price_30_hint">30 min (estrellas)</string>
+    <string name="configure_apps_price_60_hint">60 min (estrellas)</string>
+    <string name="configure_apps_add">Agregar app</string>
+    <string name="configure_apps_configured">Apps configuradas</string>
+
+    <!-- Missions -->
+    <string name="missions_title">Mis Misiones</string>
+    <string name="missions_previous">Anterior</string>
+    <string name="missions_page_indicator">Página %1$d de %2$d</string>
+    <string name="missions_next">Siguiente</string>
+    <string name="missions_empty">¡Nada pendiente por ahora!</string>
+    <string name="mission_i_did_it">¡Lo hice!</string>
 </resources>

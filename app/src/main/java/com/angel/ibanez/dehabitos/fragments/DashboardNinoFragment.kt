@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.angel.ibanez.dehabitos.adapters.LogrosAdapter
 import com.angel.ibanez.dehabitos.databinding.FragmentDashboardNinoBinding
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
+import com.angel.ibanez.dehabitos.utils.LogrosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 
@@ -20,6 +23,7 @@ class DashboardNinoFragment : Fragment() {
     private val ninoViewModel: NinoViewModel by viewModels()
 
     private var ninoId: String = ""
+    private val logrosAdapter = LogrosAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,13 @@ class DashboardNinoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ninoId = arguments?.getString("ninoId") ?: ""
+        binding.rvLogros.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        binding.rvLogros.isNestedScrollingEnabled = false
+        binding.rvLogros.adapter = logrosAdapter
 
         AnimacionesUtils.entradaSuave(binding.cardEstadisticas)
         observarNino()
@@ -62,12 +73,20 @@ class DashboardNinoFragment : Fragment() {
 
     private fun pintarPerfil(nino: Nino) {
         binding.tvBienvenida.text = "¡Hola, ${nino.nombre}!"
-        binding.tvRacha.text = "${nino.racha} días de racha"
-        binding.tvInsignias.text = "${nino.insignias.size} insignias desbloqueadas"
 
+        // Estadísticas de tareas
         binding.tvStatAcademicas.text = nino.tareasAcademicas.toString()
         binding.tvStatDomesticas.text = nino.tareasDomesticas.toString()
         binding.tvStatPersonales.text = nino.tareasPersonales.toString()
+
+        // Estadísticas del niño (Estrellas / Racha / Insignias)
+        binding.tvEstrellas.text = nino.estrellas.toString()
+        binding.tvRacha.text = nino.racha.toString()
+        binding.tvInsignias.text = nino.insignias.size.toString()
+
+        val logros = LogrosUtils.logrosDesbloqueados(nino)
+        logrosAdapter.actualizar(nino)
+        binding.tvProgresoLogros.text = "${logros.size} de ${LogrosUtils.CATALOGO.size}"
     }
 
     override fun onDestroyView() {

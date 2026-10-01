@@ -4,19 +4,22 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
+import com.angel.ibanez.dehabitos.databinding.DialogAccesoParentalBinding
+import com.angel.ibanez.dehabitos.databinding.DialogConfigurarPinParentalBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -26,12 +29,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentContenedorNinoBinding
+import com.angel.ibanez.dehabitos.firebase.GoogleAuthClient
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.AppsUtils
+import com.angel.ibanez.dehabitos.utils.AudioConfig
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
+import com.angel.ibanez.dehabitos.utils.MusicaFondoManager
 import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
 import com.angel.ibanez.dehabitos.repository.TareaRepository
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.LogrosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.AuthTutorViewModel
 import com.angel.ibanez.dehabitos.viewmodels.DispositivoViewModel
@@ -57,8 +64,11 @@ class ContenedorNinoFragment : Fragment() {
     private var procesandoDesvinculacion = false
     private var catalogoHashPendiente: String? = null
     private var esperandoValidacionParental = false
+    private var dialogAccesoParental: AlertDialog? = null
+    private var dialogAccesoParentalBinding: DialogAccesoParentalBinding? = null
     private var ultimoNivel: Int? = null
     private var ultimaCantidadInsignias: Int? = null
+    private var ultimosLogros: Set<String>? = null
     private var ultimasEstrellas: Int? = null
     private var pestanaActual: Int? = null
     private var estadosAnteriores: Map<String, String>? = null
@@ -85,6 +95,7 @@ class ContenedorNinoFragment : Fragment() {
 
         ninoId = arguments?.getString("ninoId").orEmpty().ifBlank { DispositivoConfig.obtenerNinoId() }
         DispositivoConfig.guardarModo(DispositivoConfig.ModoDispositivo.HIJO)
+        MusicaFondoManager.preparar(requireContext())
 
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_nino) as NavHostFragment
         val navController = navHostFragment.navController
@@ -95,22 +106,30 @@ class ContenedorNinoFragment : Fragment() {
         navController.setGraph(navGraph, args)
 
         configurarNavegacionAnimada(navController, args)
-        AnimacionesUtils.cargarGifPausado(binding.btnConfig, "icons8-settings-100.gif")
-        AnimacionesUtils.cargarGifPausado(binding.ivMonedasHeader, AnimacionesUtils.GIF_MONEDAS)
-        AnimacionesUtils.animarPeriodicamente(binding.btnConfig, INTERVALO_ANIMACION_MS)
-        AnimacionesUtils.animarPeriodicamente(binding.ivMonedasHeader, INTERVALO_ANIMACION_MS, INTERVALO_ANIMACION_MS / 2)
-        binding.btnConfig.setOnClickListener { solicitarPasswordTutor() }
+        binding.ivMonedasHeader.setImageResource(R.drawable.ic_reward)
+        binding.ivMonedasHeader.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.game_yellow)
+        binding.btnConfig.setOnClickListener { solicitarAccesoTutor() }
         authTutorViewModel.validarPasswordResultado.observe(viewLifecycleOwner) { resultado ->
             if (!esperandoValidacionParental) return@observe
             when (resultado) {
                 is Resultado.Cargando -> Unit
                 is Resultado.Exito -> {
                     esperandoValidacionParental = false
-                    navController.navigate(R.id.configuracionParentalFragment, args)
+                    dialogAccesoParental?.dismiss()
+                    limpiarDialogoAccesoParental()
+                    if (DispositivoConfig.tienePinParental()) {
+                        navController.navigate(R.id.configuracionParentalFragment, args)
+                    } else {
+                        mostrarConfigurarPinParental {
+                            navController.navigate(R.id.configuracionParentalFragment, args)
+                        }
+                    }
                 }
                 is Resultado.Error -> {
                     esperandoValidacionParental = false
-                    Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
+                    val campoPassword = dialogAccesoParentalBinding?.tilPassword
+                    if (campoPassword != null) campoPassword.error = resultado.mensaje
+                    else Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -127,6 +146,7 @@ class ContenedorNinoFragment : Fragment() {
         asegurarMisionDiaria()
     }
 
+    @Suppress("DEPRECATION")
     private fun registrarTokenYPermisos() {
         if (ninoId.isBlank()) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -138,7 +158,7 @@ class ContenedorNinoFragment : Fragment() {
         if (tutorId.isBlank()) return
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
-                estadisticasRepository.guardarToken(tutorId, FirebaseMessaging.getInstance().token.await(), ninoId, "hijo")
+                estadisticasRepository.guardarToken(tutorId, FirebaseMessaging.getInstance().getToken().await(), ninoId, "hijo")
             }
         }
     }
@@ -152,12 +172,6 @@ class ContenedorNinoFragment : Fragment() {
     }
 
     private fun configurarNavegacionAnimada(navController: NavController, args: Bundle) {
-        AnimacionesUtils.cargarGifPausado(binding.ivNavInicio, "icons8-home-48.gif")
-        AnimacionesUtils.cargarGifPausado(binding.ivNavCamino, "icons8-map100.gif")
-        AnimacionesUtils.cargarGifPausado(binding.ivNavMisiones, "icons8-test-passed-100.gif")
-        AnimacionesUtils.cargarGifPausado(binding.ivNavPremios, "icons8-shopping-100.gif")
-        AnimacionesUtils.cargarGifPausado(binding.ivNavPerfil, "icons8-perfil.gif")
-
         binding.navInicio.setOnClickListener { navegarPestana(navController, R.id.dashboardNinoFragment, args) }
         binding.navCamino.setOnClickListener { navegarPestana(navController, R.id.mapaProgresoFragment, args) }
         binding.navMisiones.setOnClickListener { navegarPestana(navController, R.id.misionesNinoFragment, args) }
@@ -172,12 +186,14 @@ class ContenedorNinoFragment : Fragment() {
 
     private fun navegarPestana(navController: NavController, destino: Int, args: Bundle) {
         if (navController.currentDestination?.id == R.id.configuracionParentalFragment) navController.popBackStack()
-        if (navController.currentDestination?.id != destino) {
-            navController.navigate(destino, args, navOptions {
+        val actual = navController.currentDestination?.id ?: -1
+        if (actual != destino) {
+            val opciones = navOptions {
                 launchSingleTop = true
                 restoreState = true
                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-            })
+            }
+            navController.navigate(destino, args, opciones)
         }
     }
 
@@ -189,37 +205,170 @@ class ContenedorNinoFragment : Fragment() {
             Triple(binding.navPremios, binding.tvNavPremios, R.id.premiosNinoFragment) to binding.ivNavPremios,
             Triple(binding.navPerfil, binding.tvNavPerfil, R.id.perfilNinoFragment) to binding.ivNavPerfil
         )
+        val colorSeleccionado = requireContext().getColor(R.color.child_nav_selected_text)
+        val colorNormal = requireContext().getColor(R.color.child_nav_icon)
+        val indicador = binding.vIndicadorNav
+
         elementos.forEach { (datos, icono) ->
             val (contenedor, texto, id) = datos
             val seleccionado = id == destino
-            contenedor.animate().scaleX(if (seleccionado) 1.12f else 1f).scaleY(if (seleccionado) 1.12f else 1f).alpha(if (seleccionado) 1f else 0.58f).setDuration(180).start()
-            texto.setTextColor(requireContext().getColor(if (seleccionado) R.color.md_theme_primary else R.color.md_theme_onSurfaceVariant))
+            texto.setTextColor(if (seleccionado) colorSeleccionado else colorNormal)
             if (seleccionado && destino != pestanaActual) AnimacionesUtils.reproducirGifUnaVez(icono)
         }
+
+        val seleccionado = elementos.find { it.first.third == destino }?.first?.first
+        seleccionado?.post {
+            if (_binding == null) return@post
+            if (indicador.width == 0) {
+                indicador.layoutParams = indicador.layoutParams.apply {
+                    width = seleccionado.width
+                    height = seleccionado.height
+                }
+                indicador.x = seleccionado.x
+                indicador.y = seleccionado.y
+                indicador.visibility = View.VISIBLE
+            } else {
+                indicador.animate()
+                    .withLayer()
+                    .x(seleccionado.x)
+                    .y(seleccionado.y)
+                    .setDuration(250)
+                    .setInterpolator(FastOutSlowInInterpolator())
+                    .start()
+            }
+        }
+
         pestanaActual = destino
     }
 
-    private fun solicitarPasswordTutor() {
-        val campo = EditText(requireContext()).apply {
-            hint = "Contraseña del tutor"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            setPadding(48, 24, 48, 8)
+    private fun solicitarAccesoTutor() {
+        if (DispositivoConfig.tienePinParental()) {
+            solicitarPinParental()
+        } else if (authTutorViewModel.usaCuentaGoogle()) {
+            solicitarGoogleParaMigracion()
+        } else {
+            solicitarPasswordTutor()
         }
-        AlertDialog.Builder(requireContext())
-            .setTitle("Acceso parental")
-            .setMessage("Ingresa la contraseña del tutor para administrar los permisos del dispositivo.")
-            .setView(campo)
-            .setPositiveButton("Continuar") { _, _ ->
-                val password = campo.text.toString()
-                if (password.isBlank()) {
-                    Toast.makeText(requireContext(), "Ingresa la contraseña", Toast.LENGTH_SHORT).show()
-                } else {
-                    esperandoValidacionParental = true
-                    authTutorViewModel.validarPasswordTutor(password)
+    }
+
+    private fun solicitarPinParental() {
+        val contenido = DialogAccesoParentalBinding.inflate(layoutInflater)
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(contenido.root)
+            .setPositiveButton("Entrar", null)
+            .setNegativeButton("Cancelar", null)
+            .create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val pin = contenido.etPassword.text.toString()
+                when {
+                    !pin.matches(Regex("\\d{6}")) -> contenido.tilPassword.error = "Ingresa los 6 dígitos"
+                    else -> when (DispositivoConfig.validarPinParental(pin)) {
+                        DispositivoConfig.ResultadoPin.CORRECTO -> {
+                            dialog.dismiss()
+                            abrirConfiguracionParental()
+                        }
+                        DispositivoConfig.ResultadoPin.INCORRECTO -> contenido.tilPassword.error = "PIN parental incorrecto"
+                        DispositivoConfig.ResultadoPin.BLOQUEADO -> contenido.tilPassword.error =
+                            "Demasiados intentos. Espera ${DispositivoConfig.segundosBloqueoPin()} segundos"
+                        DispositivoConfig.ResultadoPin.NO_CONFIGURADO -> contenido.tilPassword.error = "El PIN parental no está configurado"
+                    }
                 }
             }
+        }
+        dialog.show()
+    }
+
+    private fun solicitarGoogleParaMigracion() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                esperandoValidacionParental = true
+                val idToken = GoogleAuthClient(requireActivity()).obtenerIdToken()
+                val tutorId = DispositivoConfig.obtenerTutorId()
+                if (tutorId.isBlank()) throw IllegalStateException("No se encontró el tutor vinculado")
+                authTutorViewModel.validarCuentaGoogle(idToken, tutorId)
+            } catch (_: GetCredentialCancellationException) {
+                esperandoValidacionParental = false
+            } catch (e: Exception) {
+                esperandoValidacionParental = false
+                Toast.makeText(requireContext(), e.message ?: "No se pudo confirmar la cuenta", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun solicitarPasswordTutor() {
+        dialogAccesoParentalBinding = DialogAccesoParentalBinding.inflate(layoutInflater).also {
+            it.tvMensaje.text = "Confirma la contraseña del tutor una vez para crear el nuevo PIN parental."
+            it.tilPassword.hint = "Contraseña del tutor"
+            it.etPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            it.etPassword.filters = emptyArray()
+            it.etPassword.letterSpacing = 0f
+            it.etPassword.textSize = 16f
+        }
+        dialogAccesoParental = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogAccesoParentalBinding!!.root)
+            .setPositiveButton("Continuar", null)
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+                limpiarDialogoAccesoParental()
+            }
+            .setOnDismissListener {
+                limpiarDialogoAccesoParental()
+            }
+            .create().also { dialog ->
+                dialog.setOnShowListener {
+                    val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    positiveButton.setOnClickListener {
+                        val password = dialogAccesoParentalBinding?.etPassword?.text.toString()
+                        if (password.isBlank()) {
+                            dialogAccesoParentalBinding?.tilPassword?.error = "Ingresa la contraseña"
+                        } else {
+                            dialogAccesoParentalBinding?.tilPassword?.error = null
+                            esperandoValidacionParental = true
+                            authTutorViewModel.validarPasswordTutor(password)
+                        }
+                    }
+                }
+                dialog.show()
+            }
+    }
+
+    private fun mostrarConfigurarPinParental(alGuardar: () -> Unit) {
+        val contenido = DialogConfigurarPinParentalBinding.inflate(layoutInflater)
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(contenido.root)
+            .setPositiveButton("Guardar PIN", null)
             .setNegativeButton("Cancelar", null)
-            .show()
+            .create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val pin = contenido.etPin.text.toString()
+                val confirmacion = contenido.etConfirmarPin.text.toString()
+                when {
+                    !pin.matches(Regex("\\d{6}")) -> contenido.tilPin.error = "Debe tener exactamente 6 dígitos"
+                    pin != confirmacion -> contenido.tilConfirmarPin.error = "Los PIN no coinciden"
+                    else -> {
+                        DispositivoConfig.guardarPinParental(pin)
+                        dialog.dismiss()
+                        alGuardar()
+                    }
+                }
+            }
+        }
+        dialog.show()
+    }
+
+    private fun abrirConfiguracionParental() {
+        val navHost = childFragmentManager.findFragmentById(R.id.nav_host_nino) as? NavHostFragment ?: return
+        val args = Bundle().apply { putString("ninoId", ninoId) }
+        if (navHost.navController.currentDestination?.id != R.id.configuracionParentalFragment) {
+            navHost.navController.navigate(R.id.configuracionParentalFragment, args)
+        }
+    }
+
+    private fun limpiarDialogoAccesoParental() {
+        dialogAccesoParentalBinding = null
+        dialogAccesoParental = null
     }
 
     private fun sincronizarCatalogoSiCorresponde() {
@@ -315,16 +464,22 @@ class ContenedorNinoFragment : Fragment() {
                             "Nuevo nivel",
                             "Alcanzaste el nivel ${nino.nivel} y recibiste nuevas estrellas."
                         )
-                    } else if (ultimaCantidadInsignias != null && nino.insignias.size > ultimaCantidadInsignias!!) {
-                        AnimacionesUtils.mostrarCelebracion(
-                            binding.root,
-                            AnimacionesUtils.GIF_LOGRO,
-                            "Nueva insignia",
-                            "Desbloqueaste un logro por tu constancia."
-                        )
+                    }
+                    val logrosActuales = LogrosUtils.logrosDesbloqueados(nino)
+                    val idsActuales = logrosActuales.map { it.id }.toSet()
+                    ultimosLogros?.let { anteriores ->
+                        logrosActuales.filter { it.id !in anteriores }.forEach { logro ->
+                            AnimacionesUtils.mostrarCelebracion(
+                                binding.root,
+                                AnimacionesUtils.GIF_LOGRO,
+                                "¡Nuevo logro!",
+                                logro.nombre
+                            )
+                        }
                     }
                     ultimoNivel = nino.nivel
                     ultimaCantidadInsignias = nino.insignias.size
+                    ultimosLogros = idsActuales
                     binding.tvNombreNino.text = nino.nombre
                     AvataresUtils.cargar(binding.ivAvatarHeader, nino.avatar)
                     binding.tvNivelHeader.text = "Lvl. ${nino.nivel}"
@@ -339,7 +494,20 @@ class ContenedorNinoFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (AudioConfig.musicaHabilitada(requireContext())) {
+            MusicaFondoManager.reproducir()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MusicaFondoManager.pausar()
+    }
+
     override fun onDestroyView() {
+        MusicaFondoManager.liberar()
         super.onDestroyView()
         _binding = null
     }

@@ -37,19 +37,14 @@ class AgregarNinoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnGuardar.icon = IconosUtils.crearIcono(requireContext(), "gmr-done-all", R.color.white)
+        binding.btnGuardar.icon = IconosUtils.crearIcono(requireContext(), "gmr-done-all", R.color.md_theme_onPrimary)
 
         binding.btnGuardar.setOnClickListener {
             val nombre = binding.etNombre.text.toString().trim()
             val edad = binding.etEdad.text.toString().toIntOrNull() ?: 0
-            val pin = binding.etPin.text.toString().trim()
 
-            if (nombre.isEmpty() || edad <= 0 || pin.length != 4) {
-                Toast.makeText(
-                    requireContext(),
-                    "Completa los campos y asegúrate que el PIN tenga 4 dígitos",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (nombre.isEmpty() || edad <= 0) {
+                Toast.makeText(requireContext(), "Completa el nombre y la edad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -59,7 +54,6 @@ class AgregarNinoFragment : Fragment() {
                     val nino = Nino(
                         nombre = nombre,
                         edad = edad,
-                        pin = pin,
                         tutorId = tutor.id,
                         avatar = "",
                         nivel = 1,

@@ -24,9 +24,10 @@ object MisionesDiariasUtils {
 
     fun misionParaFecha(fecha: String): MisionDiaria {
         val diaDelAnio = runCatching {
-            Calendar.getInstance().apply {
-                time = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(fecha)!!
-            }.get(Calendar.DAY_OF_YEAR)
+            val fechaParseada = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(fecha)
+            fechaParseada?.let {
+                Calendar.getInstance().apply { time = it }.get(Calendar.DAY_OF_YEAR)
+            } ?: 0
         }.getOrDefault(0)
         return MISIONES[diaDelAnio % MISIONES.size]
     }

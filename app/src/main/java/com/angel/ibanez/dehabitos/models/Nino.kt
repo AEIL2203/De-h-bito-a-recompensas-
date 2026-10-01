@@ -18,5 +18,6 @@ data class Nino(
     var estrellas: Int = 0,
     var compensacionEstrellasAplicada: Boolean = false,
     var gemas: Int = 0,
-    var minutosExtra: Int = 0
+    var minutosExtra: Int = 0,
+    var horarioSueno: HorarioSueno = HorarioSueno()
 )

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="?attr/colorSurface"
         app:cardCornerRadius="30dp"
         app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
             app:strokeWidth="0dp">
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:visibility="gone"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
             app:strokeWidth="0dp">
@@ -176,20 +176,20 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <ImageButton
+    <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/btnConfig"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/circle_turquoise"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#F0D9FF"
         android:elevation="4dp"
-        android:padding="8dp"
-        android:src="@android:drawable/ic_menu_manage"
+        android:padding="9dp"
+        app:iiv_color="#9B5DE5"
+        app:iiv_icon="gmr-settings"
         app:layout_constraintBottom_toBottomOf="@id/containerCurrency"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/containerCurrency"
-        app:tint="@color/md_theme_onSurfaceVariant" />
+        app:layout_constraintTop_toTopOf="@id/containerCurrency" />
 
     <!-- Fragment Container -->
     <androidx.fragment.app.FragmentContainerView
@@ -197,7 +197,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardBottomNav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardProfilePill" />
@@ -210,78 +210,95 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        android:elevation="12dp"
+        android:translationZ="12dp"
+        app:cardBackgroundColor="@color/child_nav_background"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeWidth="0dp">
+        app:strokeColor="#2679747E"
+        app:strokeWidth="1dp">
 
-        <LinearLayout
-            android:id="@+id/bottomNavNino"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="6dp"
-            android:paddingBottom="6dp">
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vIndicadorNav"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="top|start"
+                android:background="@drawable/indicator_nav_pill"
+                android:visibility="invisible" />
 
             <LinearLayout
-                android:id="@+id/navInicio"
-                android:layout_width="0dp"
+                android:id="@+id/bottomNavNino"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:baselineAligned="false"
                 android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:id="@+id/ivNavInicio" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Inicio" />
-                <TextView android:id="@+id/tvNavInicio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Inicio" android:textSize="11sp" />
-            </LinearLayout>
+                android:orientation="horizontal"
+                android:paddingStart="6dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="6dp">
 
-            <LinearLayout
-                android:id="@+id/navCamino"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:id="@+id/ivNavCamino" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Camino" />
-                <TextView android:id="@+id/tvNavCamino" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Camino" android:textSize="11sp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/navInicio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView android:id="@+id/ivNavInicio" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Inicio" android:padding="4dp" android:src="@drawable/ic_nav_home" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavInicio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_home" android:textSize="11sp" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/navMisiones"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:id="@+id/ivNavMisiones" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Misiones" />
-                <TextView android:id="@+id/tvNavMisiones" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Misiones" android:textSize="11sp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/navCamino"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView android:id="@+id/ivNavCamino" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Camino" android:padding="4dp" android:src="@drawable/ic_nav_route" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavCamino" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_path" android:textSize="11sp" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/navPremios"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:id="@+id/ivNavPremios" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Premios" />
-                <TextView android:id="@+id/tvNavPremios" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Premios" android:textSize="11sp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/navMisiones"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView android:id="@+id/ivNavMisiones" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Misiones" android:padding="4dp" android:src="@drawable/ic_nav_missions" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavMisiones" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_missions" android:textSize="11sp" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/navPerfil"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:id="@+id/ivNavPerfil" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Perfil" />
-                <TextView android:id="@+id/tvNavPerfil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textSize="11sp" />
+                <LinearLayout
+                    android:id="@+id/navPremios"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView android:id="@+id/ivNavPremios" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Premios" android:padding="4dp" android:src="@drawable/ic_nav_gift" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavPremios" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_rewards" android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/navPerfil"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView android:id="@+id/ivNavPerfil" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Perfil" android:padding="4dp" android:src="@drawable/ic_nav_profile" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavPerfil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_profile" android:textSize="11sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.angel.ibanez.dehabitos.repository.TutorRepository
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.EncuestaViewModel
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import kotlinx.coroutines.launch
 
@@ -78,11 +80,24 @@ class EncuestaSatisfaccionFragment : Fragment() {
     private fun construirPreguntas() {
         val densidad = resources.displayMetrics.density
         EncuestaSatisfaccion.PREGUNTAS.forEach { (clave, texto) ->
+            val tarjeta = MaterialCardView(requireContext()).apply {
+                radius = 24 * densidad
+                cardElevation = 0f
+                strokeWidth = (densidad).toInt()
+                strokeColor = requireContext().getColor(R.color.md_theme_outline)
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                    topMargin = (12 * densidad).toInt()
+                }
+            }
+            val contenido = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding((16 * densidad).toInt(), (14 * densidad).toInt(), (16 * densidad).toInt(), (10 * densidad).toInt())
+            }
             val etiqueta = TextView(requireContext()).apply {
                 this.text = texto
                 textSize = 15f
                 setTextColor(requireContext().getColor(R.color.md_theme_onSurface))
-                setPadding(0, (12 * densidad).toInt(), 0, 0)
+                setTypeface(typeface, android.graphics.Typeface.BOLD)
             }
             val slider = Slider(requireContext()).apply {
                 valueFrom = EncuestaSatisfaccion.VALOR_MINIMO.toFloat()
@@ -91,8 +106,10 @@ class EncuestaSatisfaccionFragment : Fragment() {
                 value = 3f
                 labelBehavior = com.google.android.material.slider.LabelFormatter.LABEL_VISIBLE
             }
-            binding.contenedorPreguntas.addView(etiqueta)
-            binding.contenedorPreguntas.addView(slider)
+            contenido.addView(etiqueta)
+            contenido.addView(slider)
+            tarjeta.addView(contenido)
+            binding.contenedorPreguntas.addView(tarjeta)
             sliders[clave] = slider
         }
     }

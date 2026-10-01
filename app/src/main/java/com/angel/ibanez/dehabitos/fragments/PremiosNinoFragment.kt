@@ -16,6 +16,7 @@ import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.models.Recompensa
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.HorarioSuenoUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 import com.angel.ibanez.dehabitos.viewmodels.RecompensaViewModel
@@ -42,13 +43,12 @@ class PremiosNinoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ninoId = arguments?.getString("ninoId").orEmpty().ifBlank { DispositivoConfig.obtenerNinoId() }
-        AnimacionesUtils.cargarGifPausado(binding.ivMonedas, AnimacionesUtils.GIF_MONEDAS)
-        AnimacionesUtils.animarPeriodicamente(binding.ivMonedas, 8000L)
 
         adapter = AppRecompensaAdapter(estrellas = 0) { app, minutos, precio ->
             confirmarCanje(app, minutos, precio)
         }
         binding.rvApps.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvApps.setHasFixedSize(true)
         binding.rvApps.adapter = adapter
         AnimacionesUtils.entradaSuave(binding.rvApps)
 
@@ -58,7 +58,6 @@ class PremiosNinoFragment : Fragment() {
                 is Resultado.Exito -> {
                     binding.progressBar.visibility = View.GONE
                     nino = resultado.data
-                    mostrarEstrellas(resultado.data.estrellas)
                     adapter = AppRecompensaAdapter(estrellas = resultado.data.estrellas) { app, minutos, precio ->
                         confirmarCanje(app, minutos, precio)
                     }
@@ -99,8 +98,6 @@ class PremiosNinoFragment : Fragment() {
                         "Premio desbloqueado",
                         "Tienes $duracion para disfrutar."
                     )
-                    AnimacionesUtils.pulso(binding.tvEstrellas)
-                    AnimacionesUtils.reproducirGifUnaVez(binding.ivMonedas)
                     ninoViewModel.cargarNinoPorId(ninoId)
                     recompensaViewModel.consumirCanje()
                 }
@@ -117,12 +114,12 @@ class PremiosNinoFragment : Fragment() {
         recompensaViewModel.escucharAppsPermitidas(ninoId)
     }
 
-    private fun mostrarEstrellas(estrellas: Int) {
-        binding.tvEstrellas.text = estrellas.toString()
-    }
-
     private fun confirmarCanje(app: AplicacionPermitida, minutos: Int, precio: Int) {
         val ninoActual = nino ?: return
+        if (HorarioSuenoUtils.estaEnHorarioSueno(ninoActual.horarioSueno)) {
+            Toast.makeText(requireContext(), "No puedes canjear tiempo durante el horario de sueño", Toast.LENGTH_LONG).show()
+            return
+        }
         val duracion = "$minutos minutos"
         AlertDialog.Builder(requireContext())
             .setTitle("Canjear $duracion")

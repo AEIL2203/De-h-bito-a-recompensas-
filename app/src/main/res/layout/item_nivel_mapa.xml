@@ -78,18 +78,4 @@
         app:layout_constraintStart_toStartOf="@id/nodoNivel"
         app:layout_constraintTop_toBottomOf="@id/nodoNivel" />
 
-    <!-- Achievement star -->
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/ivLogro"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:visibility="gone"
-        app:iiv_color="@color/game_yellow"
-        app:iiv_icon="gmr-grade"
-        app:iiv_size="38dp"
-        app:layout_constraintEnd_toEndOf="@id/nodoNivel"
-        app:layout_constraintTop_toTopOf="@id/nodoNivel"
-        android:layout_marginTop="-6dp"
-        android:layout_marginEnd="-6dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

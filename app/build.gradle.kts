@@ -1,17 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.angel.ibanez.dehabitos"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.angel.ibanez.dehabitos"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 3
         versionName = "1.0.2"
 
@@ -40,7 +39,12 @@ android {
         viewBinding = true
     }
     sourceSets {
-        getByName("main").assets.srcDir("src/main/res/drawable/ICONOS")
+        getByName("main").assets {
+            directories += "src/main/res/drawable/ICONOS"
+        }
+    }
+    androidResources {
+        noCompress += "tflite"
     }
     packaging {
         resources {
@@ -64,8 +68,15 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.google.android.material)
     implementation(libs.glide)
+    implementation(libs.gson)
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.sqlcipher)
+    implementation(libs.androidx.sqlite)
+    implementation(libs.tensorflow.lite)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.google.identity.googleid)
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(platform(libs.google.firebase.bom))

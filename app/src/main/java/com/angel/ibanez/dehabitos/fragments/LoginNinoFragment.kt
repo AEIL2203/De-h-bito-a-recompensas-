@@ -38,7 +38,7 @@ class LoginNinoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnIngresar.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.white)
+        binding.btnIngresar.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.md_theme_onPrimary)
 
         binding.btnIngresar.setOnClickListener {
             val pin = binding.etPin.text.toString().trim()

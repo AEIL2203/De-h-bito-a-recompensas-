@@ -24,7 +24,10 @@ class DispositivoAdapter(
 
     inner class DispositivoViewHolder(private val binding: ItemDispositivoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(dispositivo: Dispositivo) {
-            binding.tvNombreDispositivo.text = "Dispositivo de ${dispositivo.nombreNino}"
+            binding.tvNombreDispositivo.text = buildString {
+                append("Dispositivo de ${dispositivo.nombreNino}")
+                if (dispositivo.nombreDispositivo.isNotBlank()) append(" · ${dispositivo.nombreDispositivo}")
+            }
             binding.tvEstado.text = if (dispositivo.desbloqueado) "Desbloqueado" else "Bloqueado"
 
             binding.swDesbloquear.setOnCheckedChangeListener(null)

@@ -20,7 +20,7 @@
                 style="@style/Widget.Habitos.Text.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apps permitidas"
+                android:text="@string/configure_apps_title"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Niño"
+                android:hint="@string/configure_apps_child_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitulo">
@@ -49,10 +49,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Actualizar catálogo"
+                android:text="@string/configure_apps_update_catalog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilNino" />
+
+            <TextView
+                android:id="@+id/tvInfoCatalogo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/configure_apps_catalog_help"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnActualizarCatalogo" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilApp"
@@ -60,16 +73,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="App instalada"
+                android:hint="@string/configure_apps_installed_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnActualizarCatalogo">
+                app:layout_constraintTop_toBottomOf="@id/tvInfoCatalogo">
 
                 <AutoCompleteTextView
                     android:id="@+id/actvApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Escribe el nombre del package si no aparece"
                     android:inputType="text"
                     android:completionThreshold="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="6dp"
-                android:hint="15 min (estrellas)"
+                android:hint="@string/configure_apps_price_15_hint"
                 app:layout_constraintEnd_toStartOf="@id/tilPrecio30"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilApp">
@@ -100,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
-                android:hint="30 min (estrellas)"
+                android:hint="@string/configure_apps_price_30_hint"
                 app:layout_constraintEnd_toStartOf="@id/tilPrecio60"
                 app:layout_constraintStart_toEndOf="@id/tilPrecio15"
                 app:layout_constraintTop_toBottomOf="@id/tilApp">
@@ -118,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:hint="60 min (estrellas)"
+                android:hint="@string/configure_apps_price_60_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tilPrecio30"
                 app:layout_constraintTop_toBottomOf="@id/tilApp">
@@ -136,7 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Agregar app"
+                android:text="@string/configure_apps_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilPrecio60" />
@@ -147,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Apps configuradas"
+                android:text="@string/configure_apps_configured"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnAgregar" />

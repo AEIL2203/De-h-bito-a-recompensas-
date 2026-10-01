@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Crea tu cuenta"
+            android:text="@string/register_tutor_title"
             android:textAppearance="?attr/textAppearanceHeadlineLarge"
             android:textColor="@color/game_text_dark"
             android:fontFamily="sans-serif-rounded"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitulo">
@@ -60,7 +60,7 @@
                     style="@style/Widget.Game.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre"
+                    android:hint="@string/register_tutor_name_hint"
                     app:boxStrokeColor="@color/game_purple"
                     app:hintTextColor="@color/game_text_medium">
 
@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Correo electrónico"
+                    android:hint="@string/register_tutor_email_hint"
                     app:boxStrokeColor="@color/game_purple"
                     app:hintTextColor="@color/game_text_medium">
 
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Teléfono"
+                    android:hint="@string/register_tutor_phone_hint"
                     app:boxStrokeColor="@color/game_purple"
                     app:hintTextColor="@color/game_text_medium">
 
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Contraseña"
+                    android:hint="@string/register_tutor_password_hint"
                     app:boxStrokeColor="@color/game_purple"
                     app:endIconMode="password_toggle"
                     app:hintTextColor="@color/game_text_medium">
@@ -129,7 +129,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Registrarme" />
+                    android:text="@string/register_tutor_register" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/register_tutor_or_with"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGoogle"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/register_tutor_google"
+                    android:textColor="?attr/colorOnSurface"
+                    app:icon="@drawable/ic_google_g"
+                    app:iconPadding="12dp"
+                    app:iconTint="@null" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -149,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:padding="8dp"
-            android:text="¿Ya tienes cuenta? Inicia sesión"
+            android:text="@string/register_tutor_has_account"
             android:textAppearance="?attr/textAppearanceBodyLarge"
             android:textColor="@color/purple_700"
             android:textStyle="bold"

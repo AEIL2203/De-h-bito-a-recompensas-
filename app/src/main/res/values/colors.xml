@@ -77,6 +77,7 @@
     <color name="md_theme_surfaceVariant">#E7E0EC</color>
     <color name="md_theme_onSurfaceVariant">#49454F</color>
     <color name="md_theme_outline">#79747E</color>
+    <color name="md_theme_outline_10">#1A79747E</color>
 
     <!-- Game specific accents -->
     <color name="game_yellow">#FFD900</color>
@@ -90,4 +91,9 @@
     <color name="black">#FF000000</color>
     <color name="game_text_dark">#3C3C3C</color>
     <color name="game_text_medium">#757575</color>
+    <color name="game_map_center">#E8F5E9</color>
+    <color name="child_nav_background">#F8F1FF</color>
+    <color name="child_nav_selected">#F0D9FF</color>
+    <color name="child_nav_icon">#6B5B7F</color>
+    <color name="child_nav_selected_text">#9B5DE5</color>
 </resources>

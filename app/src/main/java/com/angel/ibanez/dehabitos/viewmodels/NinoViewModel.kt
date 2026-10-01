@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.angel.ibanez.dehabitos.models.HorarioSueno
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.repository.NinoRepository
 import com.angel.ibanez.dehabitos.utils.Resultado
@@ -28,6 +29,8 @@ class NinoViewModel(
 
     private val _avatarResultado = MutableLiveData<Resultado<String>>()
     val avatarResultado: LiveData<Resultado<String>> = _avatarResultado
+    private val _horarioSuenoResultado = MutableLiveData<Resultado<Unit>>()
+    val horarioSuenoResultado: LiveData<Resultado<Unit>> = _horarioSuenoResultado
     private val _eliminarResultado = MutableLiveData<Resultado<Unit>>()
     val eliminarResultado: LiveData<Resultado<Unit>> = _eliminarResultado
 
@@ -46,6 +49,15 @@ class NinoViewModel(
         viewModelScope.launch {
             ninoRepository.actualizarAvatar(ninoId, avatar).collect {
                 _avatarResultado.value = it
+            }
+        }
+    }
+
+    fun actualizarHorarioSueno(ninoId: String, horario: HorarioSueno) {
+        _horarioSuenoResultado.value = Resultado.Cargando
+        viewModelScope.launch {
+            ninoRepository.actualizarHorarioSueno(ninoId, horario).collect {
+                _horarioSuenoResultado.value = it
             }
         }
     }

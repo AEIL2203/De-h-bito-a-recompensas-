@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.DeHábitosARecompensas" parent="Theme.Material3.Light.NoActionBar">
+    <!-- Tema para el arranque en frío: evita pantalla blanca/negra mientras carga -->
+    <style name="Theme.DeHábitosARecompensas.Launcher" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_window_background</item>
+        <item name="android:statusBarColor">#FF1A1A1A</item>
+        <item name="android:navigationBarColor">#FF1A1A1A</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.DeHábitosARecompensas" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Main Palette -->
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
@@ -33,7 +43,7 @@
 
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/md_theme_background</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
 
         <!-- Typography -->
         <item name="android:fontFamily">sans-serif-rounded</item>

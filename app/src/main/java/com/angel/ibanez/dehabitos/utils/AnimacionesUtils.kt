@@ -8,10 +8,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.angel.ibanez.dehabitos.R
+import com.google.android.material.color.MaterialColors
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.ImageViewTarget
@@ -114,20 +116,37 @@ object AnimacionesUtils {
         val context = view.context
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        val fondoCard = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = dp(view, 28).toFloat()
+            setColor(MaterialColors.getColor(view, com.google.android.material.R.attr.colorSurface, context.getColor(R.color.white)))
+            setStroke(dp(view, 2), context.getColor(R.color.game_yellow))
+        }
+
+        val fondoIcono = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(context.getColor(R.color.white))
+        }
+
+        val contenedorIcono = FrameLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(dp(view, 136), dp(view, 136))
+            background = fondoIcono
+        }
+
+        val imagen = ImageView(context).apply {
+            layoutParams = FrameLayout.LayoutParams(dp(view, 104), dp(view, 104)).apply {
+                gravity = Gravity.CENTER
+            }
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+        contenedorIcono.addView(imagen)
+
         val contenido = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
             setPadding(dp(view, 28), dp(view, 24), dp(view, 28), dp(view, 24))
-            background = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = dp(view, 28).toFloat()
-                setColor(context.getColor(R.color.white))
-                setStroke(dp(view, 2), context.getColor(R.color.game_yellow))
-            }
-        }
-        val imagen = ImageView(context).apply {
-            layoutParams = LinearLayout.LayoutParams(dp(view, 120), dp(view, 120))
-            scaleType = ImageView.ScaleType.FIT_CENTER
+            background = fondoCard
         }
         val textoTitulo = TextView(context).apply {
             text = celebracion.titulo
@@ -143,7 +162,7 @@ object AnimacionesUtils {
             setTextColor(context.getColor(R.color.md_theme_onSurface))
             setPadding(0, dp(view, 8), 0, 0)
         }
-        contenido.addView(imagen)
+        contenido.addView(contenedorIcono)
         contenido.addView(textoTitulo)
         contenido.addView(textoMensaje)
         contenido.setOnClickListener { dialog.dismiss() }

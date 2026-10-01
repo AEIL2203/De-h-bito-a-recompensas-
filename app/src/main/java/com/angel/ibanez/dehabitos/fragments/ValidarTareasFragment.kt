@@ -33,7 +33,6 @@ class ValidarTareasFragment : Fragment() {
     private val validacionesPendientes = mutableListOf<Validacion>()
     private var jobCelebracion: Job? = null
     private val adapter = TareaValidarAdapter(
-        nombresNinos = { nombresNinos },
         onValidar = { tarea -> tareaViewModel.validarTarea(tarea) },
         onRechazar = { tarea -> tareaViewModel.rechazarTarea(tarea) }
     )
@@ -52,13 +51,14 @@ class ValidarTareasFragment : Fragment() {
 
         // Inicializar el adaptador de inmediato para evitar advertencias de "No adapter attached"
         binding.rvTareas.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvTareas.setHasFixedSize(true)
         binding.rvTareas.adapter = adapter
         AnimacionesUtils.entradaSuave(binding.rvTareas)
 
         ninoViewModel.listaNinosResultado.observe(viewLifecycleOwner) { resultado ->
             if (resultado is Resultado.Exito) {
                 nombresNinos = resultado.data.associate { it.id to it.nombre }
-                adapter.notifyDataSetChanged()
+                adapter.actualizarNombresNinos(nombresNinos)
             }
         }
 

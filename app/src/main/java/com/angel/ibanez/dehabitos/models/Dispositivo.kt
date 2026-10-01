@@ -5,6 +5,7 @@ data class Dispositivo(
     var tutorId: String = "",
     var ninoId: String = "",
     var nombreNino: String = "",
+    var nombreDispositivo: String = "",
     var desbloqueado: Boolean = false,
     var fechaVinculacion: String = ""
 )

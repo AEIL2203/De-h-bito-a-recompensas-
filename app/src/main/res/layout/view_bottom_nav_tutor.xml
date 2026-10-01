@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardNavTutorGlobal"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="12dp"
+    android:elevation="12dp"
+    android:translationZ="12dp"
+    android:visibility="gone"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="32dp"
+    app:cardElevation="12dp"
+    app:strokeColor="#2679747E"
+    app:strokeWidth="1dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/vIndicadorTutorGlobal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="top|start"
+            android:background="@drawable/indicator_tutor_pill"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="6dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/navTutorGlobalInicio"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/nav_tutor_home"
+                android:textSize="12sp"
+                app:icon="@android:drawable/ic_menu_myplaces"
+                app:iconGravity="top" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/navTutorGlobalGestion"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/nav_tutor_management"
+                android:textSize="12sp"
+                app:icon="@android:drawable/ic_menu_manage"
+                app:iconGravity="top" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/navTutorGlobalControl"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/nav_tutor_control"
+                android:textSize="12sp"
+                app:icon="@android:drawable/ic_menu_agenda"
+                app:iconGravity="top" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/navTutorGlobalConfiguracion"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/nav_tutor_settings"
+                android:textSize="12sp"
+                app:icon="@android:drawable/ic_menu_preferences"
+                app:iconGravity="top" />
+        </LinearLayout>
+    </FrameLayout>
+</com.google.android.material.card.MaterialCardView>

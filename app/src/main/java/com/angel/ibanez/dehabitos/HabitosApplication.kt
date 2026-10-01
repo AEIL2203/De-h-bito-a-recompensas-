@@ -1,6 +1,7 @@
 package com.angel.ibanez.dehabitos
 
 import android.app.Application
+import com.angel.ibanez.dehabitos.data.local.LocalCacheManager
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.NotificacionesUtils
 import com.angel.ibanez.dehabitos.workers.ProgramadorTrabajos
@@ -16,6 +17,7 @@ class HabitosApplication : Application() {
         
         // Inicializar configuración global del dispositivo
         DispositivoConfig.inicializar(this)
+        LocalCacheManager.inicializar(this)
 
         NotificacionesUtils.crearCanales(this)
         ProgramadorTrabajos.programar(this)

@@ -16,41 +16,169 @@
             style="@style/Widget.Habitos.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mi Perfil"
+            android:text="@string/child_profile_title"
             android:textColor="?attr/colorSecondary" />
 
-        <ImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/circle_turquoise"
-            android:contentDescription="Avatar"
-            android:padding="14dp"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/tvNombre"
-            style="@style/Widget.Habitos.Text.Headline"
-            android:layout_width="wrap_content"
+        <!-- Cabecera de perfil -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Niño" />
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#269B5DE5"
+            app:strokeWidth="1dp">
 
-        <TextView
-            android:id="@+id/tvProgreso"
-            style="@style/Widget.Habitos.Text.Body"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_header_gradient"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/circle_turquoise"
+                    android:contentDescription="Avatar"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNombre"
+                        style="@style/Widget.Habitos.Text.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.02"
+                        android:text="@string/child_profile_default_name" />
+
+                    <TextView
+                        android:id="@+id/tvProgreso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:alpha="0.85"
+                        android:fontFamily="sans-serif-rounded"
+                        android:text="@string/child_profile_level_xp"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Apariencia: modo oscuro -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Nivel 1 · 0 XP" />
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#1A79747E"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/circle_soft"
+                    android:backgroundTint="#261CB0F6"
+                    app:iiv_color="?attr/colorTertiary"
+                    app:iiv_icon="gmr-brightness-3"
+                    app:iiv_size="18dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-rounded"
+                    android:text="@string/child_profile_dark_mode"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchModoOscuro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Música de fondo -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#1A79747E"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/circle_soft"
+                    android:backgroundTint="#26E040FB"
+                    app:iiv_color="?attr/colorPrimary"
+                    app:iiv_icon="gmr-music-note"
+                    app:iiv_size="18dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-rounded"
+                    android:text="@string/child_profile_music"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchMusica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             style="@style/Widget.Habitos.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Elige tu avatar"
+            android:text="@string/child_profile_choose_avatar"
             android:textColor="?attr/colorSecondary" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -61,46 +189,5 @@
             android:nestedScrollingEnabled="false"
             android:overScrollMode="never" />
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Habitos.Card.Secondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tvEstrellas"
-                    style="@style/Widget.Habitos.Text.Body"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Estrellas: 0" />
-
-                <TextView
-                    android:id="@+id/tvRacha"
-                    style="@style/Widget.Habitos.Text.Body"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Racha: 0 días" />
-
-                <TextView
-                    android:id="@+id/tvInsignias"
-                    style="@style/Widget.Habitos.Text.Body"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Insignias: 0" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

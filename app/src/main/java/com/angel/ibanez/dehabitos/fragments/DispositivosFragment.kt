@@ -51,6 +51,7 @@ class DispositivosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvDispositivos.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDispositivos.setHasFixedSize(true)
         binding.rvDispositivos.adapter = adapter
 
         viewModel.dispositivosResultado.observe(viewLifecycleOwner) { resultado ->

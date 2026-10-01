@@ -15,29 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivMonedas"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:contentDescription="Estrellas"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@id/tvEstrellas"
-        app:layout_constraintEnd_toStartOf="@id/tvEstrellas"
-        app:layout_constraintTop_toTopOf="@id/tvEstrellas" />
-
-    <TextView
-        android:id="@+id/tvEstrellas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:fontFamily="sans-serif-rounded"
-        android:text="0"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
-        android:textColor="@color/game_yellow_dark"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvApps"
         android:layout_width="0dp"

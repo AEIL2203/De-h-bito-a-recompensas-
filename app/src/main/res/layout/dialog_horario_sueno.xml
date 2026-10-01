@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configurar horario de sueño"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="?attr/colorOnSurface"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Hora de dormir (HH:MM)">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etHoraDormir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:text="21:00" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Hora de despertar (HH:MM)">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etHoraDespertar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:text="07:00" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Días activos"
+        android:textAppearance="?attr/textAppearanceTitleSmall"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cbLunes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L" />
+
+        <CheckBox
+            android:id="@+id/cbMartes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M" />
+
+        <CheckBox
+            android:id="@+id/cbMiercoles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M" />
+
+        <CheckBox
+            android:id="@+id/cbJueves"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="J" />
+
+        <CheckBox
+            android:id="@+id/cbViernes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V" />
+
+        <CheckBox
+            android:id="@+id/cbSabado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S" />
+
+        <CheckBox
+            android:id="@+id/cbDomingo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D" />
+    </LinearLayout>
+</LinearLayout>

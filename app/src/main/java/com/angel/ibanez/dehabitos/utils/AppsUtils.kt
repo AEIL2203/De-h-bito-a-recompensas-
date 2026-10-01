@@ -17,6 +17,27 @@ data class AppInfo(
     val icono: Drawable?
 )
 
+private val nombresConocidos = mapOf(
+    "com.google.android.youtube" to "YouTube",
+    "com.google.android.apps.youtube.kids" to "YouTube Kids",
+    "com.google.android.apps.youtube.music" to "YouTube Music",
+    "com.google.android.youtube.tv" to "YouTube",
+    "com.zhiliaoapp.musically" to "TikTok",
+    "com.ss.android.ugc.trill" to "TikTok",
+    "com.facebook.katana" to "Facebook",
+    "com.facebook.orca" to "Messenger",
+    "com.instagram.android" to "Instagram",
+    "com.whatsapp" to "WhatsApp",
+    "com.whatsapp.w4b" to "WhatsApp Business",
+    "com.spotify.music" to "Spotify",
+    "com.netflix.mediaclient" to "Netflix",
+    "com.disney.disneyplus" to "Disney+",
+    "com.google.android.apps.nbu.paisa.user" to "Google Pay",
+    "com.google.android.gms" to "Servicios de Google Play",
+    "com.google.android.gsf" to "Google Services Framework",
+    "com.android.vending" to "Google Play Store"
+)
+
 object AppsUtils {
 
     fun listarAppsInstaladas(context: Context): List<AppInfo> {
@@ -85,6 +106,29 @@ object AppsUtils {
             android.graphics.drawable.BitmapDrawable(context.resources, bitmap)
         } catch (e: Exception) {
             null
+        }
+    }
+
+    /**
+     * Devuelve un nombre legible para el usuario a partir de un packageName.
+     * - Si hay un nombre guardado en Firestore/local, lo usa.
+     * - Si el paquete está instalado, consulta el nombre real del sistema.
+     * - Si no, intenta nombres conocidos de apps populares.
+     * - Finalmente, devuelve el packageName original.
+     */
+    fun obtenerNombreApp(context: Context, packageName: String, nombreGuardado: String? = null): String {
+        val guardado = nombreGuardado?.trim().orEmpty()
+        if (guardado.isNotEmpty() && !guardado.startsWith("com.") && !guardado.startsWith("org.")) return guardado
+
+        val limpio = packageName.trim().lowercase()
+        nombresConocidos[limpio]?.let { return it }
+
+        return try {
+            val pm = context.packageManager
+            val info = pm.getApplicationInfo(limpio, 0)
+            pm.getApplicationLabel(info).toString().takeIf { it.isNotBlank() } ?: limpio
+        } catch (e: Exception) {
+            limpio
         }
     }
 }

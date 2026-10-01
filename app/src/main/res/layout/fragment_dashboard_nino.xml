@@ -28,7 +28,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Estadísticas -->
+            <!-- Estadísticas de tareas -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEstadisticas"
                 style="@style/Widget.Habitos.Card"
@@ -128,12 +128,13 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Resumen de Racha -->
+            <!-- Tarjeta de estadísticas: Estrellas / Racha / Insignias -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardStats"
+                style="@style/Widget.Habitos.Card.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.Habitos.Card.Secondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardEstadisticas">
@@ -141,28 +142,179 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:gravity="center"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tvRacha"
-                        style="@style/Widget.Habitos.Text.Title"
-                        android:layout_width="wrap_content"
+                    <!-- Estrellas -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="0 días de racha"
-                        android:textColor="?attr/colorOnSecondaryContainer" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvInsignias"
-                        style="@style/Widget.Habitos.Text.Body"
-                        android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/circle_soft"
+                            android:backgroundTint="#26D4AA00"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                app:iiv_color="@color/game_yellow_dark"
+                                app:iiv_icon="gmr-star"
+                                app:iiv_size="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvEstrellas"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-rounded"
+                                android:text="0"
+                                android:textColor="@color/game_yellow_dark"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-rounded"
+                            android:text="Estrellas"
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+
+                    <!-- Racha -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="0 insignias desbloqueadas"
-                        android:textColor="?attr/colorOnSecondaryContainer" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/circle_soft"
+                            android:backgroundTint="#26FF4B4B"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                app:iiv_color="@color/game_coral"
+                                app:iiv_icon="gmr-whatshot"
+                                app:iiv_size="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvRacha"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-rounded"
+                                android:text="0"
+                                android:textColor="@color/game_coral"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-rounded"
+                            android:text="Racha"
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+
+                    <!-- Insignias -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/circle_soft"
+                            android:backgroundTint="#260A8DD0"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                app:iiv_color="@color/game_blue_dark"
+                                app:iiv_icon="gmr-military-tech"
+                                app:iiv_size="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvInsignias"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-rounded"
+                                android:text="0"
+                                android:textColor="@color/game_blue_dark"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-rounded"
+                            android:text="Insignias"
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvTituloLogros"
+                style="@style/Widget.Habitos.Text.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Logros"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardStats" />
+
+            <TextView
+                android:id="@+id/tvProgresoLogros"
+                style="@style/Widget.Habitos.Text.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 de 15"
+                app:layout_constraintBottom_toBottomOf="@id/tvTituloLogros"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLogros"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:paddingBottom="12dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTituloLogros" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

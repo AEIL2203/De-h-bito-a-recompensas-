@@ -9,49 +9,63 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="92dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <!-- Cabecera de Perfil -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCabecera"
-                style="@style/Widget.Habitos.Card.Primary"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#269B5DE5"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_gradient"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
 
                     <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/circle_turquoise"
-                        android:backgroundTint="?attr/colorSurface"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/circle_soft"
+                        android:backgroundTint="#269B5DE5"
                         app:iiv_color="?attr/colorPrimary"
                         app:iiv_icon="gmr-account-circle"
-                        app:iiv_size="32dp" />
+                        app:iiv_size="22dp" />
 
-                    <TextView
-                        android:id="@+id/tvBienvenida"
-                        style="@style/Widget.Habitos.Text.Title"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="12dp"
                         android:layout_weight="1"
-                        android:text="Hola, Tutor"
-                        android:textColor="?attr/colorOnPrimaryContainer" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvBienvenida"
+                            style="@style/Widget.Habitos.Text.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.02"
+                            android:text="@string/tutor_dashboard_hello"
+                            android:textColor="?attr/colorOnSurface" />
+
+
+                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCerrarSesion"
@@ -59,110 +73,434 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:icon="?attr/homeAsUpIndicator"
-                        app:iconTint="?attr/colorOnPrimaryContainer" />
+                        app:iconTint="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Acciones Rápidas -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAgregarNino"
-                style="@style/Widget.Habitos.Button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Agregar Niño"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardCabecera" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGestionarDispositivos"
-                style="@style/Widget.Habitos.Button.Tonal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Gestionar dispositivos"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnAgregarNino" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnConfigurarApps"
-                style="@style/Widget.Habitos.Button.Tonal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Apps y precios"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnGestionarDispositivos" />
-
-            <!-- Gestión de Misiones -->
             <LinearLayout
-                android:id="@+id/filaTareas"
-                android:layout_width="0dp"
+                android:id="@+id/seccionInicio"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnConfigurarApps">
+                android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAsignarTarea"
-                    style="@style/Widget.Habitos.Button"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvMisNinos"
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="?attr/colorTertiary"
-                    android:text="Asignar" />
+                    android:layout_marginTop="24dp"
+                    android:text="@string/tutor_section_home_title"
+                    android:textColor="?attr/colorPrimary" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnValidarTareas"
-                    style="@style/Widget.Habitos.Button"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/md_theme_secondary"
-                    android:text="Validar" />
+                    android:layout_marginTop="4dp"
+                    android:text="@string/tutor_section_home_description"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNinos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEncuesta"
-                style="@style/Widget.Habitos.Button.Tonal"
-                android:layout_width="0dp"
+            <!-- Menú de acciones -->
+            <LinearLayout
+                android:id="@+id/seccionGestion"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Encuesta de satisfacción"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/filaTareas" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tvMisNinos"
-                style="@style/Widget.Habitos.Text.Title"
-                android:layout_width="wrap_content"
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/tutor_section_management_subtitle"
+                    android:textColor="?attr/colorPrimary" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#1A79747E"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <!-- Agregar niño -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAgregarNino"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_add_child"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_input_add"
+                            app:iconTint="?attr/colorPrimary" />
+
+                        <!-- Gestionar dispositivos -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGestionarDispositivos"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_manage_devices"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_menu_manage"
+                            app:iconTint="?attr/colorSecondary" />
+
+                        <!-- Horario de sueño -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHorarioSueno"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="Horario de sueño"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_lock_idle_alarm"
+                            app:iconTint="?attr/colorTertiary" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seccionControl"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Mis Niños"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnEncuesta" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvNinos"
-                android:layout_width="0dp"
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/tutor_section_control_subtitle"
+                    android:textColor="?attr/colorPrimary" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#1A79747E"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <!-- Apps y precios -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnConfigurarApps"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_apps_points"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_menu_view"
+                            app:iconTint="?attr/colorTertiary" />
+
+                        <!-- Asignar misión -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAsignarTarea"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_assign_mission"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_menu_add"
+                            app:iconTint="@color/game_green_dark" />
+
+                        <!-- Validar misiones -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnValidarTareas"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_validate_missions"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/checkbox_on_background"
+                            app:iconTint="?attr/colorSecondary" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seccionConfiguracion"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvMisNinos" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/tutor_section_settings_subtitle"
+                    android:textColor="?attr/colorPrimary" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#1A79747E"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <!-- Encuesta -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEncuesta"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_survey"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_menu_edit"
+                            app:iconTint="?attr/colorTertiary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTerminos"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_terms"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:iconSize="26dp"
+                            app:iconPadding="14dp"
+                            app:icon="@android:drawable/ic_menu_info_details"
+                            app:iconTint="?attr/colorPrimary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnConfigurarNotificaciones"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="Configurar notificaciones"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:icon="@android:drawable/ic_popup_reminder"
+                            app:iconTint="?attr/colorSecondary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPinParental"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/tutor_option_change_pin"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:icon="@android:drawable/ic_lock_lock"
+                            app:iconPadding="14dp"
+                            app:iconSize="26dp"
+                            app:iconTint="?attr/colorSecondary" />
+
+                        <!-- Modo oscuro -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                app:iiv_color="?attr/colorTertiary"
+                                app:iiv_icon="gmr-brightness-3"
+                                app:iiv_size="22dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:text="@string/tutor_option_dark_mode"
+                                android:textAppearance="?attr/textAppearanceLabelLarge"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/switchModoOscuro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvVersionApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:gravity="center"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvUltimaActualizacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:elevation="12dp"
+        android:translationZ="12dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="12dp"
+        app:strokeColor="#2679747E"
+        app:strokeWidth="1dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/vIndicadorTutor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="top|start"
+                android:background="@drawable/indicator_tutor_pill"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:id="@+id/bottomNavTutor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="6dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/navTutorInicio"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/nav_tutor_home"
+                    android:textSize="12sp"
+                    app:icon="@android:drawable/ic_menu_myplaces"
+                    app:iconGravity="top" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/navTutorGestion"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/nav_tutor_management"
+                    android:textSize="12sp"
+                    app:icon="@android:drawable/ic_menu_manage"
+                    app:iconGravity="top" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/navTutorControl"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/nav_tutor_control"
+                    android:textSize="12sp"
+                    app:icon="@android:drawable/ic_menu_agenda"
+                    app:iconGravity="top" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/navTutorConfiguracion"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/nav_tutor_settings"
+                    android:textSize="12sp"
+                    app:icon="@android:drawable/ic_menu_preferences"
+                    app:iconGravity="top" />
+            </LinearLayout>
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -171,5 +509,4 @@
         android:layout_gravity="center"
         android:indeterminateTint="?attr/colorPrimary"
         android:visibility="gone" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -56,7 +56,7 @@ class AsignarTareaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAsignar.icon = IconosUtils.crearIcono(requireContext(), "gmr-bolt", R.color.white)
+        binding.btnAsignar.icon = IconosUtils.crearIcono(requireContext(), "gmr-bolt", R.color.md_theme_onPrimary)
 
         configurarCategorias()
         configurarFechaLimite()

@@ -12,9 +12,12 @@ import com.angel.ibanez.dehabitos.adapters.AvataresAdapter
 import com.angel.ibanez.dehabitos.databinding.FragmentPerfilNinoBinding
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
+import com.angel.ibanez.dehabitos.utils.AudioConfig
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.MusicaFondoManager
 import com.angel.ibanez.dehabitos.utils.Resultado
+import com.angel.ibanez.dehabitos.utils.TemaConfig
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 
 class PerfilNinoFragment : Fragment() {
@@ -34,6 +37,8 @@ class PerfilNinoFragment : Fragment() {
         ninoId = arguments?.getString("ninoId").orEmpty().ifBlank { DispositivoConfig.obtenerNinoId() }
         AnimacionesUtils.entradaSuave(binding.ivAvatar)
         configurarAvatares()
+        configurarModoOscuro()
+        configurarMusica()
         viewModel.ninoResultado.observe(viewLifecycleOwner) { resultado ->
             if (resultado is Resultado.Exito) pintarPerfil(resultado.data)
             if (resultado is Resultado.Error) Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
@@ -55,15 +60,28 @@ class PerfilNinoFragment : Fragment() {
         binding.rvAvatares.adapter = avataresAdapter
     }
 
+    private fun configurarModoOscuro() {
+        binding.switchModoOscuro.isChecked = TemaConfig.esOscuroActual(requireContext())
+        binding.switchModoOscuro.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked == TemaConfig.esOscuroActual(requireContext())) return@setOnCheckedChangeListener
+            TemaConfig.cambiar(requireContext(), isChecked)
+        }
+    }
+
+    private fun configurarMusica() {
+        binding.switchMusica.isChecked = AudioConfig.musicaHabilitada(requireContext())
+        binding.switchMusica.setOnCheckedChangeListener { _, isChecked ->
+            AudioConfig.habilitarMusica(requireContext(), isChecked)
+            if (isChecked) MusicaFondoManager.reproducir() else MusicaFondoManager.pausar()
+        }
+    }
+
     private fun pintarPerfil(nino: Nino) {
         val avatar = AvataresUtils.obtener(nino.avatar)
         AvataresUtils.cargar(binding.ivAvatar, avatar.id)
         avataresAdapter.seleccionadoId = avatar.id
         binding.tvNombre.text = nino.nombre
         binding.tvProgreso.text = "Nivel ${nino.nivel} · ${nino.experiencia} XP"
-        binding.tvEstrellas.text = "Estrellas: ${nino.estrellas}"
-        binding.tvRacha.text = "Racha: ${nino.racha} días"
-        binding.tvInsignias.text = "Insignias: ${nino.insignias.size}"
     }
 
     override fun onDestroyView() {

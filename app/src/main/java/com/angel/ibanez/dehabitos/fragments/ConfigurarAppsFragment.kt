@@ -32,7 +32,7 @@ class ConfigurarAppsFragment : Fragment() {
 
     private var ninos: List<Nino> = emptyList()
     private var ninoSeleccionado: Nino? = null
-    private var appsInstaladas: List<AppInfo> = emptyList()
+    private var catalogoApps: List<AppInfo> = emptyList()
     private var appSeleccionada: AppInfo? = null
     private var tutorId: String = ""
 
@@ -63,10 +63,11 @@ class ConfigurarAppsFragment : Fragment() {
         binding.rvApps.layoutManager = LinearLayoutManager(requireContext())
         binding.rvApps.adapter = adapter
 
-        actualizarSelectorApps(appsDisponibles(emptyList()))
+        actualizarSelectorApps(emptyList())
+        binding.tvInfoCatalogo.visibility = View.VISIBLE
 
         binding.actvApp.setOnItemClickListener { _, _, position, _ ->
-            appSeleccionada = appsInstaladas.getOrNull(position)
+            appSeleccionada = catalogoApps.getOrNull(position)
         }
 
         binding.btnAgregar.setOnClickListener { agregarApp() }
@@ -113,15 +114,17 @@ class ConfigurarAppsFragment : Fragment() {
                 is Resultado.Exito -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnActualizarCatalogo.isEnabled = true
-                    val catalogo = resultado.data.map { app ->
+                    val apps = resultado.data.map { app ->
                         AppInfo(app.packageName, app.nombre, AppsUtils.base64ADrawable(requireContext(), app.iconoBase64))
                     }
-                    actualizarSelectorApps(appsDisponibles(catalogo))
+                    actualizarSelectorApps(apps)
+                    binding.tvInfoCatalogo.visibility = if (apps.isEmpty()) View.VISIBLE else View.GONE
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnActualizarCatalogo.isEnabled = true
-                    actualizarSelectorApps(appsDisponibles(emptyList()))
+                    actualizarSelectorApps(emptyList())
+                    binding.tvInfoCatalogo.visibility = View.VISIBLE
                     Toast.makeText(requireContext(), "No se pudo cargar el catálogo: ${resultado.mensaje}", Toast.LENGTH_LONG).show()
                 }
             }
@@ -162,33 +165,12 @@ class ConfigurarAppsFragment : Fragment() {
         ninoViewModel.cargarNinosPorTutor(tutorId)
     }
 
-    private fun obtenerAppsLocales(): List<AppInfo> {
-        return AppsUtils.listarAppsInstaladas(requireContext())
-    }
-
-    private fun appsDisponibles(catalogo: List<AppInfo>): List<AppInfo> {
-        val locales = obtenerAppsLocales()
-        val catalogoMap = catalogo.associateBy { it.packageName }
-        return (catalogoMap.keys + locales.map { it.packageName })
-            .distinct()
-            .mapNotNull { packageName ->
-                val catalogoItem = catalogoMap[packageName]
-                val localItem = locales.find { it.packageName == packageName }
-                AppInfo(
-                    packageName = packageName,
-                    nombre = catalogoItem?.nombre ?: localItem?.nombre ?: packageName,
-                    icono = catalogoItem?.icono ?: localItem?.icono
-                )
-            }
-            .sortedBy { it.nombre.lowercase() }
-    }
-
     private fun actualizarSelectorApps(apps: List<AppInfo>) {
-        appsInstaladas = apps
+        catalogoApps = apps.sortedBy { it.nombre.lowercase() }
         appSeleccionada = null
         binding.actvApp.setText("", false)
         binding.actvApp.setAdapter(
-            ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, apps.map { it.nombre })
+            ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, catalogoApps.map { it.nombre })
         )
     }
 
@@ -202,14 +184,11 @@ class ConfigurarAppsFragment : Fragment() {
         val texto = binding.actvApp.text.toString().trim()
         val app: AppInfo? = when {
             appSeleccionada != null && appSeleccionada?.nombre == texto -> appSeleccionada
-            texto.isNotBlank() -> {
-                val local = obtenerAppsLocales().find { it.packageName.equals(texto, ignoreCase = true) || it.nombre.equals(texto, ignoreCase = true) }
-                local ?: AppInfo(texto, texto, null)
-            }
+            texto.isNotBlank() -> catalogoApps.find { it.nombre.equals(texto, ignoreCase = true) || it.packageName.equals(texto, ignoreCase = true) }
             else -> null
         }
         if (app == null) {
-            Toast.makeText(requireContext(), "Selecciona una app o escribe el package", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Selecciona una app del catálogo del niño", Toast.LENGTH_SHORT).show()
             return
         }
 
