@@ -32,6 +32,8 @@ object DispositivoConfig {
     private const val KEY_NOTIF_HIJO_HORA = "notif_hijo_hora"
     private const val KEY_NOTIF_TUTOR_HORA = "notif_tutor_hora"
     private const val KEY_NOTIF_HABILITADAS = "notif_habilitadas"
+    private const val KEY_TUTOR_TUTORIAL_VISTO = "tutor_tutorial_visto"
+    private const val KEY_NINO_TUTORIAL_VISTO = "nino_tutorial_visto"
     private const val MAX_INTENTOS_PIN = 5
     private const val BLOQUEO_PIN_MS = 60_000L
 
@@ -172,6 +174,8 @@ object DispositivoConfig {
         val pinSalt = prefs.getString(KEY_PIN_PARENTAL_SALT, null)
         val intentos = prefs.getInt(KEY_PIN_INTENTOS, 0)
         val bloqueoHasta = prefs.getLong(KEY_PIN_BLOQUEO_HASTA, 0L)
+        val tutorTutorialVisto = prefs.getBoolean(KEY_TUTOR_TUTORIAL_VISTO, false)
+        val ninoTutorialVisto = prefs.getBoolean(KEY_NINO_TUTORIAL_VISTO, false)
         val editor = prefs.edit().clear().putString(KEY_DEVICE_ID, deviceId)
         if (preservarPinParental && pinHash != null && pinSalt != null) {
             editor.putString(KEY_PIN_PARENTAL_HASH, pinHash)
@@ -179,7 +183,9 @@ object DispositivoConfig {
                 .putInt(KEY_PIN_INTENTOS, intentos)
                 .putLong(KEY_PIN_BLOQUEO_HASTA, bloqueoHasta)
         }
-        editor.apply()
+        editor.putBoolean(KEY_TUTOR_TUTORIAL_VISTO, tutorTutorialVisto)
+            .putBoolean(KEY_NINO_TUTORIAL_VISTO, ninoTutorialVisto)
+            .apply()
     }
 
     fun guardarDbPassphrase(passphrase: String) {
@@ -199,6 +205,24 @@ object DispositivoConfig {
     fun obtenerHoraNotificacionHijo(): Int = prefs.getInt(KEY_NOTIF_HIJO_HORA, 7)
     fun obtenerHoraNotificacionTutor(): Int = prefs.getInt(KEY_NOTIF_TUTOR_HORA, 17)
     fun notificacionesHabilitadas(): Boolean = prefs.getBoolean(KEY_NOTIF_HABILITADAS, true)
+
+    fun marcarTutorialVisto(modo: ModoDispositivo, visto: Boolean = true) {
+        val key = when (modo) {
+            ModoDispositivo.PADRE -> KEY_TUTOR_TUTORIAL_VISTO
+            ModoDispositivo.HIJO -> KEY_NINO_TUTORIAL_VISTO
+            else -> return
+        }
+        prefs.edit().putBoolean(key, visto).apply()
+    }
+
+    fun tutorialVisto(modo: ModoDispositivo): Boolean {
+        val key = when (modo) {
+            ModoDispositivo.PADRE -> KEY_TUTOR_TUTORIAL_VISTO
+            ModoDispositivo.HIJO -> KEY_NINO_TUTORIAL_VISTO
+            else -> return true
+        }
+        return prefs.getBoolean(key, false)
+    }
 
     enum class ResultadoPin { CORRECTO, INCORRECTO, BLOQUEADO, NO_CONFIGURADO }
 

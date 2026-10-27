@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
@@ -15,11 +17,41 @@ android {
         versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            val props = Properties()
+            val localProps = rootProject.file("local.properties")
+            if (localProps.exists()) {
+                props.load(localProps.inputStream())
+            }
+            storeFile = file(
+                props["RELEASE_STORE_FILE"]?.toString()
+                    ?: System.getenv("RELEASE_STORE_FILE")
+                    ?: "release.keystore"
+            )
+            storePassword = props["RELEASE_STORE_PASSWORD"]?.toString()
+                ?: System.getenv("RELEASE_STORE_PASSWORD")
+                ?: ""
+            keyAlias = props["RELEASE_KEY_ALIAS"]?.toString()
+                ?: System.getenv("RELEASE_KEY_ALIAS")
+                ?: "release"
+            keyPassword = props["RELEASE_KEY_PASSWORD"]?.toString()
+                ?: System.getenv("RELEASE_KEY_PASSWORD")
+                ?: ""
+        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

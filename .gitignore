@@ -16,3 +16,6 @@ local.properties
 /app/google-services.json
 /.kotlin/
 /functions/node_modules/
+*.keystore
+*.jks
+release_cert.der

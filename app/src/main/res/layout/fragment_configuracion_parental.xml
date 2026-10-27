@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/bottom_nav_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,13 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Configuración parental"
-            android:textColor="?attr/colorSecondary" />
+            android:textColor="?attr/colorPrimary" />
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Habitos.Card.Secondary"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#1A79747E"
+            app:strokeWidth="1dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,69 +42,111 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Permisos del dispositivo"
-                    android:textColor="?attr/colorOnSecondaryContainer" />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <TextView
                     android:id="@+id/tvEstadoUso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Acceso de uso: pendiente" />
+                    android:text="Acceso de uso: pendiente"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUso"
-                    style="@style/Widget.Habitos.Button.Tonal"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_marginTop="8dp"
-                    android:text="Habilitar acceso de uso" />
+                    android:gravity="start|center_vertical"
+                    android:text="Habilitar acceso de uso"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_menu_recent_history"
+                    app:iconPadding="14dp"
+                    app:iconSize="26dp"
+                    app:iconTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/tvEstadoAccesibilidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Accesibilidad: pendiente" />
+                    android:text="Accesibilidad: pendiente"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAccesibilidad"
-                    style="@style/Widget.Habitos.Button.Tonal"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_marginTop="8dp"
-                    android:text="Habilitar servicio de accesibilidad" />
+                    android:gravity="start|center_vertical"
+                    android:text="Habilitar servicio de accesibilidad"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_menu_manage"
+                    app:iconPadding="14dp"
+                    app:iconSize="26dp"
+                    app:iconTint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/tvEstadoNotificaciones"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Notificaciones: desactivadas" />
+                    android:text="Notificaciones: desactivadas"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNotificaciones"
-                    style="@style/Widget.Habitos.Button.Tonal"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_marginTop="8dp"
-                    android:text="Habilitar notificaciones" />
+                    android:gravity="start|center_vertical"
+                    android:text="Habilitar notificaciones"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_popup_reminder"
+                    app:iconPadding="14dp"
+                    app:iconSize="26dp"
+                    app:iconTint="?attr/colorPrimary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnActualizarApps"
-                    style="@style/Widget.Habitos.Button.Tonal"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_marginTop="16dp"
-                    android:text="Actualizar lista de apps" />
+                    android:gravity="start|center_vertical"
+                    android:text="Actualizar lista de apps"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_popup_sync"
+                    app:iconPadding="14dp"
+                    app:iconSize="26dp"
+                    app:iconTint="?attr/colorPrimary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnModoPadre"
-                    style="@style/Widget.Habitos.Button.Secondary"
+                    style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_marginTop="24dp"
+                    android:gravity="start|center_vertical"
                     android:text="Desbloquear y entrar a modo padre"
-                    app:icon="@android:drawable/ic_lock_lock" />
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_lock_lock"
+                    app:iconPadding="14dp"
+                    app:iconSize="26dp"
+                    app:iconTint="?attr/colorPrimary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

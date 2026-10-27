@@ -6,12 +6,28 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_gravity="top"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:src="@drawable/wave_top_tutor" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_gravity="bottom"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:src="@drawable/wave_bottom_tutor" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="92dp">
+        android:paddingBottom="@dimen/bottom_nav_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -346,6 +362,8 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             app:icon="@android:drawable/ic_popup_reminder"
+                            app:iconPadding="14dp"
+                            app:iconSize="26dp"
                             app:iconTint="?attr/colorSecondary" />
 
                         <com.google.android.material.button.MaterialButton
@@ -392,6 +410,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnVerTutorial"
+                            style="@style/Widget.Material3.Button.TextButton.Icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:gravity="start|center_vertical"
+                            android:text="Ver tutorial de nuevo"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:icon="@android:drawable/ic_menu_info_details"
+                            app:iconPadding="14dp"
+                            app:iconSize="26dp"
+                            app:iconTint="?attr/colorPrimary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

@@ -14,6 +14,7 @@ import androidx.navigation.navOptions
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentSplashBinding
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
+import com.angel.ibanez.dehabitos.utils.PermisosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 import kotlinx.coroutines.delay
@@ -131,6 +132,11 @@ class SplashFragment : Fragment() {
                 enter = R.anim.fade_in
                 exit = R.anim.fade_out
             }
+        }
+
+        if (!PermisosUtils.servicioAccesibilidadActivo(requireContext())) {
+            findNavController().navigate(R.id.action_splashFragment_to_permisosObligatoriosFragment, null, opciones)
+            return
         }
 
         when (determinarRuta()) {

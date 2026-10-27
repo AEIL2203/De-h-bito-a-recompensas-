@@ -13,7 +13,7 @@
         android:background="@drawable/circle_soft"
         android:backgroundTint="#269B5DE5"
         app:iiv_color="?attr/colorPrimary"
-        app:iiv_icon="gmr-pin"
+        app:iiv_icon="gmr-vpn-key"
         app:iiv_size="28dp" />
 
     <TextView
@@ -49,10 +49,9 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="numberPassword"
-            android:letterSpacing="0.35"
             android:maxLength="6"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -70,9 +69,8 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="numberPassword"
-            android:letterSpacing="0.35"
             android:maxLength="6"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

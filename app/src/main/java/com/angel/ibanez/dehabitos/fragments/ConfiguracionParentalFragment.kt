@@ -75,13 +75,13 @@ class ConfiguracionParentalFragment : Fragment() {
     private fun actualizarEstados() {
         val uso = PermisosUtils.tieneAccesoUso(requireContext())
         binding.tvEstadoUso.text = if (uso) "Acceso de uso: activado" else "Acceso de uso: pendiente"
-        binding.tvEstadoUso.setTextColor(requireContext().getColor(if (uso) R.color.md_theme_secondary else R.color.md_theme_error))
+        binding.tvEstadoUso.setTextColor(requireContext().getColor(if (uso) R.color.md_theme_primary else R.color.md_theme_error))
         val accesibilidad = PermisosUtils.servicioAccesibilidadActivo(requireContext())
         binding.tvEstadoAccesibilidad.text = if (accesibilidad) "Accesibilidad: activada" else "Accesibilidad: pendiente"
-        binding.tvEstadoAccesibilidad.setTextColor(requireContext().getColor(if (accesibilidad) R.color.md_theme_secondary else R.color.md_theme_error))
+        binding.tvEstadoAccesibilidad.setTextColor(requireContext().getColor(if (accesibilidad) R.color.md_theme_primary else R.color.md_theme_error))
         val notificaciones = PermisosUtils.notificacionesActivas(requireContext())
         binding.tvEstadoNotificaciones.text = if (notificaciones) "Notificaciones: activadas" else "Notificaciones: desactivadas"
-        binding.tvEstadoNotificaciones.setTextColor(requireContext().getColor(if (notificaciones) R.color.md_theme_secondary else R.color.md_theme_error))
+        binding.tvEstadoNotificaciones.setTextColor(requireContext().getColor(if (notificaciones) R.color.md_theme_primary else R.color.md_theme_error))
     }
 
     private fun entrarModoPadre() {

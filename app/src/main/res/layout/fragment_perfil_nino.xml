@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/bottom_nav_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/child_profile_title"
-            android:textColor="?attr/colorSecondary" />
+            android:textColor="?attr/colorPrimary" />
 
         <!-- Cabecera de perfil -->
         <com.google.android.material.card.MaterialCardView
@@ -46,7 +48,10 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:background="@drawable/circle_turquoise"
+                    android:clickable="true"
                     android:contentDescription="Avatar"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:padding="6dp"
                     android:scaleType="fitCenter" />
 
@@ -75,6 +80,15 @@
                         android:text="@string/child_profile_level_xp"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="sans-serif-rounded"
+                        android:text="Toca el avatar para cambiarlo"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -173,13 +187,60 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Ver tutorial de nuevo -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnVerTutorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#1A79747E"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/circle_soft"
+                    android:backgroundTint="#269B5DE5"
+                    app:iiv_color="?attr/colorPrimary"
+                    app:iiv_icon="gmr-help-outline"
+                    app:iiv_size="18dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-rounded"
+                    android:text="Ver tutorial de nuevo"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
+            android:id="@+id/tvEligeAvatar"
             style="@style/Widget.Habitos.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/child_profile_choose_avatar"
-            android:textColor="?attr/colorSecondary" />
+            android:textColor="?attr/colorPrimary"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAvatares"
@@ -187,7 +248,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

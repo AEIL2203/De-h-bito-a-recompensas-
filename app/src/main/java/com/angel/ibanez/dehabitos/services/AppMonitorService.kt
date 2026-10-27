@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.SystemClock
+import android.provider.MediaStore
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
@@ -38,6 +39,7 @@ class AppMonitorService : AccessibilityService() {
     private val repository = RecompensaRepository()
     private val estadisticasRepository = EstadisticasRepository()
     private val usageStatsManager by lazy { getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager }
+    private val powerManager by lazy { getSystemService(POWER_SERVICE) as android.os.PowerManager }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var listenerApps: ListenerRegistration? = null
     private var listenerRecompensas: ListenerRegistration? = null
@@ -73,6 +75,27 @@ class AppMonitorService : AccessibilityService() {
         "com.google.android.inputmethod.latin"
     )
 
+    private val paquetesCamara by lazy {
+        val resueltos = listOf(
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE),
+            Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA),
+            Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA)
+        ).flatMap {
+            runCatching { packageManager.queryIntentActivities(it, PackageManager.MATCH_ALL) }
+                .getOrDefault(emptyList())
+                .map { ri -> ri.activityInfo.packageName }
+        }.toSet()
+        resueltos + setOf(
+            "com.android.camera",
+            "com.android.camera2",
+            "com.sec.android.app.camera",
+            "com.huawei.camera",
+            "com.miui.camera",
+            "com.transsion.camera",
+            "com.mediatek.camera"
+        )
+    }
+
     override fun onServiceConnected() {
         super.onServiceConnected()
         launcherPackageName = getLauncherPackageName()
@@ -107,7 +130,10 @@ class AppMonitorService : AccessibilityService() {
                 lista.forEach { datosApps[it.packageName] = it.nombre to it.tutorId }
                 Log.d("AppMonitor", "Apps controladas actualizadas: ${lista.size}")
             },
-            onError = { Log.e("AppMonitor", "No se pudieron cargar las apps controladas", it) }
+            onError = {
+                Log.e("AppMonitor", "No se pudieron cargar las apps controladas", it)
+                reintentarEscuchas(ninoId)
+            }
         )
         listenerRecompensas = repository.escucharRecompensasPorNino(
             ninoId,
@@ -121,13 +147,25 @@ class AppMonitorService : AccessibilityService() {
                 recompensas = lista
                 Log.d("AppMonitor", "Recompensas actualizadas: ${lista.size}")
             },
-            onError = { Log.e("AppMonitor", "No se pudieron cargar las recompensas", it) }
+            onError = {
+                Log.e("AppMonitor", "No se pudieron cargar las recompensas", it)
+                reintentarEscuchas(ninoId)
+            }
         )
         listenerNino = FirebaseFirestore.getInstance().collection("ninos").document(ninoId)
             .addSnapshotListener { snapshot, error ->
                 if (error != null || snapshot == null || !snapshot.exists()) return@addSnapshotListener
                 horarioSueno = snapshot.toObject(Nino::class.java)?.horarioSueno
             }
+    }
+
+    private fun reintentarEscuchas(ninoId: String) {
+        if (ninoIdEscuchando != ninoId) return
+        ninoIdEscuchando = ""
+        scope.launch {
+            delay(INTERVALO_REINTENTO_ESCUCHAS_MS)
+            if (ninoIdEscuchando.isBlank() && DispositivoConfig.obtenerNinoId() == ninoId) iniciarEscuchas(ninoId)
+        }
     }
 
     private fun iniciarMonitor() {
@@ -139,7 +177,17 @@ class AppMonitorService : AccessibilityService() {
                 delay(INTERVALO_MONITOR_MS)
                 val ninoId = DispositivoConfig.obtenerNinoId()
                 if (DispositivoConfig.obtenerModo() == DispositivoConfig.ModoDispositivo.HIJO && ninoId.isNotBlank()) {
-                    obtenerPaqueteEnPrimerPlano()?.let { procesarPaquete(ninoId, it) }
+                    val paqueteActual = if (powerManager.isInteractive) obtenerPaqueteEnPrimerPlano() else null
+                    if (paqueteActual == null) {
+                        if (paqueteEnPrimerPlano != null) {
+                            paqueteEnPrimerPlano = null
+                            finalizarSesionActiva()
+                            scope.launch { sincronizarConsumoSeguro() }
+                        }
+                        ultimoTick = SystemClock.elapsedRealtime()
+                    } else {
+                        procesarPaquete(ninoId, paqueteActual)
+                    }
                 }
                 val transcurrido = actualizarConsumoHastaAhora()
                 val paquete = paqueteEnPrimerPlano
@@ -198,6 +246,9 @@ class AppMonitorService : AccessibilityService() {
 
         // Paquetes críticos del sistema que definimos manualmente
         if (essentialPackages.contains(packageName)) return true
+
+        // La cámara nunca se bloquea (necesaria para evidencias de misiones)
+        if (paquetesCamara.contains(packageName)) return true
 
         // YouTube, TikTok y Facebook NUNCA son esenciales
         val appsEntretenimiento = setOf(
@@ -351,18 +402,27 @@ class AppMonitorService : AccessibilityService() {
         scope.launch { runCatching { estadisticasRepository.finalizarSesion(sesion.id, fin, fin - sesion.inicio) }.onFailure { Log.e("AppMonitor", "No se pudo finalizar sesión", it) } }
     }
 
+    private var ultimoToastMs = 0L
+
+    private fun mostrarToastLimitado(mensaje: String, duracion: Int) {
+        val ahora = SystemClock.elapsedRealtime()
+        if (ahora - ultimoToastMs < INTERVALO_TOAST_MS) return
+        ultimoToastMs = ahora
+        Toast.makeText(this, mensaje, duracion).show()
+    }
+
     private fun mostrarBloqueo(packageName: String) {
         val nombreGuardado = datosApps[packageName]?.first
         val nombreApp = AppsUtils.obtenerNombreApp(this, packageName, nombreGuardado)
         performGlobalAction(GLOBAL_ACTION_HOME)
-        Toast.makeText(this, "Canjea tiempo para usar $nombreApp", Toast.LENGTH_SHORT).show()
+        mostrarToastLimitado("Canjea tiempo para usar $nombreApp", Toast.LENGTH_SHORT)
     }
 
     private fun mostrarMensajeHorarioSueno(packageName: String) {
         val nombreGuardado = datosApps[packageName]?.first
         val nombreApp = AppsUtils.obtenerNombreApp(this, packageName, nombreGuardado)
         performGlobalAction(GLOBAL_ACTION_HOME)
-        Toast.makeText(this, "$nombreApp no está disponible: es horario de sueño", Toast.LENGTH_LONG).show()
+        mostrarToastLimitado("$nombreApp no está disponible: es horario de sueño", Toast.LENGTH_LONG)
     }
 
     private fun notificarPocoTiempo(packageName: String, msDisponibles: Long) {
@@ -399,5 +459,7 @@ class AppMonitorService : AccessibilityService() {
         private const val INTERVALO_MONITOR_MS = 250L
         private const val INTERVALO_SINCRONIZACION_MS = 5_000L
         private const val VENTANA_EVENTOS_MS = 5_000L
+        private const val INTERVALO_REINTENTO_ESCUCHAS_MS = 5_000L
+        private const val INTERVALO_TOAST_MS = 4_000L
     }
 }

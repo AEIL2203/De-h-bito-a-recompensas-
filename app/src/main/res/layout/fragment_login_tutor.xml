@@ -1,186 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
-    android:fillViewport="true">
+    android:background="?android:attr/colorBackground">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <!-- Panel héroe que ocupa la parte superior -->
+    <View
+        android:id="@+id/viewHero"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_login_hero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1.15" />
+
+    <!-- Logo de la app y título, en línea recta -->
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/viewHero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewHero"
+        app:layout_constraintVertical_bias="0.42">
 
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/tvEmoji"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/circle_turquoise"
-            android:backgroundTint="?attr/colorPrimaryContainer"
-            app:iiv_color="?attr/colorPrimary"
-            app:iiv_icon="gmr-manage-accounts"
-            app:iiv_size="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/tvTitulo"
             style="@style/Widget.Habitos.Text.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/login_tutor_hello"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
+            android:layout_marginTop="20dp"
+            android:text="¡Bienvenido!"
+            android:textColor="?attr/colorOnPrimaryContainer" />
+    </LinearLayout>
+
+    <!-- Panel inferior con borde superior de ola orgánica -->
+    <LinearLayout
+        android:id="@+id/panelAcceso"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-180dp"
+        android:background="@drawable/bg_login_sheet"
+        android:elevation="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="28dp"
+        android:paddingTop="108dp"
+        android:paddingEnd="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewHero">
 
         <TextView
-            android:id="@+id/tvSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-rounded"
+            android:text="Acceso seguro"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@string/login_tutor_choose_method"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardFormulario"
-            style="@style/Widget.Habitos.Card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitulo">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:id="@+id/containerOpcionesLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnMostrarLoginManual"
-                        style="@style/Widget.Habitos.Button"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:text="@string/login_tutor_email_password"
-                        app:icon="@android:drawable/ic_dialog_email"
-                        app:iconPadding="12dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnGoogle"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="14dp"
-                        android:text="@string/login_tutor_google"
-                        android:textColor="?attr/colorOnSurface"
-                        app:icon="@drawable/ic_google_g"
-                        app:iconPadding="12dp"
-                        app:iconTint="@null" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/containerLoginManual"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="18dp"
-                        android:text="@string/login_tutor_enter_data"
-                        android:textAppearance="?attr/textAppearanceTitleLarge"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilCorreo"
-                        style="@style/Widget.Habitos.Input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/login_tutor_email_hint"
-                        app:startIconDrawable="@android:drawable/ic_dialog_email"
-                        app:startIconTint="?attr/colorPrimary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCorreo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilPassword"
-                        style="@style/Widget.Habitos.Input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="@string/login_tutor_password_hint"
-                        app:endIconMode="password_toggle"
-                        app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
-                        app:startIconTint="?attr/colorPrimary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnIniciarSesion"
-                        style="@style/Widget.Habitos.Button"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/login_tutor_sign_in" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnVolverOpciones"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/login_tutor_other_method" />
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:indeterminateTint="?attr/colorPrimary"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            android:gravity="center"
+            android:text="Tu cuenta se crea automáticamente al entrar por primera vez"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tvIrRegistro"
-            style="@style/Widget.Material3.Button.TextButton"
+            android:id="@+id/btnGoogle"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/login_tutor_google"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_google_g"
+            app:iconPadding="12dp"
+            app:iconTint="@null" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/login_tutor_no_account"
-            android:textColor="?attr/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardFormulario" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            android:indeterminateTint="?attr/colorPrimary"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main_gradient">
+    android:background="?android:attr/colorBackground">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:src="@drawable/wave_top_nino"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Top Left: Profile Pill -->
     <com.google.android.material.card.MaterialCardView
@@ -300,5 +310,95 @@
             </LinearLayout>
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Bloqueo obligatorio: servicio de accesibilidad -->
+    <FrameLayout
+        android:id="@+id/overlayAccesibilidad"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/colorBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="no"
+                    app:iiv_color="?attr/colorPrimary"
+                    app:iiv_icon="gmr-accessibility" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-rounded"
+                    android:text="Permiso obligatorio"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Para usar la app en este dispositivo debes activar el servicio de accesibilidad. Así funcionan el control de apps y las recompensas."
+                    android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="?attr/colorSurfaceVariant"
+                    android:padding="16dp"
+                    android:text="1. Toca «Abrir ajustes»&#10;2. Entra a «Aplicaciones instaladas»&#10;3. Busca «Control de apps - DeHábitos»&#10;4. Actívalo y acepta el aviso"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAbrirAccesibilidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Abrir ajustes"
+                    android:textSize="16sp"
+                    app:cornerRadius="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVerificarAccesibilidad"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Ya lo activé"
+                    android:textSize="16sp"
+                    app:cornerRadius="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

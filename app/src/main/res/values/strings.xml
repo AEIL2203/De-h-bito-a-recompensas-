@@ -4,7 +4,7 @@
 
     <!-- Auth -->
     <string name="login_tutor_hello">¡Hola, Tutor!</string>
-    <string name="login_tutor_choose_method">Elige cómo quieres iniciar sesión</string>
+    <string name="login_tutor_choose_method">Inicia sesión para continuar</string>
     <string name="login_tutor_email_password">Iniciar con correo y contraseña</string>
     <string name="login_tutor_google">Continuar con Google</string>
     <string name="login_tutor_enter_data">Ingresa tus datos</string>

@@ -21,6 +21,18 @@
         <item name="android:fontFamily">sans-serif-rounded</item>
     </style>
 
+    <!-- Botón Tonal con paleta primaria -->
+    <style name="Widget.Habitos.Button.TonalPrimary" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="backgroundTint">?attr/colorPrimaryContainer</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+        <item name="iconTint">?attr/colorOnPrimaryContainer</item>
+    </style>
+
     <!-- Botón Outlined -->
     <style name="Widget.Habitos.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textSize">16sp</item>

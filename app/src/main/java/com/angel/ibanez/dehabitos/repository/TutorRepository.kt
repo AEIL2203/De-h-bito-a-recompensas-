@@ -16,46 +16,6 @@ class TutorRepository(
     private val firestoreService: FirebaseFirestoreService = FirebaseFirestoreService()
 ) {
 
-    fun registrarTutor(
-        nombre: String,
-        correo: String,
-        telefono: String,
-        password: String
-    ): Flow<Resultado<Tutor>> = flow {
-        emit(Resultado.Cargando)
-        try {
-            val user = authService.registrarTutor(correo, password)
-                ?: throw Exception("No se pudo crear el usuario")
-            val fechaRegistro = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-            val tutor = Tutor(
-                id = user.uid,
-                nombre = nombre,
-                correo = correo,
-                telefono = telefono,
-                fechaRegistro = fechaRegistro
-            )
-            firestoreService.guardarTutor(tutor)
-            emit(Resultado.Exito(tutor))
-        } catch (e: Exception) {
-            Log.e("TutorRepository", "Error al registrar tutor", e)
-            emit(Resultado.Error(e.message ?: "Error desconocido"))
-        }
-    }
-
-    fun iniciarSesionTutor(correo: String, password: String): Flow<Resultado<Tutor>> = flow {
-        emit(Resultado.Cargando)
-        try {
-            val user = authService.iniciarSesionTutor(correo, password)
-                ?: throw Exception("Credenciales incorrectas")
-            val tutor = firestoreService.obtenerTutor(user.uid)
-                ?: throw Exception("No se encontraron datos del tutor")
-            emit(Resultado.Exito(tutor))
-        } catch (e: Exception) {
-            Log.e("TutorRepository", "Error al iniciar sesión tutor", e)
-            emit(Resultado.Error(e.message ?: "Error desconocido"))
-        }
-    }
-
     fun iniciarSesionGoogle(idToken: String): Flow<Resultado<Tutor>> = flow {
         emit(Resultado.Cargando)
         try {
@@ -83,8 +43,6 @@ class TutorRepository(
         }
     }
 
-    fun usaCuentaGoogle(): Boolean = authService.usaCuentaGoogle()
-
     fun validarCuentaGoogle(idToken: String, tutorId: String): Flow<Resultado<Unit>> = flow {
         emit(Resultado.Cargando)
         try {
@@ -92,16 +50,6 @@ class TutorRepository(
             emit(Resultado.Exito(Unit))
         } catch (e: Exception) {
             emit(Resultado.Error(e.message ?: "No se pudo confirmar la cuenta de Google"))
-        }
-    }
-
-    fun validarPasswordTutor(password: String): Flow<Resultado<Unit>> = flow {
-        emit(Resultado.Cargando)
-        try {
-            authService.validarPasswordTutor(password)
-            emit(Resultado.Exito(Unit))
-        } catch (e: Exception) {
-            emit(Resultado.Error("Contraseña incorrecta"))
         }
     }
 

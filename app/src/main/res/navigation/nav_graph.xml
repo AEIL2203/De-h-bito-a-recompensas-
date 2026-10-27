@@ -30,7 +30,18 @@
             app:destination="@id/contenedorNinoFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_permisosObligatoriosFragment"
+            app:destination="@id/permisosObligatoriosFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/permisosObligatoriosFragment"
+        android:name="com.angel.ibanez.dehabitos.fragments.PermisosObligatoriosFragment"
+        android:label="Permisos obligatorios"
+        tools:layout="@layout/fragment_permisos_obligatorios" />
 
     <fragment
         android:id="@+id/seleccionRolFragment"
@@ -51,23 +62,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/registroTutorFragment"
-        android:name="com.angel.ibanez.dehabitos.fragments.RegistroTutorFragment"
-        android:label="Registro Tutor"
-        tools:layout="@layout/fragment_registro_tutor">
-        <action
-            android:id="@+id/action_registroTutorFragment_to_loginTutorFragment"
-            app:destination="@id/loginTutorFragment"
-            app:popUpTo="@id/registroTutorFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_registroTutorFragment_to_dashboardTutorFragment"
-            app:destination="@id/dashboardTutorFragment"
-            app:popUpTo="@id/registroTutorFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
         android:id="@+id/loginTutorFragment"
         android:name="com.angel.ibanez.dehabitos.fragments.LoginTutorFragment"
         android:label="Login Tutor"
@@ -77,9 +71,6 @@
             app:destination="@id/dashboardTutorFragment"
             app:popUpTo="@id/seleccionRolFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_loginTutorFragment_to_registroTutorFragment"
-            app:destination="@id/registroTutorFragment" />
     </fragment>
 
     <fragment

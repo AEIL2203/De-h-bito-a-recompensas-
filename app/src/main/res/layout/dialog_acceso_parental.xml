@@ -59,10 +59,9 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="numberPassword"
-            android:letterSpacing="0.35"
             android:maxLength="6"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

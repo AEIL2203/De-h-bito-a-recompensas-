@@ -13,8 +13,8 @@
         android:layout_height="120dp"
         android:layout_marginTop="48dp"
         android:background="@drawable/circle_turquoise"
-        android:backgroundTint="?attr/colorSecondaryContainer"
-        app:iiv_color="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        app:iiv_color="?attr/colorPrimary"
         app:iiv_icon="gmr-vpn-key"
         app:iiv_size="52dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardPin"
-        style="@style/Widget.Habitos.Card.Secondary"
+        style="@style/Widget.Habitos.Card.Primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -54,18 +54,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="PIN de 4 dígitos"
-                app:boxStrokeColor="?attr/colorSecondary"
-                app:hintTextColor="?attr/colorSecondary">
+                app:boxStrokeColor="?attr/colorPrimary"
+                app:hintTextColor="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberPassword"
-                    android:letterSpacing="0.5"
                     android:maxLength="4"
                     android:textAlignment="center"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="?attr/colorSecondary"
+                android:backgroundTint="?attr/colorPrimary"
                 android:text="¡Entrar!" />
 
             <ProgressBar
@@ -84,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:indeterminateTint="?attr/colorSecondary"
+                android:indeterminateTint="?attr/colorPrimary"
                 android:visibility="gone" />
 
         </LinearLayout>

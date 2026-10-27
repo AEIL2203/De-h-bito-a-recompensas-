@@ -36,20 +36,6 @@ class LoginTutorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnMostrarLoginManual.setOnClickListener { mostrarFormularioManual(true) }
-        binding.btnVolverOpciones.setOnClickListener { mostrarFormularioManual(false) }
-
-        binding.btnIniciarSesion.setOnClickListener {
-            val correo = binding.etCorreo.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
-
-            if (correo.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.iniciarSesionTutor(correo, password)
-            } else {
-                Toast.makeText(requireContext(), "Ingresa correo y contraseña", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         binding.btnGoogle.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
@@ -81,12 +67,6 @@ class LoginTutorFragment : Fragment() {
                 }
             }
         }
-
-        binding.tvIrRegistro.setOnClickListener {
-            if (findNavController().currentDestination?.id == R.id.loginTutorFragment) {
-                findNavController().navigate(R.id.action_loginTutorFragment_to_registroTutorFragment)
-            }
-        }
     }
 
     private fun navegarTrasLogin() {
@@ -111,21 +91,8 @@ class LoginTutorFragment : Fragment() {
         }
     }
 
-    private fun mostrarFormularioManual(mostrar: Boolean) {
-        binding.containerOpcionesLogin.visibility = if (mostrar) View.GONE else View.VISIBLE
-        binding.containerLoginManual.visibility = if (mostrar) View.VISIBLE else View.GONE
-        binding.tvSubtitulo.text = if (mostrar) "Acceso manual" else "Elige cómo quieres iniciar sesión"
-        val contenido = if (mostrar) binding.containerLoginManual else binding.containerOpcionesLogin
-        contenido.alpha = 0f
-        contenido.translationY = 16f
-        contenido.animate().alpha(1f).translationY(0f).setDuration(220).start()
-    }
-
     private fun mostrarCarga(mostrar: Boolean) {
         binding.progressBar.visibility = if (mostrar) View.VISIBLE else View.GONE
-        binding.btnIniciarSesion.isEnabled = !mostrar
-        binding.btnMostrarLoginManual.isEnabled = !mostrar
-        binding.btnVolverOpciones.isEnabled = !mostrar
         binding.btnGoogle.isEnabled = !mostrar
     }
 

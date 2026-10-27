@@ -14,6 +14,7 @@ import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
 import com.angel.ibanez.dehabitos.utils.AudioConfig
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
+import com.angel.ibanez.dehabitos.utils.TutorialManager
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.MusicaFondoManager
 import com.angel.ibanez.dehabitos.utils.Resultado
@@ -36,9 +37,11 @@ class PerfilNinoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ninoId = arguments?.getString("ninoId").orEmpty().ifBlank { DispositivoConfig.obtenerNinoId() }
         AnimacionesUtils.entradaSuave(binding.ivAvatar)
+        binding.ivAvatar.setOnClickListener { alternarSelectorAvatar() }
         configurarAvatares()
         configurarModoOscuro()
         configurarMusica()
+        binding.btnVerTutorial.setOnClickListener { TutorialManager.mostrarTutorialNino(requireActivity()) }
         viewModel.ninoResultado.observe(viewLifecycleOwner) { resultado ->
             if (resultado is Resultado.Exito) pintarPerfil(resultado.data)
             if (resultado is Resultado.Error) Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
@@ -48,6 +51,13 @@ class PerfilNinoFragment : Fragment() {
             if (resultado is Resultado.Error) Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
         }
         viewModel.escucharNino(ninoId)
+    }
+
+    private fun alternarSelectorAvatar() {
+        val mostrar = binding.rvAvatares.visibility != View.VISIBLE
+        binding.tvEligeAvatar.visibility = if (mostrar) View.VISIBLE else View.GONE
+        binding.rvAvatares.visibility = if (mostrar) View.VISIBLE else View.GONE
+        if (mostrar) AnimacionesUtils.entradaSuave(binding.rvAvatares)
     }
 
     private fun configurarAvatares() {

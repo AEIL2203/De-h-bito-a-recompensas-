@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="480dp"
+    android:viewportWidth="360"
+    android:viewportHeight="480">
+
+    <!-- Ola asimétrica: profunda a la izquierda, elevándose hacia la derecha -->
+    <path
+        android:fillColor="?attr/colorSurface"
+        android:pathData="M0,150 C90,30 220,130 360,0 L360,480 L0,480 Z" />
+</vector>

@@ -81,7 +81,8 @@ class ConfigurarAppsFragment : Fragment() {
                 is Resultado.Exito -> {
                     binding.progressBar.visibility = View.GONE
                     ninos = resultado.data
-                    binding.tilNino.visibility = if (ninos.size > 1) View.VISIBLE else View.GONE
+                    binding.tilNino.visibility = View.VISIBLE
+                    binding.actvNino.isEnabled = ninos.size > 1
                     val adapterNinos = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ninos.map { it.nombre })
                     binding.actvNino.setAdapter(adapterNinos)
                     binding.actvNino.setOnItemClickListener { _, _, position, _ ->

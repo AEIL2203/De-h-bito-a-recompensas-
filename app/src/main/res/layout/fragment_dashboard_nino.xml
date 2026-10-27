@@ -9,7 +9,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/bottom_nav_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="¡Hola!"
-                android:textColor="?attr/colorSecondary"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -131,7 +133,7 @@
             <!-- Tarjeta de estadísticas: Estrellas / Racha / Insignias -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStats"
-                style="@style/Widget.Habitos.Card.Secondary"
+                style="@style/Widget.Habitos.Card.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -324,7 +326,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:indeterminateTint="?attr/colorSecondary"
+        android:indeterminateTint="?attr/colorPrimary"
         android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

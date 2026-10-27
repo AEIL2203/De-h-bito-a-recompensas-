@@ -27,6 +27,7 @@ import com.angel.ibanez.dehabitos.models.HorarioSueno
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.IconosUtils
+import com.angel.ibanez.dehabitos.utils.TutorialManager
 import com.angel.ibanez.dehabitos.repository.TutorRepository
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.utils.TemaConfig
@@ -37,6 +38,8 @@ import kotlinx.coroutines.launch
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
 import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
@@ -132,6 +135,7 @@ class DashboardTutorFragment : Fragment() {
         }
         binding.btnPinParental.setOnClickListener { mostrarConfigurarPinParental() }
         binding.btnConfigurarNotificaciones.setOnClickListener { mostrarDialogoConfigNotificaciones() }
+        binding.btnVerTutorial.setOnClickListener { TutorialManager.mostrarTutorialTutor(requireActivity()) }
 
         ninoViewModel.listaNinosResultado.observe(viewLifecycleOwner) { resultado ->
             when (resultado) {
@@ -140,6 +144,9 @@ class DashboardTutorFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     ninos = resultado.data
                     ninoAdapter.submitList(resultado.data)
+                    if (!DispositivoConfig.tutorialVisto(DispositivoConfig.ModoDispositivo.PADRE)) {
+                        binding.root.post { TutorialManager.iniciarTutorialTutorSiNecesario(requireActivity()) }
+                    }
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE
@@ -161,7 +168,8 @@ class DashboardTutorFragment : Fragment() {
         binding.btnEncuesta.icon = IconosUtils.crearIcono(requireContext(), "gmr-rate-review", R.color.md_theme_tertiary)
         binding.btnTerminos.icon = IconosUtils.crearIcono(requireContext(), "gmr-description", R.color.md_theme_primary)
         binding.btnConfigurarNotificaciones.icon = IconosUtils.crearIcono(requireContext(), "gmr-notifications", R.color.md_theme_secondary)
-        binding.btnPinParental.icon = IconosUtils.crearIcono(requireContext(), "gmr-pin", R.color.md_theme_secondary)
+        binding.btnPinParental.icon = IconosUtils.crearIcono(requireContext(), "gmr-vpn-key", R.color.md_theme_secondary)
+        binding.btnVerTutorial.icon = IconosUtils.crearIcono(requireContext(), "gmr-help-outline", R.color.md_theme_primary)
         binding.navTutorInicio.icon = IconosUtils.crearIcono(requireContext(), "gmr-home", R.color.md_theme_primary)
         binding.navTutorGestion.icon = IconosUtils.crearIcono(requireContext(), "gmr-people", R.color.md_theme_primary)
         binding.navTutorControl.icon = IconosUtils.crearIcono(requireContext(), "gmr-tune", R.color.md_theme_primary)
@@ -231,17 +239,43 @@ class DashboardTutorFragment : Fragment() {
         val nino = ninos.first()
         val contenido = DialogHorarioSuenoBinding.inflate(layoutInflater)
         val horarioActual = nino.horarioSueno
-        contenido.etHoraDormir.setText(horarioActual.horaDormir)
-        contenido.etHoraDespertar.setText(horarioActual.horaDespertar)
-        val checkBoxes = listOf(
-            contenido.cbLunes, contenido.cbMartes, contenido.cbMiercoles,
-            contenido.cbJueves, contenido.cbViernes, contenido.cbSabado, contenido.cbDomingo
+        var dormir = horarioActual.horaDormir
+        var despertar = horarioActual.horaDespertar
+        contenido.tvHoraDormir.text = dormir
+        contenido.tvHoraDespertar.text = despertar
+
+        val chips = listOf(
+            contenido.chipLunes, contenido.chipMartes, contenido.chipMiercoles,
+            contenido.chipJueves, contenido.chipViernes, contenido.chipSabado, contenido.chipDomingo
         )
         val dias = listOf(
             Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY,
             Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY
         )
-        checkBoxes.forEachIndexed { i, cb -> cb.isChecked = horarioActual.diasActivos.contains(dias[i]) }
+        chips.forEachIndexed { i, chip -> chip.isChecked = horarioActual.diasActivos.contains(dias[i]) }
+
+        val seleccionarHora: (String, (String) -> Unit) -> Unit = { actual, callback ->
+            val (hora, minuto) = parseHora(actual)
+            MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(hora)
+                .setMinute(minuto)
+                .setTitleText("Seleccionar hora")
+                .build()
+                .apply {
+                    addOnPositiveButtonClickListener {
+                        callback(String.format("%02d:%02d", hour, minute))
+                    }
+                }
+                .show(parentFragmentManager, "hora")
+        }
+
+        contenido.cardHoraDormir.setOnClickListener {
+            seleccionarHora(dormir) { dormir = it; contenido.tvHoraDormir.text = it }
+        }
+        contenido.cardHoraDespertar.setOnClickListener {
+            seleccionarHora(despertar) { despertar = it; contenido.tvHoraDespertar.text = it }
+        }
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(contenido.root)
@@ -250,13 +284,11 @@ class DashboardTutorFragment : Fragment() {
             .create()
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                val dormir = contenido.etHoraDormir.text.toString().trim()
-                val despertar = contenido.etHoraDespertar.text.toString().trim()
                 if (!validarHora(dormir) || !validarHora(despertar)) {
                     Toast.makeText(requireContext(), "Usa formato HH:MM", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val diasActivos = dias.filterIndexed { i, _ -> checkBoxes[i].isChecked }
+                val diasActivos = dias.filterIndexed { i, _ -> chips[i].isChecked }
                 if (diasActivos.isEmpty()) {
                     Toast.makeText(requireContext(), "Selecciona al menos un día", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
@@ -267,6 +299,11 @@ class DashboardTutorFragment : Fragment() {
             }
         }
         dialog.show()
+    }
+
+    private fun parseHora(hora: String): Pair<Int, Int> {
+        val partes = hora.split(":").mapNotNull { it.toIntOrNull() }
+        return if (partes.size == 2) partes[0] to partes[1] else 21 to 0
     }
 
     private fun validarHora(hora: String): Boolean = hora.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))

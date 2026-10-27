@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import com.angel.ibanez.dehabitos.databinding.DialogAccesoParentalBinding
 import com.angel.ibanez.dehabitos.databinding.DialogConfigurarPinParentalBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -35,11 +36,13 @@ import com.angel.ibanez.dehabitos.utils.AppsUtils
 import com.angel.ibanez.dehabitos.utils.AudioConfig
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
 import com.angel.ibanez.dehabitos.utils.MusicaFondoManager
+import com.angel.ibanez.dehabitos.utils.PermisosUtils
 import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
 import com.angel.ibanez.dehabitos.repository.TareaRepository
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
 import com.angel.ibanez.dehabitos.utils.LogrosUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
+import com.angel.ibanez.dehabitos.utils.TutorialManager
 import com.angel.ibanez.dehabitos.viewmodels.AuthTutorViewModel
 import com.angel.ibanez.dehabitos.viewmodels.DispositivoViewModel
 import com.angel.ibanez.dehabitos.models.Tarea
@@ -64,8 +67,6 @@ class ContenedorNinoFragment : Fragment() {
     private var procesandoDesvinculacion = false
     private var catalogoHashPendiente: String? = null
     private var esperandoValidacionParental = false
-    private var dialogAccesoParental: AlertDialog? = null
-    private var dialogAccesoParentalBinding: DialogAccesoParentalBinding? = null
     private var ultimoNivel: Int? = null
     private var ultimaCantidadInsignias: Int? = null
     private var ultimosLogros: Set<String>? = null
@@ -109,14 +110,18 @@ class ContenedorNinoFragment : Fragment() {
         binding.ivMonedasHeader.setImageResource(R.drawable.ic_reward)
         binding.ivMonedasHeader.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.game_yellow)
         binding.btnConfig.setOnClickListener { solicitarAccesoTutor() }
+        binding.btnAbrirAccesibilidad.setOnClickListener {
+            if (!PermisosUtils.abrirConfiguracionAccesibilidad(requireContext())) {
+                Toast.makeText(requireContext(), "No fue posible abrir Accesibilidad", Toast.LENGTH_LONG).show()
+            }
+        }
+        binding.btnVerificarAccesibilidad.setOnClickListener { verificarAccesibilidadObligatoria() }
         authTutorViewModel.validarPasswordResultado.observe(viewLifecycleOwner) { resultado ->
             if (!esperandoValidacionParental) return@observe
             when (resultado) {
                 is Resultado.Cargando -> Unit
                 is Resultado.Exito -> {
                     esperandoValidacionParental = false
-                    dialogAccesoParental?.dismiss()
-                    limpiarDialogoAccesoParental()
                     if (DispositivoConfig.tienePinParental()) {
                         navController.navigate(R.id.configuracionParentalFragment, args)
                     } else {
@@ -127,9 +132,7 @@ class ContenedorNinoFragment : Fragment() {
                 }
                 is Resultado.Error -> {
                     esperandoValidacionParental = false
-                    val campoPassword = dialogAccesoParentalBinding?.tilPassword
-                    if (campoPassword != null) campoPassword.error = resultado.mensaje
-                    else Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), resultado.mensaje, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -180,6 +183,8 @@ class ContenedorNinoFragment : Fragment() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id != R.id.configuracionParentalFragment) actualizarPestanaSeleccionada(destination.id)
+            binding.cardProfilePill.visibility =
+                if (destination.id == R.id.perfilNinoFragment) View.GONE else View.VISIBLE
         }
         actualizarPestanaSeleccionada(R.id.dashboardNinoFragment)
     }
@@ -244,10 +249,8 @@ class ContenedorNinoFragment : Fragment() {
     private fun solicitarAccesoTutor() {
         if (DispositivoConfig.tienePinParental()) {
             solicitarPinParental()
-        } else if (authTutorViewModel.usaCuentaGoogle()) {
-            solicitarGoogleParaMigracion()
         } else {
-            solicitarPasswordTutor()
+            solicitarGoogleParaMigracion()
         }
     }
 
@@ -296,43 +299,6 @@ class ContenedorNinoFragment : Fragment() {
         }
     }
 
-    private fun solicitarPasswordTutor() {
-        dialogAccesoParentalBinding = DialogAccesoParentalBinding.inflate(layoutInflater).also {
-            it.tvMensaje.text = "Confirma la contraseña del tutor una vez para crear el nuevo PIN parental."
-            it.tilPassword.hint = "Contraseña del tutor"
-            it.etPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-            it.etPassword.filters = emptyArray()
-            it.etPassword.letterSpacing = 0f
-            it.etPassword.textSize = 16f
-        }
-        dialogAccesoParental = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogAccesoParentalBinding!!.root)
-            .setPositiveButton("Continuar", null)
-            .setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.dismiss()
-                limpiarDialogoAccesoParental()
-            }
-            .setOnDismissListener {
-                limpiarDialogoAccesoParental()
-            }
-            .create().also { dialog ->
-                dialog.setOnShowListener {
-                    val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                    positiveButton.setOnClickListener {
-                        val password = dialogAccesoParentalBinding?.etPassword?.text.toString()
-                        if (password.isBlank()) {
-                            dialogAccesoParentalBinding?.tilPassword?.error = "Ingresa la contraseña"
-                        } else {
-                            dialogAccesoParentalBinding?.tilPassword?.error = null
-                            esperandoValidacionParental = true
-                            authTutorViewModel.validarPasswordTutor(password)
-                        }
-                    }
-                }
-                dialog.show()
-            }
-    }
-
     private fun mostrarConfigurarPinParental(alGuardar: () -> Unit) {
         val contenido = DialogConfigurarPinParentalBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
@@ -364,11 +330,6 @@ class ContenedorNinoFragment : Fragment() {
         if (navHost.navController.currentDestination?.id != R.id.configuracionParentalFragment) {
             navHost.navController.navigate(R.id.configuracionParentalFragment, args)
         }
-    }
-
-    private fun limpiarDialogoAccesoParental() {
-        dialogAccesoParentalBinding = null
-        dialogAccesoParental = null
     }
 
     private fun sincronizarCatalogoSiCorresponde() {
@@ -488,6 +449,9 @@ class ContenedorNinoFragment : Fragment() {
                     ultimasEstrellas = nino.estrellas
                     binding.tvEstrellas.text = nino.estrellas.toString()
                     binding.tvGemas.text = nino.gemas.toString()
+                    if (!DispositivoConfig.tutorialVisto(DispositivoConfig.ModoDispositivo.HIJO)) {
+                        binding.root.post { TutorialManager.iniciarTutorialNinoSiNecesario(requireActivity()) }
+                    }
                 }
                 else -> { /* Handle other states if necessary */ }
             }
@@ -496,9 +460,15 @@ class ContenedorNinoFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        verificarAccesibilidadObligatoria()
         if (AudioConfig.musicaHabilitada(requireContext())) {
             MusicaFondoManager.reproducir()
         }
+    }
+
+    private fun verificarAccesibilidadObligatoria() {
+        binding.overlayAccesibilidad.isVisible =
+            !PermisosUtils.servicioAccesibilidadActivo(requireContext())
     }
 
     override fun onPause() {
