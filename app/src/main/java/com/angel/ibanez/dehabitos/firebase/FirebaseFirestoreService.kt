@@ -12,6 +12,7 @@ import com.angel.ibanez.dehabitos.models.SesionApp
 import com.angel.ibanez.dehabitos.models.TokenFcm
 import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ListenerRegistration
@@ -279,6 +280,7 @@ class FirebaseFirestoreService {
     }
 
     suspend fun eliminarDatosNino(ninoId: String) {
+        val uid = FirebaseAuth.getInstance().uid
         val referencias = mutableListOf<com.google.firebase.firestore.DocumentReference>()
         listOf(
             COLECCION_TAREAS,
@@ -290,8 +292,14 @@ class FirebaseFirestoreService {
             COLECCION_DISPOSITIVOS,
             COLECCION_TOKENS
         ).forEach { coleccion ->
-            val consulta = db.collection(coleccion).whereEqualTo("ninoId", ninoId).get().await()
-            consulta.documents.forEach { referencias.add(it.reference) }
+            runCatching {
+                var consulta: Query = db.collection(coleccion).whereEqualTo("ninoId", ninoId)
+                // Encuestas y tokens exigen tutorId en las reglas; sin el filtro la consulta se rechaza
+                if (uid != null && (coleccion == COLECCION_ENCUESTAS || coleccion == COLECCION_TOKENS)) {
+                    consulta = consulta.whereEqualTo("tutorId", uid)
+                }
+                consulta.get().await().documents.forEach { referencias.add(it.reference) }
+            }
         }
         referencias.chunked(450).forEach { grupo ->
             val batch = db.batch()
