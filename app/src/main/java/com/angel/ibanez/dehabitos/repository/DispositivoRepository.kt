@@ -15,6 +15,11 @@ class DispositivoRepository(
         emit(Resultado.Cargando)
         try {
             firestoreService.guardarDispositivo(dispositivo)
+            runCatching {
+                firestoreService.eliminarDispositivosDuplicados(
+                    dispositivo.tutorId, dispositivo.ninoId, dispositivo.nombreDispositivo, dispositivo.id
+                )
+            }
             emit(Resultado.Exito(dispositivo))
         } catch (e: Exception) {
             emit(Resultado.Error(e.message ?: "Error al vincular el dispositivo"))
@@ -24,8 +29,15 @@ class DispositivoRepository(
     fun obtenerDispositivosPorTutor(tutorId: String): Flow<Resultado<List<Dispositivo>>> = flow {
         emit(Resultado.Cargando)
         try {
-            val lista = firestoreService.obtenerDispositivosPorTutor(tutorId)
-            emit(Resultado.Exito(lista))
+            val todos = firestoreService.obtenerDispositivosPorTutor(tutorId)
+            // Limpia los duplicados ya existentes: por niño + modelo se queda el vínculo más reciente
+            val (lista, fantasmas) = todos
+                .groupBy { it.ninoId to it.nombreDispositivo }
+                .values
+                .map { grupo -> grupo.sortedByDescending { it.fechaVinculacion } }
+                .let { grupos -> grupos.map { it.first() } to grupos.flatMap { it.drop(1) } }
+            fantasmas.forEach { runCatching { firestoreService.desvincularDispositivo(it.id) } }
+            emit(Resultado.Exito(lista.sortedBy { it.nombreNino }))
         } catch (e: Exception) {
             emit(Resultado.Error(e.message ?: "Error al cargar dispositivos"))
         }

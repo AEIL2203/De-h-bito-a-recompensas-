@@ -2,39 +2,75 @@
 <resources>
     <!-- === VARIANTES OSCURAS (MODO NOCHE) === -->
 
-    <!-- Primario: púrpura más claro para contraste sobre fondo oscuro -->
-    <color name="md_theme_primary">#C89BFF</color>
-    <color name="md_theme_onPrimary">#3D0066</color>
-    <color name="md_theme_primaryContainer">#5A2D8C</color>
-    <color name="md_theme_onPrimaryContainer">#F0D9FF</color>
+    <!-- Tutor M3 oscuro: violeta suave sobre slate #141218 -->
+    <color name="md_theme_primary">#D0BCFF</color>
+    <color name="md_theme_onPrimary">#381E72</color>
+    <color name="md_theme_primaryContainer">#4F378B</color>
+    <color name="md_theme_onPrimaryContainer">#EADDFF</color>
 
-    <!-- Secundario: verde más claro -->
-    <color name="md_theme_secondary">#8FE15B</color>
-    <color name="md_theme_onSecondary">#1E4D00</color>
-    <color name="md_theme_secondaryContainer">#2E5B00</color>
-    <color name="md_theme_onSecondaryContainer">#D7F5B1</color>
+    <color name="md_theme_secondary">#9CD67D</color>
+    <color name="md_theme_onSecondary">#0B3900</color>
+    <color name="md_theme_secondaryContainer">#20510A</color>
+    <color name="md_theme_onSecondaryContainer">#B7F397</color>
 
-    <!-- Terciario: azul más claro -->
-    <color name="md_theme_tertiary">#7AD0FF</color>
-    <color name="md_theme_onTertiary">#003548</color>
-    <color name="md_theme_tertiaryContainer">#004D66</color>
-    <color name="md_theme_onTertiaryContainer">#DDF4FF</color>
+    <color name="md_theme_tertiary">#94CCFF</color>
+    <color name="md_theme_onTertiary">#003354</color>
+    <color name="md_theme_tertiaryContainer">#004A77</color>
+    <color name="md_theme_onTertiaryContainer">#CDE5FF</color>
 
-    <!-- Error -->
-    <color name="md_theme_error">#FF8A8A</color>
+    <color name="md_theme_error">#FFB4AB</color>
     <color name="md_theme_onError">#690005</color>
     <color name="md_theme_errorContainer">#93000A</color>
     <color name="md_theme_onErrorContainer">#FFDAD6</color>
 
-    <!-- Fondos y superficies oscuras -->
     <color name="md_theme_background">#141218</color>
     <color name="md_theme_onBackground">#E6E0E9</color>
-    <color name="md_theme_surface">#1D1B22</color>
+    <color name="md_theme_surface">#211F26</color>
     <color name="md_theme_onSurface">#E6E0E9</color>
-    <color name="md_theme_surfaceVariant">#36303F</color>
+    <color name="md_theme_surfaceVariant">#49454F</color>
     <color name="md_theme_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_surfaceContainer">#2B2930</color>
     <color name="md_theme_outline">#938F99</color>
-    <color name="md_theme_outline_10">#1ACAC4D0</color>
+    <color name="md_theme_outlineVariant">#49454F</color>
+    <color name="md_theme_outline_10">#1FFFFFFF</color>
+
+    <color name="tutor_icon_violet_bg">#4F378B</color>
+    <color name="tutor_icon_violet">#EADDFF</color>
+    <color name="tutor_icon_green_bg">#1F4A12</color>
+    <color name="tutor_icon_green">#B7F397</color>
+    <color name="tutor_icon_blue_bg">#00426E</color>
+    <color name="tutor_icon_blue">#CDE5FF</color>
+    <color name="tutor_icon_amber_bg">#4D3600</color>
+    <color name="tutor_icon_amber">#FFDEA6</color>
+    <color name="tutor_icon_pink_bg">#5C1335</color>
+    <color name="tutor_icon_pink">#FFD9E3</color>
+
+    <!-- Niño cósmico: malla púrpura profunda + acentos neón -->
+    <color name="child_bg_top">#1A102F</color>
+    <color name="child_bg_bottom">#0F0A1C</color>
+    <color name="child_bg_glow">#409D4EDD</color>
+    <color name="child_surface">#211738</color>
+    <color name="child_surface_glass">#1FFFFFFF</color>
+    <color name="child_stroke">#1FFFFFFF</color>
+    <color name="child_on_surface">#F3EEFF</color>
+    <color name="child_on_surface_variant">#B3A8CC</color>
+    <color name="child_primary">#9D4EDD</color>
+    <color name="child_on_primary">#FFFFFF</color>
+    <color name="child_primary_container">#3A2463</color>
+    <color name="child_on_primary_container">#EBD9FA</color>
+    <color name="child_track">#2E2448</color>
+
+    <color name="neon_green">#00E676</color>
+    <color name="neon_gold">#FFD700</color>
+    <color name="neon_cyan">#00E5FF</color>
+    <color name="neon_violet">#B57BFF</color>
+    <color name="neon_coral">#FF6B88</color>
+
+    <color name="child_tint_cyan">#2600E5FF</color>
+    <color name="child_tint_coral">#26FF6B88</color>
+    <color name="child_tint_gold">#2EFFD700</color>
+    <color name="child_tint_green">#2600E676</color>
+    <color name="child_tint_violet">#33B57BFF</color>
 
     <!-- Fondos suaves / gradientes en oscuro -->
     <color name="soft_peach">#FF2A2118</color>
@@ -69,8 +105,8 @@
     <!-- Texto juego en oscuro -->
     <color name="game_text_dark">#E6E0E9</color>
     <color name="game_text_medium">#A8A8B0</color>
-    <color name="child_nav_background">#24202A</color>
-    <color name="child_nav_selected">#4B3561</color>
-    <color name="child_nav_icon">#D8CCE2</color>
+    <color name="child_nav_background">#E6211738</color>
+    <color name="child_nav_selected">#4D9D4EDD</color>
+    <color name="child_nav_icon">#B3A8CC</color>
     <color name="child_nav_selected_text">#E0B8FF</color>
 </resources>

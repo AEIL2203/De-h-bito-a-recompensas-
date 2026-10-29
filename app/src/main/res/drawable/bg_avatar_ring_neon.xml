@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Anillo de avatar: borde en degradado violeta → cian con relleno de superficie -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:endColor="@color/neon_cyan"
+                android:startColor="@color/neon_violet"
+                android:type="sweep" />
+        </shape>
+    </item>
+    <item
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/child_primary_container" />
+        </shape>
+    </item>
+</layer-list>

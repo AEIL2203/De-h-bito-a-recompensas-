@@ -41,7 +41,7 @@
                     android:background="@drawable/circle_soft"
                     android:backgroundTint="#269B5DE5"
                     app:iiv_color="?attr/colorOnPrimaryContainer"
-                    app:iiv_icon="gmr-handshake"
+                    app:iiv_icon="gmr-verified-user"
                     app:iiv_size="28dp" />
 
                 <LinearLayout

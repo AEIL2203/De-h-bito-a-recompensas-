@@ -43,41 +43,87 @@
 
     <color name="purple_700">#FF512DA8</color>
 
-    <!-- === MATERIAL YOU PALETTE (PLAYFUL) === -->
+    <!-- === TUTOR: MATERIAL 3 (índigo/violeta) === -->
 
-    <!-- Primary: Purple (Tutor Mode focus) -->
-    <color name="md_theme_primary">#9B5DE5</color>
+    <color name="md_theme_primary">#6750A4</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
-    <color name="md_theme_primaryContainer">#F0D9FF</color>
-    <color name="md_theme_onPrimaryContainer">#2B0053</color>
+    <color name="md_theme_primaryContainer">#EADDFF</color>
+    <color name="md_theme_onPrimaryContainer">#21005D</color>
 
-    <!-- Secondary: Green (Child Mode focus / Success) -->
-    <color name="md_theme_secondary">#58CC02</color>
+    <color name="md_theme_secondary">#386A20</color>
     <color name="md_theme_onSecondary">#FFFFFF</color>
-    <color name="md_theme_secondaryContainer">#D7F5B1</color>
-    <color name="md_theme_onSecondaryContainer">#143800</color>
+    <color name="md_theme_secondaryContainer">#B7F397</color>
+    <color name="md_theme_onSecondaryContainer">#042100</color>
 
-    <!-- Tertiary: Blue (Exploration / Info) -->
-    <color name="md_theme_tertiary">#1CB0F6</color>
+    <color name="md_theme_tertiary">#00639B</color>
     <color name="md_theme_onTertiary">#FFFFFF</color>
-    <color name="md_theme_tertiaryContainer">#DDF4FF</color>
-    <color name="md_theme_onTertiaryContainer">#001F2A</color>
+    <color name="md_theme_tertiaryContainer">#CDE5FF</color>
+    <color name="md_theme_onTertiaryContainer">#001D32</color>
 
-    <!-- Error: Coral/Red -->
-    <color name="md_theme_error">#FF4B4B</color>
+    <color name="md_theme_error">#BA1A1A</color>
     <color name="md_theme_onError">#FFFFFF</color>
     <color name="md_theme_errorContainer">#FFDAD6</color>
     <color name="md_theme_onErrorContainer">#410002</color>
 
-    <!-- Background & Surfaces -->
-    <color name="md_theme_background">#FFFDFBF7</color>
-    <color name="md_theme_onBackground">#1C1B1F</color>
-    <color name="md_theme_surface">#FFFFFF</color>
-    <color name="md_theme_onSurface">#1C1B1F</color>
+    <color name="md_theme_background">#ECE5F2</color>
+    <color name="md_theme_onBackground">#1D1B20</color>
+    <color name="md_theme_surface">#F6F1F9</color>
+    <color name="md_theme_onSurface">#1D1B20</color>
     <color name="md_theme_surfaceVariant">#E7E0EC</color>
     <color name="md_theme_onSurfaceVariant">#49454F</color>
+    <color name="md_theme_surfaceContainer">#E4DCEB</color>
     <color name="md_theme_outline">#79747E</color>
+    <color name="md_theme_outlineVariant">#CAC4D0</color>
     <color name="md_theme_outline_10">#1A79747E</color>
+
+    <!-- Tutor: círculos pastel para iconos de menú -->
+    <color name="tutor_icon_violet_bg">#EADDFF</color>
+    <color name="tutor_icon_violet">#6750A4</color>
+    <color name="tutor_icon_green_bg">#D6F5C3</color>
+    <color name="tutor_icon_green">#2E7D32</color>
+    <color name="tutor_icon_blue_bg">#D3E8FF</color>
+    <color name="tutor_icon_blue">#0061A4</color>
+    <color name="tutor_icon_amber_bg">#FFE7B8</color>
+    <color name="tutor_icon_amber">#8A5A00</color>
+    <color name="tutor_icon_pink_bg">#FFD9E3</color>
+    <color name="tutor_icon_pink">#9C2758</color>
+
+    <!-- === ACCESO (login / ¿quién eres? / ¿quién usará?): panel héroe violeta cósmico === -->
+    <color name="auth_hero_start">#FF7B4AE2</color>
+    <color name="auth_hero_end">#FF2A1458</color>
+    <color name="auth_on_hero">#FFFFFFFF</color>
+    <color name="auth_on_hero_variant">#CCEDE4FF</color>
+
+    <!-- === NIÑO: tokens propios (claro = pastel lúdico, noche = cósmico) === -->
+    <color name="child_bg_top">#EAE3F5</color>
+    <color name="child_bg_bottom">#D6CAEA</color>
+    <color name="child_bg_glow">#339D4EDD</color>
+    <color name="child_surface">#FFFFFF</color>
+    <color name="child_surface_glass">#CCFFFFFF</color>
+    <color name="child_stroke">#1F6B4FBB</color>
+    <color name="child_on_surface">#241B3A</color>
+    <color name="child_on_surface_variant">#6B6285</color>
+    <color name="child_primary">#7E57C2</color>
+    <color name="child_on_primary">#FFFFFF</color>
+    <color name="child_primary_container">#EBD9FA</color>
+    <color name="child_on_primary_container">#3A0C62</color>
+    <color name="child_track">#E6DDF7</color>
+    <color name="child_on_neon">#0B2E1A</color>
+    <color name="child_on_glow">#1A1030</color>
+    <color name="child_warning">#FF5252</color>
+
+    <color name="neon_green">#4CAF50</color>
+    <color name="neon_gold">#E0A51E</color>
+    <color name="neon_cyan">#2AA9BD</color>
+    <color name="neon_violet">#8B69C9</color>
+    <color name="neon_coral">#E57085</color>
+
+    <!-- Fondos tenues de mini-cards / chips del niño -->
+    <color name="child_tint_cyan">#2600B8D4</color>
+    <color name="child_tint_coral">#26FF5C7A</color>
+    <color name="child_tint_gold">#33FFB300</color>
+    <color name="child_tint_green">#2600C853</color>
+    <color name="child_tint_violet">#269D4EDD</color>
 
     <!-- Game specific accents -->
     <color name="game_yellow">#FFD900</color>
@@ -92,8 +138,8 @@
     <color name="game_text_dark">#3C3C3C</color>
     <color name="game_text_medium">#757575</color>
     <color name="game_map_center">#E8F5E9</color>
-    <color name="child_nav_background">#F8F1FF</color>
-    <color name="child_nav_selected">#F0D9FF</color>
+    <color name="child_nav_background">#EDE6F5</color>
+    <color name="child_nav_selected">#EAE0F7</color>
     <color name="child_nav_icon">#6B5B7F</color>
-    <color name="child_nav_selected_text">#9B5DE5</color>
+    <color name="child_nav_selected_text">#7E57C2</color>
 </resources>

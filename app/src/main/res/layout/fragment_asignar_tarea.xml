@@ -1,141 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     android:clipToPadding="false"
     android:fillViewport="true"
     android:paddingBottom="@dimen/bottom_nav_padding">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/ivIcono"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/circle_game_green"
-            android:elevation="6dp"
-            app:iiv_color="@color/game_green_dark"
-            app:iiv_icon="gmr-rule"
-            app:iiv_size="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!-- Cabecera -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/ivIcono"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/tutor_icon_green_bg"
+                android:padding="12dp"
+                app:iiv_color="@color/tutor_icon_green"
+                app:iiv_icon="gmr-add-task" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitulo"
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crear misión" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asigna una tarea y premia con XP" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ¿Para quién? -->
         <TextView
-            android:id="@+id/tvTitulo"
+            style="@style/Widget.Habitos.Text.SectionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Crear misión"
-            android:textAppearance="?attr/textAppearanceHeadlineLarge"
-            android:textColor="@color/game_text_dark"
-            android:fontFamily="sans-serif-rounded"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivIcono" />
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:text="Para quién" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardFormulario"
-            style="@style/Widget.Game.Card"
-            android:layout_width="0dp"
+            style="@style/Widget.Habitos.Card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitulo">
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNino"
+                style="@style/Widget.Game.Input.Dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Elige un niño"
+                app:startIconDrawable="@drawable/ic_person">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actvNino"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Detalles -->
+        <TextView
+            style="@style/Widget.Habitos.Text.SectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:text="Detalles" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Habitos.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilNino"
-                    style="@style/Widget.Game.Input.Dropdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="¿Para quién es la misión?"
-                    app:boxStrokeColor="@color/game_green"
-                    app:hintTextColor="@color/game_text_medium">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/actvNino"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
+                android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNombre"
-                    style="@style/Widget.Game.Input"
+                    style="@style/Widget.Habitos.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:hint="Nombre de la misión"
-                    app:boxStrokeColor="@color/game_green"
-                    app:hintTextColor="@color/game_text_medium">
+                    app:counterEnabled="true"
+                    app:counterMaxLength="60">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapSentences" />
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapSentences"
+                        android:maxLength="60" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilCategoria"
-                    style="@style/Widget.Game.Input.Dropdown"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Categoría"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Categoría"
-                    app:boxStrokeColor="@color/game_green"
-                    app:hintTextColor="@color/game_text_medium">
+                    android:layout_marginTop="8dp"
+                    app:checkedButton="@id/btnCatAcademica"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/actvCategoria"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCatAcademica"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="1"
+                        android:paddingHorizontal="2dp"
+                        android:text="Académica"
+                        android:textSize="11sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCatDomestica"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="2dp"
+                        android:text="Hogar"
+                        android:textSize="11sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCatPersonal"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="2dp"
+                        android:text="Personal"
+                        android:textSize="11sp" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Recompensa"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip5"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="5 XP" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip10"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="10 XP" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip20"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="20 XP" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip50"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="50 XP" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip100"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="100 XP" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip150"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        app:checkedIconVisible="false"
+                        android:text="150 XP" />
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPuntos"
-                    style="@style/Widget.Game.Input"
+                    style="@style/Widget.Habitos.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="⭐ Puntos XP"
-                    app:boxStrokeColor="@color/game_yellow_dark"
-                    app:hintTextColor="@color/game_text_medium">
+                    android:layout_marginTop="4dp"
+                    android:hint="Puntos XP"
+                    app:suffixText="XP">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPuntos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
                         android:maxLength="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFechaLimite"
-                    style="@style/Widget.Game.Input"
+                    style="@style/Widget.Habitos.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:hint="Fecha límite (opcional)"
                     app:endIconMode="clear_text"
-                    app:boxStrokeColor="@color/game_green"
-                    app:hintTextColor="@color/game_text_medium">
+                    app:startIconDrawable="@drawable/ic_assignment">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFechaLimite"
@@ -145,26 +295,25 @@
                         android:focusable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAsignar"
-                    style="@style/Widget.Game.Button.Primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Asignar misión" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:indeterminateTint="@color/game_green"
-                    android:visibility="gone" />
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAsignar"
+            style="@style/Widget.Habitos.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Asignar misión"
+            app:iconGravity="textStart" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:visibility="gone" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

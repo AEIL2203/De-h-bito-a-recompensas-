@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentAsignarTareaBinding
 import com.angel.ibanez.dehabitos.models.Nino
@@ -56,7 +57,7 @@ class AsignarTareaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAsignar.icon = IconosUtils.crearIcono(requireContext(), "gmr-bolt", R.color.md_theme_onPrimary)
+        binding.btnAsignar.icon = IconosUtils.crearIcono(requireContext(), "gmr-flash-on", R.color.md_theme_onPrimary)
 
         configurarCategorias()
         configurarFechaLimite()
@@ -69,12 +70,28 @@ class AsignarTareaFragment : Fragment() {
     }
 
     private fun configurarCategorias() {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, categorias.map { it.second })
-        binding.actvCategoria.setAdapter(adapter)
-        binding.actvCategoria.setText(categorias[0].second, false)
-        binding.actvCategoria.setOnItemClickListener { _, _, position, _ ->
-            categoriaSeleccionada = categorias[position].first
+        val botones = mapOf(
+            R.id.btnCatAcademica to categorias[0].first,
+            R.id.btnCatDomestica to categorias[1].first,
+            R.id.btnCatPersonal to categorias[2].first
+        )
+        binding.toggleCategoria.addOnButtonCheckedListener { _, id, marcado ->
+            if (marcado) botones[id]?.let { categoriaSeleccionada = it }
         }
+        // Atajos de XP: rellenan el campo de puntos
+        val atajos = mapOf(
+            binding.chip5 to 5, binding.chip10 to 10, binding.chip20 to 20,
+            binding.chip50 to 50, binding.chip100 to 100, binding.chip150 to 150
+        )
+        atajos.forEach { (chip, valor) ->
+            chip.setOnClickListener {
+                atajos.keys.forEach { it.isChecked = it == chip }
+                binding.etPuntos.setText(valor.toString())
+            }
+        }
+        binding.chip10.isChecked = true
+        binding.etPuntos.setText("10")
+        TecladoUtils.configurar(binding.etNombre, binding.etPuntos)
     }
 
     private fun configurarFechaLimite() {
@@ -110,6 +127,10 @@ class AsignarTareaFragment : Fragment() {
                     binding.actvNino.setAdapter(adapter)
                     binding.actvNino.setOnItemClickListener { _, _, position, _ ->
                         ninoSeleccionado = ninos[position]
+                    }
+                    if (ninos.size == 1 && ninoSeleccionado == null) {
+                        ninoSeleccionado = ninos[0]
+                        binding.actvNino.setText(ninos[0].nombre, false)
                     }
                 }
                 is Resultado.Error -> {

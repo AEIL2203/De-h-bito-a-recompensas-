@@ -36,6 +36,9 @@ class LoginTutorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvVersion.text = "Versión " + requireContext().packageManager
+            .getPackageInfo(requireContext().packageName, 0).versionName
+
         binding.btnGoogle.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {

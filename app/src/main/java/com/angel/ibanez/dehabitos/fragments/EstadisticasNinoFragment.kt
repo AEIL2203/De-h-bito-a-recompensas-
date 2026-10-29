@@ -106,7 +106,7 @@ class EstadisticasNinoFragment : Fragment() {
         binding.tvKpiTiempo.text = "Tiempo\n${formatoDuracionCorta(e.tiempoUsadoMs)}"
         binding.tvKpiCanjes.text = "Canjes\n${e.canjesTotales}"
         mostrarDashboardCategorias(e.tareasPorCategoria)
-        binding.tvResumenExtra.text = "Estrellas gastadas: ${e.estrellasGastadas}  ·  Satisfacción: $satisfaccion"
+        binding.tvResumenExtra.text = "Monedas gastadas: ${e.estrellasGastadas}  ·  Satisfacción: $satisfaccion"
         mostrarSemanas(e.semanas)
         binding.tvCanjes.text = e.canjesPorApp.joinToString("\n\n") {
             val nombreApp = AppsUtils.obtenerNombreApp(requireContext(), it.packageName)

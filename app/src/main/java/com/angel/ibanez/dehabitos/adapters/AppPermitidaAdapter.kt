@@ -1,6 +1,7 @@
 package com.angel.ibanez.dehabitos.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -25,7 +26,14 @@ class AppPermitidaAdapter(
     inner class AppViewHolder(private val binding: ItemAppPermitidaBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(app: AplicacionPermitida) {
             binding.tvNombre.text = app.nombre
-            binding.tvPrecios.text = "15m=${app.precio15min} | 30m=${app.precio30min} | 60m=${app.precio60min}"
+            listOf(
+                Triple(binding.tvPrecio15, 15, app.precio15min),
+                Triple(binding.tvPrecio30, 30, app.precio30min),
+                Triple(binding.tvPrecio60, 60, app.precio60min)
+            ).forEach { (pildora, minutos, precio) ->
+                pildora.visibility = if (precio > 0) View.VISIBLE else View.GONE
+                pildora.text = "${minutos}m · $precio 🪙"
+            }
             binding.ivIcono.setImageDrawable(AppsUtils.base64ADrawable(binding.root.context, app.iconoBase64))
             binding.btnEliminar.setOnClickListener { onEliminar(app) }
         }

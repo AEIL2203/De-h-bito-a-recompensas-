@@ -2,136 +2,102 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Habitos.Child.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="14dp"
-    app:cardBackgroundColor="?attr/colorSurface"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/md_theme_outline_10"
-    app:strokeWidth="1dp">
+    android:layout_marginBottom="14dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Icono de la app en contenedor redondeado -->
-        <FrameLayout
-            android:id="@+id/flIcono"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/bg_app_icon_squircle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/ivIcono"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:contentDescription="Icono de la app" />
-        </FrameLayout>
-
-        <!-- Nombre de la app -->
-        <TextView
-            android:id="@+id/tvNombre"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="?attr/colorOnSurface"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/flIcono"
-            app:layout_constraintEnd_toStartOf="@id/tvSubtitulo"
-            app:layout_constraintStart_toEndOf="@id/flIcono"
-            app:layout_constraintTop_toTopOf="@id/flIcono"
-            tools:text="Nombre app" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <!-- Subtítulo / packageName -->
-        <TextView
-            android:id="@+id/tvSubtitulo"
-            android:layout_width="wrap_content"
+            <!-- Icono de juego redondeado -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/flIcono"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <ImageView
+                    android:id="@+id/ivIcono"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Icono de la app" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNombre"
+                    style="@style/Widget.Habitos.Text.TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="YouTube" />
+
+                <TextView
+                    android:id="@+id/tvSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Elige tu tiempo"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Píldoras de precio: «15 min · 5 🪙» -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Elige tu tiempo"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toBottomOf="@id/flIcono"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/flIcono" />
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
 
-        <!-- Fila de chips de precio -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn15"
-            style="@style/Widget.Habitos.Button.Tonal"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="6dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:insetBottom="0dp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:insetTop="0dp"
-            android:maxLines="2"
-            android:minHeight="48dp"
-            android:minWidth="96dp"
-            android:paddingHorizontal="8dp"
-            android:textSize="12sp"
-            app:cornerRadius="24dp"
-            app:layout_constraintEnd_toStartOf="@id/btn30"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/flIcono"
-            tools:text="15 min\n1 moneda" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn15"
+                style="@style/Widget.Habitos.Child.Button.Price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                tools:text="15 min · 5 🪙" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn30"
-            style="@style/Widget.Habitos.Button.Tonal"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:insetBottom="0dp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:insetTop="0dp"
-            android:maxLines="2"
-            android:minHeight="48dp"
-            android:minWidth="96dp"
-            android:paddingHorizontal="8dp"
-            android:textSize="12sp"
-            app:cornerRadius="24dp"
-            app:layout_constraintEnd_toStartOf="@id/btn60"
-            app:layout_constraintStart_toEndOf="@id/btn15"
-            app:layout_constraintTop_toTopOf="@id/btn15"
-            tools:text="30 min\n2 monedas" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn30"
+                style="@style/Widget.Habitos.Child.Button.Price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
+                tools:text="30 min · 9 🪙" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn60"
-            style="@style/Widget.Habitos.Button.Tonal"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="6dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:insetBottom="0dp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:insetTop="0dp"
-            android:maxLines="2"
-            android:minHeight="48dp"
-            android:minWidth="96dp"
-            android:paddingHorizontal="8dp"
-            android:textSize="12sp"
-            app:cornerRadius="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn30"
-            app:layout_constraintTop_toTopOf="@id/btn15"
-            tools:text="60 min\n3 monedas" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn60"
+                style="@style/Widget.Habitos.Child.Button.Price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                tools:enabled="false"
+                tools:text="60 min · 16 🪙" />
+        </LinearLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -3,6 +3,7 @@ package com.angel.ibanez.dehabitos.adapters
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,21 +60,25 @@ class LogrosAdapter : RecyclerView.Adapter<LogrosAdapter.LogroViewHolder>() {
             binding.progresoLogro.setProgressCompat(if (ganado) logro.objetivo else progreso, false)
             binding.progresoLogro.setIndicatorColor(color)
             binding.tvProgreso.setTextColor(ColorStateList.valueOf(color))
-            binding.ivIcono.icon = IconosUtils.crearIcono(context, logro.iconoGmr, colorRes, 25)
+            binding.ivIcono.icon = IconosUtils.crearIcono(context, logro.iconoGmr, colorRes, 28)
             binding.ivCandado.visibility = if (ganado) View.GONE else View.VISIBLE
-            binding.ivCandado.icon = IconosUtils.crearIcono(context, "gmr-lock", R.color.md_theme_onSurfaceVariant, 14)
+            binding.ivCandado.icon = IconosUtils.crearIcono(context, "gmr-lock", R.color.child_on_primary_container, 12)
             binding.fondoIcono.background = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
-                setColor(Color.argb(38, Color.red(color), Color.green(color), Color.blue(color)))
+                setColor(Color.argb(if (ganado) 56 else 30, Color.red(color), Color.green(color), Color.blue(color)))
             }
-            binding.contenidoLogro.alpha = if (ganado) 1f else 0.72f
+            // Completado: borde dorado brillante. Bloqueado: aspecto esmerilado (opacidad baja).
+            val dorado = ContextCompat.getColor(context, R.color.neon_gold)
+            val borde = ContextCompat.getColor(context, R.color.child_stroke)
+            binding.root.strokeColor = if (ganado) dorado else borde
+            binding.root.strokeWidth = (context.resources.displayMetrics.density * if (ganado) 2f else 1f).toInt()
+            binding.root.cardElevation = if (ganado) 6f * context.resources.displayMetrics.density else 0f
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) binding.root.outlineSpotShadowColor = dorado
+            binding.contenidoLogro.alpha = if (ganado) 1f else 0.55f
         }
 
         fun actualizarProgreso(logro: LogrosUtils.Logro) {
-            val progreso = logro.progresoActual(contexto).coerceAtMost(logro.objetivo)
-            val ganado = logro.cumplido(contexto)
-            binding.progresoLogro.setProgressCompat(if (ganado) logro.objetivo else progreso, true)
-            binding.tvProgreso.text = if (ganado) "Completado" else "$progreso/${logro.objetivo}"
+            bind(logro)
         }
     }
 }

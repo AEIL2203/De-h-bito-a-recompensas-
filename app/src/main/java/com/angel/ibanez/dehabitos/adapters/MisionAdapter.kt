@@ -3,6 +3,7 @@ package com.angel.ibanez.dehabitos.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -35,38 +36,28 @@ class MisionAdapter(
             binding.tvNombreMision.text = tarea.nombre
             binding.tvCategoria.text = (if (tarea.esDiaria) "☀️ Misión diaria · " else "") + ProgresionUtils.nombreCategoria(tarea.categoria)
             binding.tvXp.text = "+${tarea.puntos} XP"
-            val colorIcono = when (tarea.categoria) {
-                "academica" -> R.color.game_blue_dark
-                "domestica" -> R.color.game_orange_dark
-                else -> R.color.game_green_dark
+            val colorCategoria = when (tarea.categoria) {
+                "academica" -> R.color.neon_cyan
+                "domestica" -> R.color.neon_coral
+                else -> R.color.neon_green
             }
             binding.ivCategoria.icon = IconosUtils.crearIcono(
                 context,
                 ProgresionUtils.iconoCategoria(tarea.categoria),
-                colorIcono
+                R.color.child_on_glow,
+                28
             )
-            val bgIcono = when (tarea.categoria) {
-                "academica" -> R.drawable.circle_game_blue
-                "domestica" -> R.drawable.circle_game_orange
-                else -> R.drawable.circle_game_green
-            }
-            binding.ivCategoria.setBackgroundResource(bgIcono)
+            binding.ivCategoria.backgroundTintList = ContextCompat.getColorStateList(context, colorCategoria)
 
             if (tarea.estado == Tarea.ESTADO_PENDIENTE && tarea.fechaLimite.isNotBlank()) {
                 val corta = FechasUtils.formatearFechaCorta(tarea.fechaLimite)
                 when (FechasUtils.estadoVencimiento(tarea.fechaLimite)) {
-                    FechasUtils.EstadoVencimiento.VENCIDA -> {
-                        binding.tvFechaLimite.text = "⚠️ Atrasada ($corta)"
-                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_coral))
-                    }
-                    FechasUtils.EstadoVencimiento.VENCE_HOY -> {
-                        binding.tvFechaLimite.text = "⏰ ¡Vence hoy!"
-                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_yellow_dark))
-                    }
-                    else -> {
-                        binding.tvFechaLimite.text = "📅 Vence $corta"
-                        binding.tvFechaLimite.setTextColor(ContextCompat.getColor(context, R.color.game_text_medium))
-                    }
+                    FechasUtils.EstadoVencimiento.VENCIDA ->
+                        binding.tvFechaLimite.pintarPildora("⚠ Atrasada · $corta", R.color.child_warning, R.color.white)
+                    FechasUtils.EstadoVencimiento.VENCE_HOY ->
+                        binding.tvFechaLimite.pintarPildora("⏰ ¡Vence hoy!", R.color.neon_gold, R.color.child_on_glow)
+                    else ->
+                        binding.tvFechaLimite.pintarPildora("📅 Vence $corta", R.color.child_track, R.color.child_on_surface_variant)
                 }
                 binding.tvFechaLimite.visibility = View.VISIBLE
             } else {
@@ -86,22 +77,20 @@ class MisionAdapter(
             }
 
             when (tarea.estado) {
-                Tarea.ESTADO_PENDIENTE -> {
-                    binding.tvEstado.text = "🟠 Pendiente"
-                    binding.tvEstado.setTextColor(ContextCompat.getColor(context, R.color.game_coral))
-                    binding.btnCompletar.visibility = View.VISIBLE
-                }
-                Tarea.ESTADO_COMPLETADA -> {
-                    binding.tvEstado.text = "⏳ Esperando validación"
-                    binding.tvEstado.setTextColor(ContextCompat.getColor(context, R.color.game_yellow_dark))
-                    binding.btnCompletar.visibility = View.GONE
-                }
-                else -> {
-                    binding.tvEstado.text = "✅ ¡Validada!"
-                    binding.tvEstado.setTextColor(ContextCompat.getColor(context, R.color.game_green_dark))
-                    binding.btnCompletar.visibility = View.GONE
-                }
+                Tarea.ESTADO_PENDIENTE ->
+                    binding.tvEstado.pintarPildora("Pendiente", R.color.child_tint_violet, R.color.neon_violet)
+                Tarea.ESTADO_COMPLETADA ->
+                    binding.tvEstado.pintarPildora("⏳ Esperando validación", R.color.child_tint_gold, R.color.neon_gold)
+                else ->
+                    binding.tvEstado.pintarPildora("✓ ¡Validada!", R.color.child_tint_green, R.color.neon_green)
             }
+            val vencida = tarea.estado == Tarea.ESTADO_PENDIENTE &&
+                FechasUtils.estadoVencimiento(tarea.fechaLimite) == FechasUtils.EstadoVencimiento.VENCIDA
+            binding.btnCompletar.visibility = if (tarea.estado == Tarea.ESTADO_PENDIENTE) View.VISIBLE else View.GONE
+            binding.btnCompletar.isEnabled = !vencida
+            binding.btnCompletar.alpha = if (vencida) 0.45f else 1f
+            binding.btnCompletar.text = if (vencida) "⛔ Vencida" else context.getString(R.string.mission_i_did_it)
+            binding.btnCompletar.setIconResource(if (vencida) 0 else R.drawable.ic_check_small)
 
             binding.btnCompletar.setOnClickListener {
                 binding.root.animate()
@@ -114,6 +103,12 @@ class MisionAdapter(
                     .start()
             }
         }
+    }
+
+    private fun TextView.pintarPildora(texto: String, fondo: Int, colorTexto: Int) {
+        text = texto
+        backgroundTintList = ContextCompat.getColorStateList(context, fondo)
+        setTextColor(ContextCompat.getColor(context, colorTexto))
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Tarea>() {

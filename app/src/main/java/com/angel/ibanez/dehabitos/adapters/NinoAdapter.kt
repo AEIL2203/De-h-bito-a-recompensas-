@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.angel.ibanez.dehabitos.databinding.ItemNinoBinding
 import com.angel.ibanez.dehabitos.models.Nino
+import com.angel.ibanez.dehabitos.utils.AvataresUtils
+import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 
 class NinoAdapter(
     private val onItemClick: ((Nino) -> Unit)? = null
@@ -26,8 +28,12 @@ class NinoAdapter(
     class NinoViewHolder(private val binding: ItemNinoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(nino: Nino) {
             binding.tvNombre.text = nino.nombre
-            binding.tvEdad.text = "${nino.edad} años"
-            binding.tvNivel.text = "⭐ Nivel ${nino.nivel}"
+            binding.tvEdad.text = "${nino.edad} años · ${nino.experiencia} XP"
+            binding.tvNivel.text = "Nivel ${nino.nivel}"
+            binding.tvEstrellasNino.text = "🪙 ${nino.estrellas}"
+            binding.tvRachaNino.text = "🔥 ${nino.racha}"
+            binding.progresoNivel.setProgressCompat(ProgresionUtils.porcentajeProgreso(nino.experiencia), false)
+            AvataresUtils.cargar(binding.ivAvatar, nino.avatar)
         }
     }
 

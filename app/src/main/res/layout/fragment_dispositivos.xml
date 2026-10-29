@@ -2,70 +2,101 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:background="?android:attr/colorBackground"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="20dp">
 
+    <!-- Cabecera -->
     <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/ivIcono"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/circle_game_blue"
-        android:elevation="6dp"
-        app:iiv_color="@color/game_blue_dark"
-        app:iiv_icon="gmr-vpn-key"
-        app:iiv_size="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/tutor_icon_green_bg"
+        android:padding="12dp"
+        app:iiv_color="@color/tutor_icon_green"
+        app:iiv_icon="gmr-devices"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitulo"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Habitos.Text.Title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="📱 Dispositivos"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadlineLarge"
-        android:textColor="@color/game_text_dark"
-        android:fontFamily="sans-serif-rounded"
-        android:textStyle="bold"
+        android:layout_marginStart="12dp"
+        android:text="Dispositivos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivIcono" />
+        app:layout_constraintStart_toEndOf="@id/ivIcono"
+        app:layout_constraintTop_toTopOf="@id/ivIcono" />
 
     <TextView
         android:id="@+id/tvSubtitulo"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Habitos.Text.BodySmall"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Activa el candado para permitir el modo tutor"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceBodyMedium"
-        android:textColor="@color/game_text_medium"
-        android:fontFamily="sans-serif-rounded"
+        android:layout_marginStart="12dp"
+        android:text="Teléfonos vinculados a tus hijos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivIcono"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <!-- Ayuda -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardAyuda"
+        style="@style/Widget.Habitos.Card.Primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+        app:layout_constraintTop_toBottomOf="@id/ivIcono">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                app:iiv_color="@color/md_theme_onPrimaryContainer"
+                app:iiv_icon="gmr-info" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="¿Tu hijo cambió de teléfono? Desvincula el anterior y vuelve a elegir su perfil en el nuevo."
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnPrimaryContainer" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDispositivos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/bottom_nav_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo" />
+        app:layout_constraintTop_toBottomOf="@id/cardAyuda"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_dispositivo" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/game_blue"
+        android:indeterminateTint="?attr/colorPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

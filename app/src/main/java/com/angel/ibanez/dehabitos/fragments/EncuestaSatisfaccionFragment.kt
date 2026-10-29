@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentEncuestaSatisfaccionBinding
 import com.angel.ibanez.dehabitos.models.EncuestaSatisfaccion
@@ -21,8 +22,10 @@ import com.angel.ibanez.dehabitos.repository.TutorRepository
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.EncuestaViewModel
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.slider.Slider
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.launch
 
 class EncuestaSatisfaccionFragment : Fragment() {
@@ -33,7 +36,9 @@ class EncuestaSatisfaccionFragment : Fragment() {
     private var ninos = emptyList<Nino>()
     private var seleccionado = ""
     private var tutorId = ""
-    private val sliders = linkedMapOf<String, Slider>()
+    private val respuestas = linkedMapOf<String, Int>().apply {
+        EncuestaSatisfaccion.PREGUNTAS.forEach { (clave, _) -> put(clave, 3) }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentEncuestaSatisfaccionBinding.inflate(inflater, container, false)
@@ -44,6 +49,8 @@ class EncuestaSatisfaccionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         seleccionado = arguments?.getString("ninoId").orEmpty()
         construirPreguntas()
+        binding.etComentario.setHorizontallyScrolling(false)
+        TecladoUtils.configurar(binding.etComentario)
         binding.btnEnviar.setOnClickListener { enviar() }
 
         ninoViewModel.listaNinosResultado.observe(viewLifecycleOwner) { resultado ->
@@ -77,40 +84,74 @@ class EncuestaSatisfaccionFragment : Fragment() {
         }
     }
 
+    /** Cada pregunta es una tarjeta con 5 botones segmentados (1–5) en lugar de un slider. */
     private fun construirPreguntas() {
         val densidad = resources.displayMetrics.density
-        EncuestaSatisfaccion.PREGUNTAS.forEach { (clave, texto) ->
-            val tarjeta = MaterialCardView(requireContext()).apply {
-                radius = 24 * densidad
-                cardElevation = 0f
-                strokeWidth = (densidad).toInt()
-                strokeColor = requireContext().getColor(R.color.md_theme_outline)
+        fun dp(valor: Int) = (valor * densidad).toInt()
+        EncuestaSatisfaccion.PREGUNTAS.forEachIndexed { indice, (clave, texto) ->
+            val tarjeta = MaterialCardView(requireContext(), null, 0).apply {
+                radius = 16 * densidad
+                cardElevation = densidad
+                strokeWidth = dp(1)
+                strokeColor = requireContext().getColor(R.color.md_theme_outline_10)
+                setCardBackgroundColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface))
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                    topMargin = (12 * densidad).toInt()
+                    topMargin = dp(10)
                 }
             }
             val contenido = LinearLayout(requireContext()).apply {
                 orientation = LinearLayout.VERTICAL
-                setPadding((16 * densidad).toInt(), (14 * densidad).toInt(), (16 * densidad).toInt(), (10 * densidad).toInt())
+                setPadding(dp(16), dp(14), dp(16), dp(14))
+            }
+            val numero = TextView(requireContext()).apply {
+                text = "Pregunta ${indice + 1} de ${EncuestaSatisfaccion.PREGUNTAS.size}"
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelMedium)
+                setTextColor(MaterialColors.getColor(this, androidx.appcompat.R.attr.colorPrimary))
             }
             val etiqueta = TextView(requireContext()).apply {
-                this.text = texto
-                textSize = 15f
-                setTextColor(requireContext().getColor(R.color.md_theme_onSurface))
-                setTypeface(typeface, android.graphics.Typeface.BOLD)
+                text = texto
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
+                setTextColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorOnSurface))
+                setPadding(0, dp(4), 0, dp(12))
             }
-            val slider = Slider(requireContext()).apply {
-                valueFrom = EncuestaSatisfaccion.VALOR_MINIMO.toFloat()
-                valueTo = EncuestaSatisfaccion.VALOR_MAXIMO.toFloat()
-                stepSize = 1f
-                value = 3f
-                labelBehavior = com.google.android.material.slider.LabelFormatter.LABEL_VISIBLE
+            val grupo = MaterialButtonToggleGroup(requireContext()).apply {
+                isSingleSelection = true
+                isSelectionRequired = true
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             }
+            (EncuestaSatisfaccion.VALOR_MINIMO..EncuestaSatisfaccion.VALOR_MAXIMO).forEach { valor ->
+                val boton = MaterialButton(requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+                    id = View.generateViewId()
+                    text = valor.toString()
+                    textSize = 16f
+                    tag = valor
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                }
+                grupo.addView(boton)
+                if (valor == respuestas[clave]) grupo.check(boton.id)
+            }
+            grupo.addOnButtonCheckedListener { g, id, marcado ->
+                if (marcado) respuestas[clave] = g.findViewById<MaterialButton>(id).tag as Int
+            }
+            val extremos = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(0, dp(6), 0, 0)
+                listOf("En desacuerdo" to android.view.Gravity.START, "De acuerdo" to android.view.Gravity.END).forEach { (txt, gravedad) ->
+                    addView(TextView(requireContext()).apply {
+                        text = txt
+                        gravity = gravedad
+                        setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall)
+                        setTextColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorOnSurfaceVariant))
+                        layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    })
+                }
+            }
+            contenido.addView(numero)
             contenido.addView(etiqueta)
-            contenido.addView(slider)
+            contenido.addView(grupo)
+            contenido.addView(extremos)
             tarjeta.addView(contenido)
             binding.contenedorPreguntas.addView(tarjeta)
-            sliders[clave] = slider
         }
     }
 
@@ -124,7 +165,7 @@ class EncuestaSatisfaccionFragment : Fragment() {
                 tutorId = tutorId,
                 ninoId = seleccionado,
                 fecha = System.currentTimeMillis(),
-                respuestas = sliders.mapValues { it.value.value.toInt() },
+                respuestas = respuestas.toMap(),
                 comentario = binding.etComentario.text?.toString()?.trim().orEmpty()
             )
         )

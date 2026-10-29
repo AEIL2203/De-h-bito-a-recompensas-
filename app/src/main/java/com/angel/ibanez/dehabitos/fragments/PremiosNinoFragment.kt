@@ -123,7 +123,7 @@ class PremiosNinoFragment : Fragment() {
         val duracion = "$minutos minutos"
         AlertDialog.Builder(requireContext())
             .setTitle("Canjear $duracion")
-            .setMessage("¿Gastar ${precio} estrellas en ${app.nombre}?")
+            .setMessage("¿Gastar ${precio} monedas en ${app.nombre}?")
             .setPositiveButton("Sí") { _, _ ->
                 recompensaViewModel.canjear(ninoActual, app, minutos, precio, System.currentTimeMillis())
             }

@@ -47,6 +47,13 @@ class DashboardNinoFragment : Fragment() {
         binding.rvLogros.adapter = logrosAdapter
 
         AnimacionesUtils.entradaSuave(binding.cardEstadisticas)
+        listOf(
+            binding.chipEstrellas to "Gana monedas subiendo de nivel y canjéalas por tiempo de juego",
+            binding.chipRacha to "Días seguidos completando misiones. ¡No rompas la racha!",
+            binding.chipInsignias to "Insignias ganadas por tus hitos"
+        ).forEach { (chip, mensaje) ->
+            chip.setOnClickListener { Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show() }
+        }
         observarNino()
         cargarDatos()
     }

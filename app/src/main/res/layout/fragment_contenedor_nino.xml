@@ -4,215 +4,234 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="@drawable/bg_child_cosmic"
+    android:theme="@style/ThemeOverlay.Habitos.Child">
 
-    <ImageView
+    <!-- Barra de estado unificada: perfil + XP | estrellas | ajustes -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardHeader"
+        style="@style/Widget.Habitos.Child.Card.Glass"
         android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:importantForAccessibility="no"
-        android:scaleType="fitXY"
-        android:src="@drawable/wave_top_nino"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:cardCornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Top Left: Profile Pill -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardProfilePill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:cardBackgroundColor="?attr/colorSurface"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="0dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/ivAvatarHeader"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/circle_turquoise"
-                android:contentDescription="Avatar"
-                android:padding="6dp"
-                android:scaleType="fitCenter" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNombreNino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-rounded"
-                    android:text="Mateo"
-                    android:textColor="@color/md_theme_onSurface"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvNivelHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/chip_amber"
-                        android:backgroundTint="@color/md_theme_primary"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="15"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/pbXpHeader"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:progress="85"
-                        app:indicatorColor="@color/md_theme_primary"
-                        app:trackColor="@color/md_theme_primaryContainer"
-                        app:trackCornerRadius="4dp"
-                        app:trackThickness="10dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Top Right: Currency Pills -->
-    <LinearLayout
-        android:id="@+id/containerCurrency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@id/btnConfig"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="4dp"
-            app:strokeWidth="0dp">
+            android:minHeight="64dp"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="6dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/cardProfilePill"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="4dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/containerCurrency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/ivMonedasHeader"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:contentDescription="Estrellas"
+                    android:id="@+id/ivAvatarHeader"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_avatar_ring_neon"
+                    android:contentDescription="Avatar"
+                    android:padding="8dp"
                     android:scaleType="fitCenter" />
 
-                <TextView
-                    android:id="@+id/tvEstrellas"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:fontFamily="sans-serif-rounded"
-                    android:text="850"
-                    android:textColor="@color/md_theme_onSurface"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNombreNino"
+                        style="@style/Widget.Habitos.Text.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Mateo" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvNivelHeader"
+                            style="@style/Widget.Habitos.Text.Pill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/neon_violet"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:textColor="@color/white"
+                            tools:text="Lvl. 5" />
+
+                        <!-- Píldora contenedora de la barra de XP -->
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_pill"
+                            android:backgroundTint="@color/child_track"
+                            android:padding="3dp">
+
+                            <com.google.android.material.progressindicator.LinearProgressIndicator
+                                android:id="@+id/pbXpHeader"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:max="100"
+                                app:indicatorColor="@color/neon_cyan"
+                                app:trackColor="@android:color/transparent"
+                                app:trackCornerRadius="5dp"
+                                app:trackStopIndicatorSize="0dp"
+                                app:trackThickness="8dp"
+                                tools:progress="65" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardGemas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="4dp"
-            app:strokeWidth="0dp">
-
+            <!-- Chip elevado de estrellas (trofeos) -->
             <LinearLayout
+                android:id="@+id/containerCurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="4dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnConfig"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    app:iiv_color="@color/md_theme_tertiary"
-                    app:iiv_icon="gmr-star" />
-
-                <TextView
-                    android:id="@+id/tvGemas"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:fontFamily="sans-serif-rounded"
-                    android:text="120"
-                    android:textColor="@color/md_theme_onSurface"
-                    android:textStyle="bold" />
+                    app:cardBackgroundColor="@color/child_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="@color/neon_gold"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp">
+
+                        <ImageView
+                            android:id="@+id/ivMonedasHeader"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="Monedas"
+                            android:scaleType="fitCenter" />
+
+                        <TextView
+                            android:id="@+id/tvEstrellas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-rounded"
+                            android:textColor="@color/neon_gold"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="850" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardGemas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/child_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="@color/neon_cyan"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp">
+
+                        <com.mikepenz.iconics.view.IconicsImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:iiv_color="@color/neon_cyan"
+                            app:iiv_icon="gmr-star" />
+
+                        <TextView
+                            android:id="@+id/tvGemas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-rounded"
+                            android:textColor="@color/neon_cyan"
+                            android:textStyle="bold"
+                            tools:text="120" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
 
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/btnConfig"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/circle_turquoise"
-        android:backgroundTint="#F0D9FF"
-        android:elevation="4dp"
-        android:padding="9dp"
-        app:iiv_color="#9B5DE5"
-        app:iiv_icon="gmr-settings"
-        app:layout_constraintBottom_toBottomOf="@id/containerCurrency"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/containerCurrency" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/btnConfig"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/child_primary_container"
+                android:contentDescription="Configuración parental"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:padding="9dp"
+                android:stateListAnimator="@animator/pill_press"
+                app:iiv_color="@color/child_on_primary_container"
+                app:iiv_icon="gmr-settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Fragment Container -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_nino"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardProfilePill" />
+        app:layout_constraintTop_toBottomOf="@id/cardHeader" />
 
-    <!-- Styled Bottom Nav -->
+    <!-- Barra de navegación flotante de cristal -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardBottomNav"
         android:layout_width="match_parent"
@@ -220,13 +239,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:elevation="12dp"
-        android:translationZ="12dp"
+        android:outlineAmbientShadowColor="@color/neon_violet"
+        android:outlineSpotShadowColor="@color/neon_violet"
         app:cardBackgroundColor="@color/child_nav_background"
         app:cardCornerRadius="32dp"
         app:cardElevation="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeColor="#2679747E"
+        app:strokeColor="@color/child_stroke"
         app:strokeWidth="1dp">
 
         <FrameLayout
@@ -248,10 +267,7 @@
                 android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="6dp"
-                android:paddingTop="6dp"
-                android:paddingEnd="6dp"
-                android:paddingBottom="6dp">
+                android:padding="6dp">
 
                 <LinearLayout
                     android:id="@+id/navInicio"
@@ -259,9 +275,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView android:id="@+id/ivNavInicio" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Inicio" android:padding="4dp" android:src="@drawable/ic_nav_home" app:tint="@color/child_nav_icon" />
-                    <TextView android:id="@+id/tvNavInicio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_home" android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:paddingVertical="2dp">
+                    <ImageView android:id="@+id/ivNavInicio" android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="Inicio" android:padding="4dp" android:src="@drawable/ic_nav_home" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavInicio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-rounded" android:text="@string/nav_child_home" android:textSize="11sp" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -270,9 +287,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView android:id="@+id/ivNavCamino" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Camino" android:padding="4dp" android:src="@drawable/ic_nav_route" app:tint="@color/child_nav_icon" />
-                    <TextView android:id="@+id/tvNavCamino" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_path" android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:paddingVertical="2dp">
+                    <ImageView android:id="@+id/ivNavCamino" android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="Camino" android:padding="4dp" android:src="@drawable/ic_nav_route" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavCamino" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-rounded" android:text="@string/nav_child_path" android:textSize="11sp" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -281,9 +299,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView android:id="@+id/ivNavMisiones" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Misiones" android:padding="4dp" android:src="@drawable/ic_nav_missions" app:tint="@color/child_nav_icon" />
-                    <TextView android:id="@+id/tvNavMisiones" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_missions" android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:paddingVertical="2dp">
+                    <ImageView android:id="@+id/ivNavMisiones" android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="Misiones" android:padding="4dp" android:src="@drawable/ic_nav_missions" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavMisiones" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-rounded" android:text="@string/nav_child_missions" android:textSize="11sp" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,9 +311,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView android:id="@+id/ivNavPremios" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Premios" android:padding="4dp" android:src="@drawable/ic_nav_gift" app:tint="@color/child_nav_icon" />
-                    <TextView android:id="@+id/tvNavPremios" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_rewards" android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:paddingVertical="2dp">
+                    <ImageView android:id="@+id/ivNavPremios" android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="Premios" android:padding="4dp" android:src="@drawable/ic_nav_gift" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavPremios" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-rounded" android:text="@string/nav_child_rewards" android:textSize="11sp" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -303,9 +323,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView android:id="@+id/ivNavPerfil" android:layout_width="36dp" android:layout_height="36dp" android:contentDescription="Perfil" android:padding="4dp" android:src="@drawable/ic_nav_profile" app:tint="@color/child_nav_icon" />
-                    <TextView android:id="@+id/tvNavPerfil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/nav_child_profile" android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:paddingVertical="2dp">
+                    <ImageView android:id="@+id/ivNavPerfil" android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="Perfil" android:padding="4dp" android:src="@drawable/ic_nav_profile" app:tint="@color/child_nav_icon" />
+                    <TextView android:id="@+id/tvNavPerfil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-rounded" android:text="@string/nav_child_profile" android:textSize="11sp" android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
@@ -316,7 +337,7 @@
         android:id="@+id/overlayAccesibilidad"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?android:attr/colorBackground"
+        android:background="@drawable/bg_child_cosmic"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"
@@ -326,14 +347,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Habitos.Child.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="24dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:strokeWidth="0dp">
+            android:layout_margin="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -343,60 +361,59 @@
                 android:padding="24dp">
 
                 <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/child_tint_violet"
                     android:importantForAccessibility="no"
-                    app:iiv_color="?attr/colorPrimary"
+                    android:padding="16dp"
+                    app:iiv_color="@color/neon_violet"
                     app:iiv_icon="gmr-accessibility" />
 
                 <TextView
+                    style="@style/Widget.Habitos.Text.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-rounded"
-                    android:text="Permiso obligatorio"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="16dp"
+                    android:text="Permiso obligatorio" />
 
                 <TextView
+                    style="@style/Widget.Habitos.Text.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="Para usar la app en este dispositivo debes activar el servicio de accesibilidad. Así funcionan el control de apps y las recompensas."
-                    android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textAlignment="center" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="?attr/colorSurfaceVariant"
-                    android:padding="16dp"
+                    android:background="@drawable/bg_pill"
+                    android:backgroundTint="@color/child_track"
+                    android:lineSpacingMultiplier="1.2"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="14dp"
                     android:text="1. Toca «Abrir ajustes»&#10;2. Entra a «Aplicaciones instaladas»&#10;3. Busca «Control de apps - DeHábitos»&#10;4. Actívalo y acepta el aviso"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?attr/colorOnSurface" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAbrirAccesibilidad"
+                    style="@style/Widget.Habitos.Child.Button.Glow"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Abrir ajustes"
-                    android:textSize="16sp"
-                    app:cornerRadius="16dp" />
+                    android:text="Abrir ajustes" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnVerificarAccesibilidad"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    style="@style/Widget.Habitos.Button.Secondary"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Ya lo activé"
-                    android:textSize="16sp"
-                    app:cornerRadius="16dp" />
+                    android:text="Ya lo activé" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

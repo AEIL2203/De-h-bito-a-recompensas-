@@ -2,49 +2,71 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:background="@drawable/bg_child_cosmic"
+    android:theme="@style/ThemeOverlay.Habitos.Child">
 
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:id="@+id/ivIcono"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/circle_game_green"
-        android:elevation="6dp"
-        app:iiv_color="@color/game_green_dark"
-        app:iiv_icon="gmr-toys"
-        app:iiv_size="32dp"
+    <!-- Mismo héroe con ola del login -->
+    <View
+        android:id="@+id/viewHero"
+        android:layout_width="0dp"
+        android:layout_height="340dp"
+        android:background="@drawable/bg_auth_hero_wave"
+        android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="¿Quién usará este dispositivo?"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadlineLarge"
-        android:textColor="@color/game_text_dark"
-        android:fontFamily="sans-serif-rounded"
-        android:textStyle="bold"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardIcono"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="52dp"
+        android:outlineAmbientShadowColor="@color/neon_green"
+        android:outlineSpotShadowColor="@color/neon_green"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivIcono" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/ivIcono"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            app:iiv_color="@color/neon_green"
+            app:iiv_icon="gmr-toys" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        style="@style/Widget.Habitos.Text.Headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="18dp"
+        android:text="¿Quién usará este dispositivo?"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+        android:textColor="@color/auth_on_hero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardIcono" />
 
     <TextView
         android:id="@+id/tvSubtitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Selecciona tu perfil"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceBodyMedium"
-        android:textColor="@color/game_text_medium"
+        android:layout_marginTop="6dp"
         android:fontFamily="sans-serif-rounded"
+        android:text="Selecciona tu perfil"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="@color/auth_on_hero_variant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
@@ -53,40 +75,43 @@
         android:id="@+id/rvNinos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
         android:clipToPadding="false"
-        android:paddingBottom="16dp"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo" />
+        app:layout_constraintTop_toBottomOf="@id/viewHero"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_nino" />
 
     <TextView
         android:id="@+id/tvMensaje"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Habitos.Text.Body"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:background="@drawable/bg_pill"
+        android:backgroundTint="@color/child_surface"
+        android:padding="24dp"
         android:text="No hay niños registrados. Agrega uno desde el modo padre."
         android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textColor="@color/game_text_medium"
-        android:fontFamily="sans-serif-rounded"
-        android:background="@drawable/empty_state_bg"
-        android:padding="24dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/viewHero" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/game_green"
+        android:indeterminateTint="@color/neon_green"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/viewHero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

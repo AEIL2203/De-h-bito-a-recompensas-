@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.TooltipCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.adapters.NinoAdapter
 import com.angel.ibanez.dehabitos.databinding.DialogConfigNotificacionesBinding
@@ -83,7 +85,6 @@ class DashboardTutorFragment : Fragment() {
         binding.rvNinos.adapter = ninoAdapter
 
         // Los iconos de las filas del menú se asignan en el layout con app:iiv_icon
-        binding.btnCerrarSesion.icon = IconosUtils.crearIcono(requireContext(), "gmr-exit-to-app", R.color.white)
         configurarIconos()
 
         binding.btnAgregarNino.setOnClickListener {
@@ -159,17 +160,6 @@ class DashboardTutorFragment : Fragment() {
     }
 
     private fun configurarIconos() {
-        binding.btnAgregarNino.icon = IconosUtils.crearIcono(requireContext(), "gmr-group-add", R.color.md_theme_primary)
-        binding.btnGestionarDispositivos.icon = IconosUtils.crearIcono(requireContext(), "gmr-tablet-android", R.color.md_theme_secondary)
-        binding.btnHorarioSueno.icon = IconosUtils.crearIcono(requireContext(), "gmr-bedtime", R.color.md_theme_tertiary)
-        binding.btnConfigurarApps.icon = IconosUtils.crearIcono(requireContext(), "gmr-apps", R.color.md_theme_tertiary)
-        binding.btnAsignarTarea.icon = IconosUtils.crearIcono(requireContext(), "gmr-add-task", R.color.game_green_dark)
-        binding.btnValidarTareas.icon = IconosUtils.crearIcono(requireContext(), "gmr-fact-check", R.color.md_theme_secondary)
-        binding.btnEncuesta.icon = IconosUtils.crearIcono(requireContext(), "gmr-rate-review", R.color.md_theme_tertiary)
-        binding.btnTerminos.icon = IconosUtils.crearIcono(requireContext(), "gmr-description", R.color.md_theme_primary)
-        binding.btnConfigurarNotificaciones.icon = IconosUtils.crearIcono(requireContext(), "gmr-notifications", R.color.md_theme_secondary)
-        binding.btnPinParental.icon = IconosUtils.crearIcono(requireContext(), "gmr-vpn-key", R.color.md_theme_secondary)
-        binding.btnVerTutorial.icon = IconosUtils.crearIcono(requireContext(), "gmr-help-outline", R.color.md_theme_primary)
         binding.navTutorInicio.icon = IconosUtils.crearIcono(requireContext(), "gmr-home", R.color.md_theme_primary)
         binding.navTutorGestion.icon = IconosUtils.crearIcono(requireContext(), "gmr-people", R.color.md_theme_primary)
         binding.navTutorControl.icon = IconosUtils.crearIcono(requireContext(), "gmr-tune", R.color.md_theme_primary)
@@ -185,6 +175,7 @@ class DashboardTutorFragment : Fragment() {
             .setNegativeButton("Cancelar", null)
             .create()
         dialog.setOnShowListener {
+            TecladoUtils.configurar(contenido.etPin, contenido.etConfirmarPin) { dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick() }
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val pin = contenido.etPin.text.toString()
                 val confirmacion = contenido.etConfirmarPin.text.toString()
@@ -214,6 +205,7 @@ class DashboardTutorFragment : Fragment() {
             .setNegativeButton("Cancelar", null)
             .create()
         dialog.setOnShowListener {
+            TecladoUtils.configurar(contenido.etHoraNino, contenido.etHoraTutor) { dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick() }
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val habilitadas = contenido.switchHabilitadas.isChecked
                 val horaNino = contenido.etHoraNino.text.toString().toIntOrNull() ?: 7
@@ -311,11 +303,18 @@ class DashboardTutorFragment : Fragment() {
     private fun configurarCerrarSesion() {
         val esHijo = DispositivoConfig.obtenerModo() == DispositivoConfig.ModoDispositivo.HIJO
 
+        val descripcion = if (esHijo) "Volver al modo hijo" else "Cerrar sesión"
+        binding.btnCerrarSesion.contentDescription = descripcion
+        TooltipCompat.setTooltipText(binding.btnCerrarSesion, descripcion)
+        binding.btnCerrarSesion.icon = IconosUtils.crearIcono(
+            requireContext(),
+            if (esHijo) "gmr-child-care" else "gmr-exit-to-app",
+            R.color.md_theme_onPrimaryContainer
+        )
+
         if (esHijo) {
-            binding.btnCerrarSesion.text = "Volver al modo hijo"
             binding.btnCerrarSesion.setOnClickListener { bloquearYVolverAlHijo() }
         } else {
-            binding.btnCerrarSesion.text = "Cerrar sesión"
             binding.btnCerrarSesion.setOnClickListener {
                 tutorRepository.cerrarSesion()
                 DispositivoConfig.limpiar(preservarPinParental = true)

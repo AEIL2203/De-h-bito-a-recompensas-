@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -118,9 +120,25 @@ class SplashFragment : Fragment() {
         expand3.startOffset = 1200
         binding.ring3.startAnimation(expand3)
 
-        val fadeIn = AnimationUtils.loadAnimation(requireContext(), R.anim.splash_fade_in)
-        fadeIn.startOffset = 300
-        binding.tvTitulo.startAnimation(fadeIn)
+        listOf(binding.logoCircle, binding.ivLogo).forEach { vista ->
+            vista.alpha = 0f
+            vista.scaleX = 0.6f
+            vista.scaleY = 0.6f
+            vista.animate()
+                .alpha(1f).scaleX(1f).scaleY(1f)
+                .setDuration(700)
+                .setInterpolator(OvershootInterpolator(1.4f))
+                .start()
+        }
+
+        binding.tvTitulo.alpha = 0f
+        binding.tvTitulo.translationY = 24f * resources.displayMetrics.density
+        binding.tvTitulo.animate()
+            .alpha(1f).translationY(0f)
+            .setStartDelay(350)
+            .setDuration(600)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
     }
 
     private fun decidirRuta() {

@@ -43,8 +43,24 @@ object DispositivoConfig {
         val planas = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs = crearPrefsCifradas(context)?.also { migrar(planas, it) } ?: planas
         if (prefs.getString(KEY_DEVICE_ID, null) == null) {
-            prefs.edit().putString(KEY_DEVICE_ID, UUID.randomUUID().toString()).apply()
+            prefs.edit().putString(KEY_DEVICE_ID, idEstableDelDispositivo(context)).apply()
         }
+    }
+
+    /**
+     * Id que sobrevive a reinstalaciones y a la pérdida de preferencias (ANDROID_ID es fijo
+     * por dispositivo + clave de firma). Evita que el mismo teléfono se registre varias veces.
+     */
+    @android.annotation.SuppressLint("HardwareIds")
+    private fun idEstableDelDispositivo(context: Context): String {
+        val androidId = runCatching {
+            android.provider.Settings.Secure.getString(context.contentResolver, android.provider.Settings.Secure.ANDROID_ID)
+        }.getOrNull()
+        if (androidId.isNullOrBlank()) return UUID.randomUUID().toString()
+        return MessageDigest.getInstance("SHA-256")
+            .digest("dehabitos:$androidId".toByteArray())
+            .joinToString("") { "%02x".format(it) }
+            .take(32)
     }
 
     private fun crearPrefsCifradas(context: Context): SharedPreferences? = runCatching {

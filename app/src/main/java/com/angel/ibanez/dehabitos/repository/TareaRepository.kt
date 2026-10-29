@@ -5,6 +5,7 @@ import com.angel.ibanez.dehabitos.firebase.FirebaseFirestoreService
 import com.angel.ibanez.dehabitos.models.Nino
 import com.angel.ibanez.dehabitos.models.Tarea
 import com.angel.ibanez.dehabitos.models.Validacion
+import com.angel.ibanez.dehabitos.utils.FechasUtils
 import com.angel.ibanez.dehabitos.utils.MisionesDiariasUtils
 import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
@@ -82,6 +83,10 @@ class TareaRepository(
     fun marcarCompletada(tarea: Tarea, evidencia: String = ""): Flow<Resultado<Tarea>> = flow {
         emit(Resultado.Cargando)
         try {
+            if (FechasUtils.estadoVencimiento(tarea.fechaLimite) == FechasUtils.EstadoVencimiento.VENCIDA) {
+                emit(Resultado.Error("La misión ya venció y no se puede completar"))
+                return@flow
+            }
             val fecha = formatoFechaHora.format(Date())
             firestoreService.actualizarEstadoTarea(tarea.id, Tarea.ESTADO_COMPLETADA, fecha, evidencia)
             emit(Resultado.Exito(tarea.copy(estado = Tarea.ESTADO_COMPLETADA, fechaCompletada = fecha, evidencia = evidencia)))

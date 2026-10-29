@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentAgregarNinoBinding
 import com.angel.ibanez.dehabitos.utils.IconosUtils
@@ -39,12 +40,14 @@ class AgregarNinoFragment : Fragment() {
 
         binding.btnGuardar.icon = IconosUtils.crearIcono(requireContext(), "gmr-done-all", R.color.md_theme_onPrimary)
 
+        TecladoUtils.configurar(binding.etNombre, binding.etEdad) { binding.btnGuardar.performClick() }
+
         binding.btnGuardar.setOnClickListener {
             val nombre = binding.etNombre.text.toString().trim()
             val edad = binding.etEdad.text.toString().toIntOrNull() ?: 0
-
-            if (nombre.isEmpty() || edad <= 0) {
-                Toast.makeText(requireContext(), "Completa el nombre y la edad", Toast.LENGTH_SHORT).show()
+            binding.tilNombre.error = if (nombre.isEmpty()) "Escribe el nombre" else null
+            binding.tilEdad.error = if (edad !in 1..17) "Edad entre 1 y 17" else null
+            if (binding.tilNombre.error != null || binding.tilEdad.error != null) {
                 return@setOnClickListener
             }
 

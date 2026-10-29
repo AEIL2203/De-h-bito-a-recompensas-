@@ -1,115 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     android:clipToPadding="false"
     android:fillViewport="true"
     android:paddingBottom="@dimen/bottom_nav_padding">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/tvEmoji"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/circle_game_blue"
-            android:elevation="6dp"
-            app:iiv_color="@color/game_blue_dark"
-            app:iiv_icon="gmr-group-add"
-            app:iiv_size="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!-- Cabecera -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/tvEmoji"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/tutor_icon_violet_bg"
+                android:padding="12dp"
+                app:iiv_color="@color/tutor_icon_violet"
+                app:iiv_icon="gmr-group-add" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitulo"
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agregar niño" />
+
+                <TextView
+                    style="@style/Widget.Habitos.Text.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crea un perfil para empezar a ganar XP" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvTitulo"
+            style="@style/Widget.Habitos.Text.SectionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Agregar Niño"
-            android:textAppearance="?attr/textAppearanceHeadlineLarge"
-            android:textColor="@color/game_text_dark"
-            android:fontFamily="sans-serif-rounded"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:text="Datos del perfil" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardFormulario"
-            style="@style/Widget.Game.Card"
-            android:layout_width="0dp"
+            style="@style/Widget.Habitos.Card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitulo">
+            android:layout_marginTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNombre"
-                    style="@style/Widget.Game.Input"
+                    style="@style/Widget.Habitos.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre del niño"
-                    app:boxStrokeColor="@color/game_blue"
-                    app:hintTextColor="@color/game_text_medium">
+                    app:startIconDrawable="@drawable/ic_person">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName|textCapWords"
+                        android:maxLength="30" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilEdad"
-                    style="@style/Widget.Game.Input"
+                    style="@style/Widget.Habitos.Input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:hint="Edad"
-                    app:boxStrokeColor="@color/game_blue"
-                    app:hintTextColor="@color/game_text_medium">
+                    app:suffixText="años">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEdad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="2" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnGuardar"
-                    style="@style/Widget.Game.Button.Primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Guardar" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:indeterminateTint="@color/game_green"
-                    android:visibility="gone" />
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGuardar"
+            style="@style/Widget.Habitos.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Crear perfil"
+            app:iconGravity="textStart" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:visibility="gone" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

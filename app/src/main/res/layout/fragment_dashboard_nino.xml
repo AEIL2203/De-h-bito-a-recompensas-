@@ -2,9 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:theme="@style/ThemeOverlay.Habitos.Child">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -13,312 +15,321 @@
         android:fillViewport="true"
         android:paddingBottom="@dimen/bottom_nav_padding">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp">
 
-            <!-- Mensaje de Bienvenida Simplificado -->
             <TextView
                 android:id="@+id/tvBienvenida"
-                style="@style/Widget.Habitos.Text.Title"
+                style="@style/Widget.Habitos.Text.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="¡Hola!"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="¡Hola, Mateo!" />
 
-            <!-- Estadísticas de tareas -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardEstadisticas"
-                style="@style/Widget.Habitos.Card"
-                android:layout_width="0dp"
+            <TextView
+                style="@style/Widget.Habitos.Text.BodySmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvBienvenida">
+                android:layout_marginTop="2dp"
+                android:text="Mira todo lo que has logrado" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <!-- Mini-cards de categorías -->
+            <LinearLayout
+                android:id="@+id/cardEstadisticas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Habitos.Child.Card"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/child_tint_cyan">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <com.mikepenz.iconics.view.IconicsImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/neon_cyan"
+                            android:padding="9dp"
+                            app:iiv_color="@color/child_on_glow"
+                            app:iiv_icon="gmr-school" />
 
                         <TextView
                             android:id="@+id/tvStatAcademicas"
                             style="@style/Widget.Habitos.Text.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="?attr/colorTertiary" />
+                            android:layout_marginTop="8dp"
+                            android:text="0" />
 
                         <TextView
-                            style="@style/Widget.Habitos.Text.Body"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tareas"
-                            android:textSize="12sp" />
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="?attr/colorOutlineVariant" />
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Habitos.Child.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/child_tint_coral">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <com.mikepenz.iconics.view.IconicsImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/neon_coral"
+                            android:padding="9dp"
+                            app:iiv_color="@color/child_on_glow"
+                            app:iiv_icon="gmr-home" />
 
                         <TextView
                             android:id="@+id/tvStatDomesticas"
                             style="@style/Widget.Habitos.Text.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/md_theme_error" />
+                            android:layout_marginTop="8dp"
+                            android:text="0" />
 
                         <TextView
-                            style="@style/Widget.Habitos.Text.Body"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Hogar"
-                            android:textSize="12sp" />
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="?attr/colorOutlineVariant" />
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Habitos.Child.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/child_tint_green">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <com.mikepenz.iconics.view.IconicsImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/neon_green"
+                            android:padding="9dp"
+                            app:iiv_color="@color/child_on_glow"
+                            app:iiv_icon="gmr-self-improvement" />
 
                         <TextView
                             android:id="@+id/tvStatPersonales"
                             style="@style/Widget.Habitos.Text.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/game_yellow" />
+                            android:layout_marginTop="8dp"
+                            android:text="0" />
 
                         <TextView
-                            style="@style/Widget.Habitos.Text.Body"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Personal"
-                            android:textSize="12sp" />
+                            android:textAppearance="?attr/textAppearanceLabelMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-            <!-- Tarjeta de estadísticas: Estrellas / Racha / Insignias -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Chips con brillo: Estrellas / Racha / Insignias -->
+            <LinearLayout
                 android:id="@+id/cardStats"
-                style="@style/Widget.Habitos.Card.Primary"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardEstadisticas">
+                android:layout_marginTop="14dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/chipEstrellas"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_glow_chip"
+                    android:backgroundTint="@color/neon_gold"
+                    android:backgroundTintMode="multiply"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:outlineAmbientShadowColor="@color/neon_gold"
+                    android:outlineSpotShadowColor="@color/neon_gold"
+                    android:paddingVertical="12dp"
+                    android:stateListAnimator="@animator/pill_press">
 
-                    <!-- Estrellas -->
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:iiv_color="@color/child_on_glow"
+                        app:iiv_icon="gmr-monetization-on" />
+
+                    <TextView
+                        android:id="@+id/tvEstrellas"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:background="@drawable/circle_soft"
-                            android:backgroundTint="#26D4AA00"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <com.mikepenz.iconics.view.IconicsImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                app:iiv_color="@color/game_yellow_dark"
-                                app:iiv_icon="gmr-star"
-                                app:iiv_size="16dp" />
-
-                            <TextView
-                                android:id="@+id/tvEstrellas"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-rounded"
-                                android:text="0"
-                                android:textColor="@color/game_yellow_dark"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:fontFamily="sans-serif-rounded"
-                            android:text="Estrellas"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
-                    </LinearLayout>
-
-                    <!-- Racha -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:background="@drawable/circle_soft"
-                            android:backgroundTint="#26FF4B4B"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <com.mikepenz.iconics.view.IconicsImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                app:iiv_color="@color/game_coral"
-                                app:iiv_icon="gmr-whatshot"
-                                app:iiv_size="16dp" />
-
-                            <TextView
-                                android:id="@+id/tvRacha"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-rounded"
-                                android:text="0"
-                                android:textColor="@color/game_coral"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:fontFamily="sans-serif-rounded"
-                            android:text="Racha"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
-                    </LinearLayout>
-
-                    <!-- Insignias -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:background="@drawable/circle_soft"
-                            android:backgroundTint="#260A8DD0"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <com.mikepenz.iconics.view.IconicsImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                app:iiv_color="@color/game_blue_dark"
-                                app:iiv_icon="gmr-military-tech"
-                                app:iiv_size="16dp" />
-
-                            <TextView
-                                android:id="@+id/tvInsignias"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-rounded"
-                                android:text="0"
-                                android:textColor="@color/game_blue_dark"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:fontFamily="sans-serif-rounded"
-                            android:text="Insignias"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
-                    </LinearLayout>
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="sans-serif-rounded"
+                        android:text="0"
+                        android:textColor="@color/child_on_glow"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/tvTituloLogros"
-                style="@style/Widget.Habitos.Text.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Logros"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardStats" />
+                <LinearLayout
+                    android:id="@+id/chipRacha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_glow_chip"
+                    android:backgroundTint="@color/neon_coral"
+                    android:backgroundTintMode="multiply"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:outlineAmbientShadowColor="@color/neon_coral"
+                    android:outlineSpotShadowColor="@color/neon_coral"
+                    android:paddingVertical="12dp"
+                    android:stateListAnimator="@animator/pill_press">
 
-            <TextView
-                android:id="@+id/tvProgresoLogros"
-                style="@style/Widget.Habitos.Text.Body"
-                android:layout_width="wrap_content"
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:iiv_color="@color/child_on_glow"
+                        app:iiv_icon="gmr-whatshot" />
+
+                    <TextView
+                        android:id="@+id/tvRacha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="sans-serif-rounded"
+                        android:text="0"
+                        android:textColor="@color/child_on_glow"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/chipInsignias"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_glow_chip"
+                    android:backgroundTint="@color/neon_cyan"
+                    android:backgroundTintMode="multiply"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:outlineAmbientShadowColor="@color/neon_cyan"
+                    android:outlineSpotShadowColor="@color/neon_cyan"
+                    android:paddingVertical="12dp"
+                    android:stateListAnimator="@animator/pill_press">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:iiv_color="@color/child_on_glow"
+                        app:iiv_icon="gmr-military-tech" />
+
+                    <TextView
+                        android:id="@+id/tvInsignias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="sans-serif-rounded"
+                        android:text="0"
+                        android:textColor="@color/child_on_glow"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0 de 15"
-                app:layout_constraintBottom_toBottomOf="@id/tvTituloLogros"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginTop="28dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTituloLogros"
+                    style="@style/Widget.Habitos.Text.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Logros" />
+
+                <TextView
+                    android:id="@+id/tvProgresoLogros"
+                    style="@style/Widget.Habitos.Text.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/child_tint_gold"
+                    android:textColor="@color/neon_gold"
+                    tools:text="3 de 15" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLogros"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
-                android:orientation="vertical"
                 android:overScrollMode="never"
                 android:paddingBottom="12dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTituloLogros" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:itemCount="3"
+                tools:listitem="@layout/item_logro" />
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <ProgressBar

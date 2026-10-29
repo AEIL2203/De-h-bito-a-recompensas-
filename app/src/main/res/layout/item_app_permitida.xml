@@ -1,65 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Game.Card.Flat"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Habitos.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="?attr/colorSurface">
+    android:layout_marginBottom="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivIcono"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:contentDescription="Icono"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:scaleType="fitCenter"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Game.Rounded12" />
 
-        <TextView
-            android:id="@+id/tvNombre"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="sans-serif-rounded"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="@color/game_text_dark"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/btnEliminar"
-            app:layout_constraintStart_toEndOf="@id/ivIcono"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvPrecios"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="sans-serif-rounded"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="@color/game_text_medium"
-            app:layout_constraintEnd_toStartOf="@id/btnEliminar"
-            app:layout_constraintStart_toEndOf="@id/ivIcono"
-            app:layout_constraintTop_toBottomOf="@id/tvNombre" />
+            <TextView
+                android:id="@+id/tvNombre"
+                style="@style/Widget.Habitos.Text.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Clash Royale" />
 
-        <com.google.android.material.button.MaterialButton
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:chipSpacingHorizontal="4dp"
+                app:chipSpacingVertical="4dp">
+
+                <TextView
+                    android:id="@+id/tvPrecio15"
+                    style="@style/Widget.Habitos.Text.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/colorPrimaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    tools:text="15m · 5🪙" />
+
+                <TextView
+                    android:id="@+id/tvPrecio30"
+                    style="@style/Widget.Habitos.Text.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:backgroundTint="?attr/colorPrimaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    tools:text="30m · 10🪙" />
+
+                <TextView
+                    android:id="@+id/tvPrecio60"
+                    style="@style/Widget.Habitos.Text.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:backgroundTint="?attr/colorPrimaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    tools:text="60m · 15🪙" />
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/btnEliminar"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="?attr/colorErrorContainer"
             android:contentDescription="Eliminar"
-            app:icon="@android:drawable/ic_delete"
-            app:iconTint="@color/game_coral"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="10dp"
+            app:iiv_color="@color/md_theme_onErrorContainer"
+            app:iiv_icon="gmr-delete" />
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

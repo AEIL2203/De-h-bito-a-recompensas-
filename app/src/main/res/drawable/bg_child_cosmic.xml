@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fondo del modo niño: degradado vertical + dos halos de luz (malla cósmica) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="@color/child_bg_bottom"
+                android:startColor="@color/child_bg_top"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.1"
+                android:centerY="0.05"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="360dp"
+                android:startColor="@color/child_bg_glow"
+                android:type="radial" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.95"
+                android:centerY="0.7"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="300dp"
+                android:startColor="@color/child_tint_cyan"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

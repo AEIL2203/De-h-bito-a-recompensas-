@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.databinding.FragmentLoginNinoBinding
 import com.angel.ibanez.dehabitos.models.Nino
@@ -39,6 +40,7 @@ class LoginNinoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnIngresar.icon = IconosUtils.crearIcono(requireContext(), "gmr-play-arrow", R.color.md_theme_onPrimary)
+        TecladoUtils.configurar(binding.etPin) { binding.btnIngresar.performClick() }
 
         binding.btnIngresar.setOnClickListener {
             val pin = binding.etPin.text.toString().trim()

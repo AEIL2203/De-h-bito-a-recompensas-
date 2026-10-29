@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.adapters.AppPermitidaAdapter
 import com.angel.ibanez.dehabitos.databinding.FragmentConfigurarAppsBinding
 import com.angel.ibanez.dehabitos.models.AplicacionPermitida
@@ -71,6 +72,7 @@ class ConfigurarAppsFragment : Fragment() {
         }
 
         binding.btnAgregar.setOnClickListener { agregarApp() }
+        TecladoUtils.configurar(binding.actvApp, binding.etPrecio15, binding.etPrecio30, binding.etPrecio60)
         binding.btnActualizarCatalogo.setOnClickListener {
             ninoSeleccionado?.id?.let(viewModel::cargarCatalogoApps)
         }

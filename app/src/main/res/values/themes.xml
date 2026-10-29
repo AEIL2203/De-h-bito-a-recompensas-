@@ -4,15 +4,15 @@
     <!-- Tema para el arranque en frío: evita pantalla blanca/negra mientras carga -->
     <style name="Theme.DeHábitosARecompensas.Launcher" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_window_background</item>
-        <item name="android:statusBarColor">#FF1A1A1A</item>
-        <item name="android:navigationBarColor">#FF1A1A1A</item>
+        <item name="android:statusBarColor">#FF0F0A1C</item>
+        <item name="android:navigationBarColor">#FF0F0A1C</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!-- Tema base = interfaz del tutor (Material 3 índigo / slate) -->
     <style name="Theme.DeHábitosARecompensas" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Main Palette -->
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -39,17 +39,45 @@
         <item name="colorOnSurface">@color/md_theme_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+        <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorOutline">@color/md_theme_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
 
-        <!-- Status Bar -->
         <item name="android:statusBarColor">@color/md_theme_background</item>
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
 
-        <!-- Typography -->
         <item name="android:fontFamily">sans-serif-rounded</item>
-
-        <!-- Shape -->
         <item name="cornerRadius">24dp</item>
+
+        <item name="materialButtonStyle">@style/Widget.Habitos.Button</item>
+        <item name="materialSwitchStyle">@style/Widget.Habitos.Switch</item>
+    </style>
+
+    <!--
+        Overlay del modo niño: se aplica con android:theme en la raíz de cada layout
+        infantil (y lo heredan los items de sus RecyclerView). Claro = pastel lúdico,
+        noche = malla cósmica con acentos neón.
+    -->
+    <style name="ThemeOverlay.Habitos.Child" parent="ThemeOverlay.Material3">
+        <item name="colorPrimary">@color/child_primary</item>
+        <item name="colorOnPrimary">@color/child_on_primary</item>
+        <item name="colorPrimaryContainer">@color/child_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/child_on_primary_container</item>
+        <item name="colorSecondary">@color/neon_green</item>
+        <item name="colorOnSecondary">@color/child_on_neon</item>
+        <item name="colorTertiary">@color/neon_cyan</item>
+        <item name="colorError">@color/child_warning</item>
+        <item name="android:colorBackground">@color/child_bg_bottom</item>
+        <item name="colorSurface">@color/child_surface</item>
+        <item name="colorOnSurface">@color/child_on_surface</item>
+        <item name="colorOnBackground">@color/child_on_surface</item>
+        <item name="colorSurfaceVariant">@color/child_track</item>
+        <item name="colorOnSurfaceVariant">@color/child_on_surface_variant</item>
+        <item name="colorOutlineVariant">@color/child_stroke</item>
+        <item name="android:textColorPrimary">@color/child_on_surface</item>
+        <item name="android:textColorSecondary">@color/child_on_surface_variant</item>
+        <item name="materialCardViewStyle">@style/Widget.Habitos.Child.Card</item>
+        <item name="materialButtonStyle">@style/Widget.Habitos.Button</item>
     </style>
 
 </resources>

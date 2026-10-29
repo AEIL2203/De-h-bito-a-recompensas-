@@ -4,17 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="12dp"
+    android:theme="@style/ThemeOverlay.Habitos.Child">
 
     <TextView
         android:id="@+id/tvTituloMisiones"
-        style="@style/Widget.Habitos.Text.Title"
+        style="@style/Widget.Habitos.Text.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/missions_title"
-        android:textColor="?attr/colorPrimary"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubtituloMisiones"
+        style="@style/Widget.Habitos.Text.BodySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Completa misiones y gana XP"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloMisiones" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMisiones"
@@ -26,26 +39,30 @@
         app:layout_constraintBottom_toTopOf="@id/containerPaginacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloMisiones"
-        tools:listitem="@layout/item_mision_nino" />
+        app:layout_constraintTop_toBottomOf="@id/tvSubtituloMisiones"
+        tools:listitem="@layout/item_mision" />
 
+    <!-- Paginación: queda por encima de la barra de navegación flotante -->
     <LinearLayout
         android:id="@+id/containerPaginacion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="92dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPaginaAnterior"
             style="@style/Widget.Habitos.Button.TonalPrimary"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
+            android:minHeight="48dp"
             android:text="@string/missions_previous" />
 
         <TextView
@@ -53,6 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-rounded"
             android:gravity="center"
             android:text="@string/missions_page_indicator"
             android:textColor="?attr/colorOnSurface"
@@ -63,6 +81,7 @@
             style="@style/Widget.Habitos.Button.TonalPrimary"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
+            android:minHeight="48dp"
             android:text="@string/missions_next" />
     </LinearLayout>
 
@@ -77,6 +96,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloMisiones" />
+        app:layout_constraintTop_toBottomOf="@id/tvSubtituloMisiones" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

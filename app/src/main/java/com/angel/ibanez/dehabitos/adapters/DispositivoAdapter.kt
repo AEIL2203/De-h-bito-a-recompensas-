@@ -2,6 +2,8 @@ package com.angel.ibanez.dehabitos.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import com.angel.ibanez.dehabitos.R
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +26,18 @@ class DispositivoAdapter(
 
     inner class DispositivoViewHolder(private val binding: ItemDispositivoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(dispositivo: Dispositivo) {
-            binding.tvNombreDispositivo.text = buildString {
-                append("Dispositivo de ${dispositivo.nombreNino}")
-                if (dispositivo.nombreDispositivo.isNotBlank()) append(" · ${dispositivo.nombreDispositivo}")
-            }
-            binding.tvEstado.text = if (dispositivo.desbloqueado) "Desbloqueado" else "Bloqueado"
+            val ctx = binding.root.context
+            binding.tvNombreDispositivo.text = dispositivo.nombreNino.ifBlank { "Niño" }
+            val fecha = dispositivo.fechaVinculacion.take(10).split("-").takeIf { it.size == 3 }
+                ?.let { (_, mes, dia) -> " · vinculado $dia/$mes" }.orEmpty()
+            binding.tvModelo.text = dispositivo.nombreDispositivo.ifBlank { "Teléfono" } + fecha
+            binding.tvEstado.text = if (dispositivo.desbloqueado) "Modo tutor" else "Bloqueado"
+            binding.tvEstado.backgroundTintList = ContextCompat.getColorStateList(
+                ctx, if (dispositivo.desbloqueado) R.color.tutor_icon_amber_bg else R.color.tutor_icon_green_bg
+            )
+            binding.tvEstado.setTextColor(
+                ContextCompat.getColor(ctx, if (dispositivo.desbloqueado) R.color.tutor_icon_amber else R.color.tutor_icon_green)
+            )
 
             binding.swDesbloquear.setOnCheckedChangeListener(null)
             binding.swDesbloquear.isChecked = dispositivo.desbloqueado

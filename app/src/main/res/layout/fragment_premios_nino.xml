@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="12dp"
+    android:theme="@style/ThemeOverlay.Habitos.Child">
 
     <TextView
         android:id="@+id/tvTitulo"
-        style="@style/Widget.Habitos.Text.Title"
+        style="@style/Widget.Habitos.Text.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tienda de Premios"
-        android:textColor="?attr/colorPrimary"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        style="@style/Widget.Habitos.Text.BodySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Canjea tus monedas por tiempo de juego"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvApps"
@@ -25,7 +39,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo"
+        tools:listitem="@layout/item_app_recompensa" />
 
     <TextView
         android:id="@+id/tvSinApps"
@@ -38,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo" />
 
     <ProgressBar
         android:id="@+id/progressBar"

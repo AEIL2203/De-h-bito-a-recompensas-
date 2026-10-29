@@ -23,6 +23,7 @@ import com.angel.ibanez.dehabitos.databinding.DialogEscaneandoImagenBinding
 import com.angel.ibanez.dehabitos.databinding.FragmentMisionesNinoBinding
 import com.angel.ibanez.dehabitos.models.Tarea
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
+import com.angel.ibanez.dehabitos.utils.FechasUtils
 import com.angel.ibanez.dehabitos.utils.ImagenesUtils
 import com.angel.ibanez.dehabitos.utils.NsfwCheckResult
 import com.angel.ibanez.dehabitos.utils.NsfwDetector
@@ -202,6 +203,11 @@ class MisionesNinoFragment : Fragment() {
                 is Resultado.Exito -> {
                     val misiones = resultado.data.sortedWith(
                         compareBy<Tarea> { it.estado != Tarea.ESTADO_PENDIENTE }
+                            .thenBy {
+                                if (it.estado == Tarea.ESTADO_PENDIENTE &&
+                                    FechasUtils.estadoVencimiento(it.fechaLimite) == FechasUtils.EstadoVencimiento.VENCIDA
+                                ) 1 else 0
+                            }
                             .thenBy { if (it.estado == Tarea.ESTADO_PENDIENTE) it.fechaLimite.ifBlank { "9999-99-99" } else "" }
                     )
                     val idsNuevos = misiones.map { it.id }.toSet()

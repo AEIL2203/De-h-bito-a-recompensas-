@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:text="Esta app está bloqueada. Sigue completando misiones para ganar estrellas."
+        android:text="Esta app está bloqueada. Sigue completando misiones para ganar monedas."
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/btnVolver"
         app:layout_constraintEnd_toEndOf="parent"

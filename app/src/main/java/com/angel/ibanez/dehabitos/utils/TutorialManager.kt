@@ -84,7 +84,7 @@ object TutorialManager {
             TutorialStep(
                 targetViewId = R.id.btnConfigurarApps,
                 title = "Configurar apps y precios",
-                message = "Aquí eliges qué apps de entretenimiento estarán disponibles para el niño y cuántas estrellas cuesta usarlas.",
+                message = "Aquí eliges qué apps de entretenimiento estarán disponibles para el niño y cuántas monedas cuesta usarlas.",
                 tooltipPosition = TutorialStep.TooltipPosition.BOTTOM
             ),
             // Entrar a Configurar apps
@@ -110,7 +110,7 @@ object TutorialManager {
             TutorialStep(
                 targetViewId = R.id.tilPrecio15,
                 title = "Precios por tiempo",
-                message = "Define cuántas estrellas cuesta usar la app durante 15, 30 o 60 minutos.",
+                message = "Define cuántas monedas cuesta usar la app durante 15, 30 o 60 minutos.",
                 tooltipPosition = TutorialStep.TooltipPosition.BOTTOM
             ),
             TutorialStep(
@@ -221,8 +221,8 @@ object TutorialManager {
             ),
             TutorialStep(
                 targetViewId = R.id.containerCurrency,
-                title = "Tus estrellas",
-                message = "Son las estrellas que ganas al completar misiones. Úsalas para canjear tiempo de entretenimiento.",
+                title = "Tus monedas",
+                message = "Son las monedas que ganas al completar misiones. Úsalas para canjear tiempo de entretenimiento.",
                 tooltipPosition = TutorialStep.TooltipPosition.BOTTOM
             ),
             TutorialStep(
@@ -233,8 +233,8 @@ object TutorialManager {
             ),
             TutorialStep(
                 targetViewId = R.id.cardStats,
-                title = "Estrellas, racha e insignias",
-                message = "Estrellas es tu moneda, Racha cuenta tus días seguidos y las Insignias son logros especiales.",
+                title = "Monedas, racha e insignias",
+                message = "Las monedas son tu dinero del juego, la Racha cuenta tus días seguidos y las Insignias son logros especiales.",
                 tooltipPosition = TutorialStep.TooltipPosition.BOTTOM
             ),
             TutorialStep(
@@ -282,7 +282,7 @@ object TutorialManager {
             TutorialStep(
                 targetViewId = R.id.rvMisiones,
                 title = "Misiones diarias",
-                message = "También aparecen retos diarios que puedes completar para ganar más estrellas.",
+                message = "También aparecen retos diarios que puedes completar para ganar más monedas.",
                 tooltipPosition = TutorialStep.TooltipPosition.TOP
             ),
 
@@ -290,7 +290,7 @@ object TutorialManager {
             TutorialStep(
                 targetViewId = R.id.navPremios,
                 title = "Premios",
-                message = "Canjea tus estrellas por tiempo para usar las apps de entretenimiento que tu tutor haya configurado.",
+                message = "Canjea tus monedas por tiempo para usar las apps de entretenimiento que tu tutor haya configurado.",
                 tooltipPosition = TutorialStep.TooltipPosition.TOP,
                 onPresent = click(R.id.navPremios)
             ),

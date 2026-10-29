@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Héroe de las pantallas de acceso con la misma ola del login integrada en el borde
+    inferior (profunda a la izquierda, elevándose a la derecha). Debajo se ve el fondo
+    cósmico de la pantalla.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="300dp"
+    android:viewportWidth="360"
+    android:viewportHeight="300">
+
+    <group>
+        <clip-path android:pathData="M0,0 L360,0 L360,180 C220,310 90,210 0,300 Z" />
+
+        <path android:pathData="M0,0 L360,0 L360,300 L0,300 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:endColor="@color/auth_hero_end"
+                    android:endX="300"
+                    android:endY="300"
+                    android:startColor="@color/auth_hero_start"
+                    android:startX="40"
+                    android:startY="0"
+                    android:type="linear" />
+            </aapt:attr>
+        </path>
+
+        <path android:pathData="M0,0 L360,0 L360,300 L0,300 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:centerX="306"
+                    android:centerY="45"
+                    android:endColor="#0000E5FF"
+                    android:gradientRadius="200"
+                    android:startColor="#3300E5FF"
+                    android:type="radial" />
+            </aapt:attr>
+        </path>
+
+        <path android:pathData="M0,0 L360,0 L360,300 L0,300 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:centerX="36"
+                    android:centerY="225"
+                    android:endColor="#00FF6B88"
+                    android:gradientRadius="170"
+                    android:startColor="#40FF6B88"
+                    android:type="radial" />
+            </aapt:attr>
+        </path>
+    </group>
+</vector>

@@ -268,7 +268,7 @@
                         android:background="@drawable/circle_soft"
                         android:backgroundTint="#269B5DE5"
                         app:iiv_color="?attr/colorPrimary"
-                        app:iiv_icon="gmr-calendar-view-week"
+                        app:iiv_icon="gmr-date-range"
                         app:iiv_size="22dp" />
 
                     <LinearLayout

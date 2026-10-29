@@ -1,69 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ======== ESTILOS MATERIAL DESIGN 3 (MATERIAL YOU) ======== -->
+    <!-- ======== FORMAS ======== -->
 
-    <!-- Botón Principal (Filled) -->
+    <style name="ShapeAppearance.Habitos.Pill" parent="ShapeAppearance.Material3.Corner.Full">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.Habitos.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- ======== BOTONES (píldora + escala al pulsar) ======== -->
+
     <style name="Widget.Habitos.Button" parent="Widget.Material3.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="cornerRadius">24dp</item>
+        <item name="android:letterSpacing">0.02</item>
         <item name="android:minHeight">56dp</item>
         <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Habitos.Pill</item>
+        <item name="android:stateListAnimator">@animator/pill_press</item>
+        <item name="elevation">2dp</item>
     </style>
 
-    <!-- Botón Secundario (Tonal) -->
     <style name="Widget.Habitos.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="cornerRadius">24dp</item>
         <item name="android:minHeight">56dp</item>
         <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Habitos.Pill</item>
+        <item name="android:stateListAnimator">@animator/pill_press</item>
     </style>
 
-    <!-- Botón Tonal con paleta primaria -->
-    <style name="Widget.Habitos.Button.TonalPrimary" parent="Widget.Material3.Button.TonalButton">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="cornerRadius">24dp</item>
-        <item name="android:minHeight">56dp</item>
-        <item name="android:fontFamily">sans-serif-rounded</item>
+    <style name="Widget.Habitos.Button.TonalPrimary" parent="Widget.Habitos.Button.Tonal">
         <item name="backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
         <item name="iconTint">?attr/colorOnPrimaryContainer</item>
     </style>
 
-    <!-- Botón Outlined -->
     <style name="Widget.Habitos.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="cornerRadius">24dp</item>
         <item name="android:minHeight">56dp</item>
         <item name="android:fontFamily">sans-serif-rounded</item>
         <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Habitos.Pill</item>
+        <item name="android:stateListAnimator">@animator/pill_press</item>
     </style>
 
-    <!-- Tarjeta Material 3 (Elevada) -->
+    <!-- CTA del niño: verde neón con brillo (sombra teñida en API 28+) -->
+    <style name="Widget.Habitos.Child.Button.Glow" parent="Widget.Habitos.Button">
+        <item name="backgroundTint">@color/neon_green</item>
+        <item name="android:textColor">@color/child_on_neon</item>
+        <item name="iconTint">@color/child_on_neon</item>
+        <item name="elevation">8dp</item>
+        <item name="android:outlineSpotShadowColor">@color/neon_green</item>
+        <item name="android:outlineAmbientShadowColor">@color/neon_green</item>
+    </style>
+
+    <!-- Píldora de precio en la tienda (verde si alcanza, contenedor neutro si no) -->
+    <style name="Widget.Habitos.Child.Button.Price" parent="Widget.Material3.Button">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="backgroundTint">@color/selector_child_price_bg</item>
+        <item name="android:textColor">@color/selector_child_price_text</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Habitos.Pill</item>
+        <item name="android:stateListAnimator">@animator/pill_press</item>
+    </style>
+
+    <!-- ======== TARJETAS ======== -->
+
+    <!-- Tutor: 16dp, borde suave 1dp -->
     <style name="Widget.Habitos.Card" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardCornerRadius">28dp</item>
-        <item name="cardElevation">2dp</item>
-        <item name="contentPadding">16dp</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">1dp</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="strokeColor">@color/md_theme_outline_10</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
-    <!-- Tarjeta Material 3 (Contenedor Primario) -->
     <style name="Widget.Habitos.Card.Primary" parent="Widget.Habitos.Card">
         <item name="cardBackgroundColor">?attr/colorPrimaryContainer</item>
         <item name="cardElevation">0dp</item>
     </style>
 
-    <!-- Tarjeta Material 3 (Contenedor Secundario - Modo Niño) -->
     <style name="Widget.Habitos.Card.Secondary" parent="Widget.Habitos.Card">
         <item name="cardBackgroundColor">?attr/colorSecondaryContainer</item>
         <item name="cardElevation">0dp</item>
     </style>
 
-    <!-- Input Outlined Material 3 -->
+    <!-- Tutor: fila de menú (ElevatedCard clicable) -->
+    <style name="Widget.Habitos.Card.MenuRow" parent="Widget.Habitos.Card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:stateListAnimator">@animator/pill_press</item>
+    </style>
+
+    <!-- Niño: 24dp, efecto cristal con borde blanco 12% -->
+    <style name="Widget.Habitos.Child.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/child_surface</item>
+        <item name="strokeColor">@color/child_stroke</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Habitos.Child.Card.Glass" parent="Widget.Habitos.Child.Card">
+        <item name="cardBackgroundColor">@color/child_surface_glass</item>
+    </style>
+
+    <!-- ======== SWITCH (icono dentro del thumb) ======== -->
+
+    <style name="Widget.Habitos.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/selector_switch_thumb_icon</item>
+    </style>
+
+    <!-- ======== INPUTS ======== -->
+
     <style name="Widget.Habitos.Input" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusTopStart">16dp</item>
         <item name="boxCornerRadiusTopEnd">16dp</item>
@@ -73,7 +139,14 @@
         <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <!-- Tipografía -->
+    <!-- ======== TIPOGRAFÍA (roles Material 3) ======== -->
+
+    <style name="Widget.Habitos.Text.Display" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
     <style name="Widget.Habitos.Text.Headline" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-rounded</item>
@@ -86,15 +159,47 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
+    <style name="Widget.Habitos.Text.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
     <style name="Widget.Habitos.Text.Body" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:fontFamily">sans-serif-rounded</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <!-- Compatibilidad con estilos antiguos para no romper layouts inmediatamente -->
+    <style name="Widget.Habitos.Text.BodySmall" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Cabecera de sección en listas de preferencias del tutor -->
+    <style name="Widget.Habitos.Text.SectionLabel" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Píldora de estado (fondo con tint) -->
+    <style name="Widget.Habitos.Text.Pill" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:background">@drawable/bg_pill</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!-- ======== COMPATIBILIDAD con estilos antiguos ======== -->
+
     <style name="Widget.Game.Card" parent="Widget.Habitos.Card" />
     <style name="Widget.Game.Card.Flat" parent="Widget.Material3.CardView.Outlined">
         <item name="cardCornerRadius">16dp</item>
+        <item name="strokeColor">@color/md_theme_outline_10</item>
     </style>
 
     <style name="ShapeAppearance.Habitos.HeaderPill" parent="ShapeAppearance.Material3.MediumComponent">

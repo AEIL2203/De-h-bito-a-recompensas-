@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.databinding.DialogAccesoParentalBinding
 import com.angel.ibanez.dehabitos.databinding.DialogConfigurarPinParentalBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,6 +38,7 @@ import com.angel.ibanez.dehabitos.utils.AudioConfig
 import com.angel.ibanez.dehabitos.utils.AvataresUtils
 import com.angel.ibanez.dehabitos.utils.MusicaFondoManager
 import com.angel.ibanez.dehabitos.utils.PermisosUtils
+import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 import com.angel.ibanez.dehabitos.repository.EstadisticasRepository
 import com.angel.ibanez.dehabitos.repository.TareaRepository
 import com.angel.ibanez.dehabitos.utils.DispositivoConfig
@@ -107,8 +109,7 @@ class ContenedorNinoFragment : Fragment() {
         navController.setGraph(navGraph, args)
 
         configurarNavegacionAnimada(navController, args)
-        binding.ivMonedasHeader.setImageResource(R.drawable.ic_reward)
-        binding.ivMonedasHeader.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.game_yellow)
+        AnimacionesUtils.cargarGifPausado(binding.ivMonedasHeader, AnimacionesUtils.GIF_MONEDAS)
         binding.btnConfig.setOnClickListener { solicitarAccesoTutor() }
         binding.btnAbrirAccesibilidad.setOnClickListener {
             if (!PermisosUtils.abrirConfiguracionAccesibilidad(requireContext())) {
@@ -183,8 +184,6 @@ class ContenedorNinoFragment : Fragment() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id != R.id.configuracionParentalFragment) actualizarPestanaSeleccionada(destination.id)
-            binding.cardProfilePill.visibility =
-                if (destination.id == R.id.perfilNinoFragment) View.GONE else View.VISIBLE
         }
         actualizarPestanaSeleccionada(R.id.dashboardNinoFragment)
     }
@@ -262,6 +261,7 @@ class ContenedorNinoFragment : Fragment() {
             .setNegativeButton("Cancelar", null)
             .create()
         dialog.setOnShowListener {
+            TecladoUtils.configurar(contenido.etPassword) { dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick() }
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val pin = contenido.etPassword.text.toString()
                 when {
@@ -307,6 +307,7 @@ class ContenedorNinoFragment : Fragment() {
             .setNegativeButton("Cancelar", null)
             .create()
         dialog.setOnShowListener {
+            TecladoUtils.configurar(contenido.etPin, contenido.etConfirmarPin) { dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick() }
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val pin = contenido.etPin.text.toString()
                 val confirmacion = contenido.etConfirmarPin.text.toString()
@@ -419,12 +420,24 @@ class ContenedorNinoFragment : Fragment() {
                 is Resultado.Exito -> {
                     val nino = resultado.data
                     if (ultimoNivel != null && nino.nivel > ultimoNivel!!) {
-                        AnimacionesUtils.mostrarCelebracion(
-                            binding.root,
-                            AnimacionesUtils.GIF_META,
-                            "Nuevo nivel",
-                            "Alcanzaste el nivel ${nino.nivel} y recibiste nuevas estrellas."
-                        )
+                        val porMundo = com.angel.ibanez.dehabitos.utils.GameMapView.NIVELES_POR_MUNDO
+                        val mundoNuevo = (nino.nivel - 1) / porMundo
+                        val mundoAnterior = (ultimoNivel!! - 1) / porMundo
+                        if (mundoNuevo > mundoAnterior && mundoNuevo < com.angel.ibanez.dehabitos.utils.GameMapView.TOTAL_MUNDOS) {
+                            AnimacionesUtils.mostrarCelebracion(
+                                binding.root,
+                                AnimacionesUtils.GIF_META,
+                                "¡Mundo ${mundoNuevo + 1} desbloqueado!",
+                                "Llegaste al nivel ${nino.nivel}. Ve a «Mi Camino» para explorar el nuevo mapa."
+                            )
+                        } else {
+                            AnimacionesUtils.mostrarCelebracion(
+                                binding.root,
+                                AnimacionesUtils.GIF_META,
+                                "Nuevo nivel",
+                                "Alcanzaste el nivel ${nino.nivel} y recibiste nuevas monedas."
+                            )
+                        }
                     }
                     val logrosActuales = LogrosUtils.logrosDesbloqueados(nino)
                     val idsActuales = logrosActuales.map { it.id }.toSet()
@@ -444,7 +457,7 @@ class ContenedorNinoFragment : Fragment() {
                     binding.tvNombreNino.text = nino.nombre
                     AvataresUtils.cargar(binding.ivAvatarHeader, nino.avatar)
                     binding.tvNivelHeader.text = "Lvl. ${nino.nivel}"
-                    binding.pbXpHeader.progress = nino.experiencia % 100
+                    binding.pbXpHeader.setProgressCompat(ProgresionUtils.porcentajeProgreso(nino.experiencia), true)
                     if (ultimasEstrellas != null && ultimasEstrellas != nino.estrellas) AnimacionesUtils.reproducirGifUnaVez(binding.ivMonedasHeader)
                     ultimasEstrellas = nino.estrellas
                     binding.tvEstrellas.text = nino.estrellas.toString()

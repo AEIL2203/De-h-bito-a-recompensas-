@@ -5,19 +5,26 @@ import com.angel.ibanez.dehabitos.models.Tarea
 
 /**
  * Reglas de progresión del niño.
- * Fórmula progresiva: subir del nivel N al N+1 cuesta N * 100 XP.
- * XP acumulada necesaria para alcanzar el nivel N: 100 * N * (N - 1) / 2.
+ * 4 mundos de 15 niveles. Subir un nivel cuesta una cantidad fija según el mundo:
+ * mundo 1 = 100 XP, mundo 2 = 125 XP, mundo 3 = 130 XP, mundo 4 = 145 XP.
  */
 object ProgresionUtils {
 
-    const val NIVEL_MAXIMO = 20
+    const val NIVELES_POR_MUNDO = 15
+    const val NIVEL_MAXIMO = 60
+    private val XP_POR_NIVEL_SEGUN_MUNDO = intArrayOf(100, 125, 130, 145)
 
+    /** XP acumulada necesaria para alcanzar [nivel]. */
     fun xpAcumuladaParaNivel(nivel: Int): Int {
         val n = nivel.coerceIn(1, NIVEL_MAXIMO)
-        return 100 * n * (n - 1) / 2
+        return (1 until n).sumOf { xpCostoDelNivel(it) }
     }
 
-    fun xpCostoDelNivel(nivel: Int): Int = nivel.coerceIn(1, NIVEL_MAXIMO) * 100
+    /** XP que cuesta pasar de [nivel] al siguiente. */
+    fun xpCostoDelNivel(nivel: Int): Int {
+        val mundo = ((nivel.coerceIn(1, NIVEL_MAXIMO) - 1) / NIVELES_POR_MUNDO)
+        return XP_POR_NIVEL_SEGUN_MUNDO[mundo.coerceIn(0, XP_POR_NIVEL_SEGUN_MUNDO.lastIndex)]
+    }
 
     fun nivelDesdeXp(xp: Int): Int {
         var nivel = 1
@@ -55,9 +62,9 @@ object ProgresionUtils {
         Insignia("cinco_tareas", "5 misiones", "gmr-military-tech"),
         Insignia("veinte_tareas", "20 misiones", "gmr-star"),
         Insignia("racha_3", "Racha de 3 días", "gmr-local-fire-department"),
-        Insignia("racha_7", "Racha de 7 días", "gmr-bolt"),
+        Insignia("racha_7", "Racha de 7 días", "gmr-flash-on"),
         Insignia("nivel_5", "Nivel 5", "gmr-grade"),
-        Insignia("nivel_10", "Nivel 10", "gmr-auto-awesome")
+        Insignia("nivel_10", "Nivel 10", "gmr-stars")
     )
 
     fun calcularInsignias(nino: Nino): List<String> {

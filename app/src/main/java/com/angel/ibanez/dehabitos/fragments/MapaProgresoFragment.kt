@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angel.ibanez.dehabitos.databinding.FragmentMapaProgresoBinding
 import com.angel.ibanez.dehabitos.utils.AnimacionesUtils
+import com.angel.ibanez.dehabitos.utils.GameMapView
+import com.angel.ibanez.dehabitos.utils.ProgresionUtils
 import com.angel.ibanez.dehabitos.utils.Resultado
 import com.angel.ibanez.dehabitos.viewmodels.NinoViewModel
 
@@ -40,12 +42,18 @@ class MapaProgresoFragment : Fragment() {
             return
         }
 
+        binding.gameMap.onMundoBloqueado = { mundo ->
+            val nivelNecesario = (mundo - 1) * GameMapView.NIVELES_POR_MUNDO + 1
+            Toast.makeText(requireContext(), "🔒 El Mundo $mundo se desbloquea al llegar al nivel $nivelNecesario", Toast.LENGTH_SHORT).show()
+        }
+
         ninoViewModel.ninoResultado.observe(viewLifecycleOwner) { resultado ->
             when (resultado) {
                 is Resultado.Cargando -> binding.progressBar.visibility = View.VISIBLE
                 is Resultado.Exito -> {
                     binding.progressBar.visibility = View.GONE
                     binding.gameMap.currentLevel = resultado.data.nivel
+                    binding.gameMap.progresoNivel = ProgresionUtils.porcentajeProgreso(resultado.data.experiencia)
                 }
                 is Resultado.Error -> {
                     binding.progressBar.visibility = View.GONE

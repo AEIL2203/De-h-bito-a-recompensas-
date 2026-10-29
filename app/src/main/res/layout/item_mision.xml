@@ -2,134 +2,125 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Game.Card.Flat"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Habitos.Child.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="14dp"
-    app:cardBackgroundColor="?attr/colorSurface">
+    android:layout_marginBottom="14dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Category icon in colorful bubble -->
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/ivCategoria"
-            android:layout_width="68dp"
-            android:layout_height="68dp"
-            android:background="@drawable/circle_game_blue"
-            android:elevation="4dp"
-            app:iiv_color="@color/game_blue_dark"
-            app:iiv_icon="gmr-school"
-            app:iiv_size="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Mission name -->
-        <TextView
-            android:id="@+id/tvNombreMision"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-rounded"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="@color/game_text_dark"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tvXp"
-            app:layout_constraintStart_toEndOf="@id/ivCategoria"
-            app:layout_constraintTop_toTopOf="@id/ivCategoria" />
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-        <!-- Category label -->
-        <TextView
-            android:id="@+id/tvCategoria"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/badge_category"
-            android:fontFamily="sans-serif-rounded"
-            android:paddingStart="10dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="3dp"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
-            android:textColor="@color/game_purple_dark"
-            app:layout_constraintEnd_toStartOf="@id/tvXp"
-            app:layout_constraintStart_toEndOf="@id/ivCategoria"
-            app:layout_constraintTop_toBottomOf="@id/tvNombreMision" />
+            <!-- Izquierda: insignia de categoría -->
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/ivCategoria"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_circle"
+                android:padding="13dp"
+                app:iiv_icon="gmr-school" />
 
-        <!-- XP badge -->
-        <TextView
-            android:id="@+id/tvXp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/badge_xp"
-            android:fontFamily="sans-serif-rounded"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp"
-            android:textAppearance="?attr/textAppearanceLabelLarge"
-            android:textColor="@color/game_yellow_dark"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <!-- Centro: detalles y badges -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <!-- Due date label -->
-        <TextView
-            android:id="@+id/tvFechaLimite"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-rounded"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
-            android:textColor="@color/game_text_medium"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/tvXp"
-            app:layout_constraintStart_toEndOf="@id/ivCategoria"
-            app:layout_constraintTop_toBottomOf="@id/tvCategoria" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <!-- Status chip -->
-        <TextView
-            android:id="@+id/tvEstado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-rounded"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/ivCategoria"
-            app:layout_constraintTop_toBottomOf="@id/tvFechaLimite" />
+                    <TextView
+                        android:id="@+id/tvNombreMision"
+                        style="@style/Widget.Habitos.Text.TitleMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="Leer 15 minutos" />
 
-        <!-- Evidence thumbnail -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivEvidencia"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvXp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Game.Rounded12" />
+                    <TextView
+                        android:id="@+id/tvXp"
+                        style="@style/Widget.Habitos.Text.Pill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="@color/child_tint_gold"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/neon_gold"
+                        tools:text="+10 XP" />
+                </LinearLayout>
 
-        <!-- Complete button - 3D green -->
+                <TextView
+                    android:id="@+id/tvCategoria"
+                    style="@style/Widget.Habitos.Text.Pill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/child_tint_violet"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/neon_violet"
+                    tools:text="Académica" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvEstado"
+                        style="@style/Widget.Habitos.Text.Pill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Pendiente" />
+
+                    <TextView
+                        android:id="@+id/tvFechaLimite"
+                        style="@style/Widget.Habitos.Text.Pill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:visibility="gone"
+                        tools:text="⚠ Atrasada · 12/10"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Miniatura de la evidencia enviada -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivEvidencia"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="10dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Game.Rounded12" />
+        </LinearLayout>
+
+        <!-- Abajo: CTA principal -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCompletar"
-            style="@style/Widget.Game.Button.Primary"
-            android:layout_width="0dp"
+            style="@style/Widget.Habitos.Child.Button.Glow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:text="@string/mission_i_did_it"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEstado" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:icon="@drawable/ic_check_small"
+            app:iconGravity="textStart"
+            app:iconSize="20dp" />
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

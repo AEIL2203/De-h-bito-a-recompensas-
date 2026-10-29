@@ -45,6 +45,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPin"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789"
@@ -65,6 +66,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirmarPin"
+            android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789"

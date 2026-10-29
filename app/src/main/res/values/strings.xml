@@ -79,9 +79,9 @@
     <string name="configure_apps_update_catalog">Actualizar catálogo</string>
     <string name="configure_apps_catalog_help">Las apps que ves son las instaladas en el dispositivo del niño. Si está vacío, abre la app en el dispositivo del niño y pulsa Actualizar catálogo.</string>
     <string name="configure_apps_installed_hint">App instalada</string>
-    <string name="configure_apps_price_15_hint">15 min (estrellas)</string>
-    <string name="configure_apps_price_30_hint">30 min (estrellas)</string>
-    <string name="configure_apps_price_60_hint">60 min (estrellas)</string>
+    <string name="configure_apps_price_15_hint">15 min (monedas)</string>
+    <string name="configure_apps_price_30_hint">30 min (monedas)</string>
+    <string name="configure_apps_price_60_hint">60 min (monedas)</string>
     <string name="configure_apps_add">Agregar app</string>
     <string name="configure_apps_configured">Apps configuradas</string>
 

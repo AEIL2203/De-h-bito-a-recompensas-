@@ -162,6 +162,16 @@ class FirebaseFirestoreService {
         }
     }
 
+    /**
+     * Borra registros fantasma del mismo teléfono (mismo niño + mismo modelo) que quedaron
+     * con un id anterior. Conserva [conservarId].
+     */
+    suspend fun eliminarDispositivosDuplicados(tutorId: String, ninoId: String, nombreDispositivo: String, conservarId: String) {
+        obtenerDispositivosPorTutor(tutorId)
+            .filter { it.id != conservarId && it.ninoId == ninoId && it.nombreDispositivo == nombreDispositivo }
+            .forEach { desvincularDispositivo(it.id) }
+    }
+
     suspend fun actualizarDesbloqueo(dispositivoId: String, desbloqueado: Boolean) {
         db.collection(COLECCION_DISPOSITIVOS).document(dispositivoId)
             .update("desbloqueado", desbloqueado)
@@ -393,7 +403,7 @@ class FirebaseFirestoreService {
             val ninoActual = transaction.get(ninoRef).toObject(Nino::class.java)
                 ?: throw IllegalStateException("Niño no encontrado")
             if (ninoActual.estrellas < estrellasCosto) {
-                throw IllegalStateException("No tienes suficientes estrellas")
+                throw IllegalStateException("No tienes suficientes monedas")
             }
             transaction.update(
                 ninoRef,

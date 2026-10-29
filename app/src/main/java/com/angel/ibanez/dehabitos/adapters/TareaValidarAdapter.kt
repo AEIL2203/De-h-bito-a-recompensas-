@@ -57,22 +57,17 @@ class TareaValidarAdapter(
             binding.tvDetalle.text =
                 "${nombreNino(tarea)} · ${ProgresionUtils.nombreCategoria(tarea.categoria)} · +${tarea.puntos} XP$limite"
             val ctx = binding.root.context
-            val colorIcono = when (tarea.categoria) {
-                "academica" -> R.color.game_blue_dark
-                "domestica" -> R.color.game_orange_dark
-                else -> R.color.game_green_dark
+            val (colorIcono, fondo) = when (tarea.categoria) {
+                "academica" -> R.color.tutor_icon_blue to R.color.tutor_icon_blue_bg
+                "domestica" -> R.color.tutor_icon_amber to R.color.tutor_icon_amber_bg
+                else -> R.color.tutor_icon_green to R.color.tutor_icon_green_bg
             }
             binding.ivCategoria.icon = IconosUtils.crearIcono(
                 ctx,
                 ProgresionUtils.iconoCategoria(tarea.categoria),
                 colorIcono
             )
-            val bgIcono = when (tarea.categoria) {
-                "academica" -> R.drawable.circle_game_blue
-                "domestica" -> R.drawable.circle_game_orange
-                else -> R.drawable.circle_game_green
-            }
-            binding.ivCategoria.setBackgroundResource(bgIcono)
+            binding.ivCategoria.backgroundTintList = androidx.core.content.ContextCompat.getColorStateList(ctx, fondo)
 
             val evidencia = if (tarea.evidencia.isNotBlank()) ImagenesUtils.decodificar(tarea.evidencia) else null
             if (evidencia != null) {

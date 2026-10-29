@@ -29,6 +29,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etHoraNino"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -44,6 +45,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etHoraTutor"
+            android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"

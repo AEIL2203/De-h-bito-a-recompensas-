@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.angel.ibanez.dehabitos.utils.TecladoUtils
 import com.angel.ibanez.dehabitos.R
 import com.angel.ibanez.dehabitos.adapters.NinoAdapter
 import com.angel.ibanez.dehabitos.databinding.DialogConfigurarPinParentalBinding
@@ -81,6 +82,7 @@ class SeleccionarNinoFragment : Fragment() {
             .setNegativeButton("Cancelar", null)
             .create()
         dialog.setOnShowListener {
+            TecladoUtils.configurar(dialogBinding.etPin, dialogBinding.etConfirmarPin) { dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).performClick() }
             dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val pin = dialogBinding.etPin.text.toString()
                 val confirmacion = dialogBinding.etConfirmarPin.text.toString()
